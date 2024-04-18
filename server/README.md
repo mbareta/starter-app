@@ -1,6 +1,6 @@
 # Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Server application written in Typescript with NestJS and MikroORM.
 
 # Installation
 
@@ -20,6 +20,8 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+
+After starting the app in dev mode, visit http://localhost:3000
 
 # Working with models
 
