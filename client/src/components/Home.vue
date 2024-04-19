@@ -19,6 +19,8 @@ export default {
 </script>
 
 <template>
+  <router-link :to="{ name: 'home' }">Home</router-link>
+  <router-link :to="{ name: 'another' }">Another</router-link>
   <h1>{{ msg }}</h1>
   {{ users }}
 </template>
