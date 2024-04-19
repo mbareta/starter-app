@@ -1,17 +1,19 @@
 <script lang="ts">
+import { mapActions, mapState } from 'pinia';
+import { useUsersStore } from '../stores/users-store';
+
 export default {
   props: {
     msg: { type: String }
   },
-  data() {
-    return {
-      users: []
-    };
+  computed: {
+    ...mapState(useUsersStore, ['users'])
+  },
+  methods: {
+    ...mapActions(useUsersStore, ['loadUsers'])
   },
   created() {
-    fetch('http://localhost:3000/users')
-      .then(res => res.json())
-      .then(users => (this.users = users));
+    this.loadUsers();
   }
 };
 </script>
