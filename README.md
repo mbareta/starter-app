@@ -11,15 +11,35 @@ The application would have basic user auth, connection to DB and working fronten
 - MikroORM models and DB queries
 - Vue3 with Vite for frontend
 
-## Content
+## Contents
 - `client` contains frontend files
 - `server` contains backend files
 
 Each directory contains its own README which explains how to set up, run
 and contribute.
 
+## Get Started Quickly
 
-### Future plans
+Run the server:
+
+```bash
+$ cd server
+$ npm i
+$ npx mikro-orm migration:up
+$ npm run start:dev
+```
+
+Run the frontend:
+
+```bash
+$ cd client
+$ npm i
+$ npm run dev
+```
+
+Visit http://localhost:5173/
+
+### Future Plans
 - add Tailor connection
 - allow multiple auth strategies (JWT, Auth0, ...)
 - try setting up GraphQL
