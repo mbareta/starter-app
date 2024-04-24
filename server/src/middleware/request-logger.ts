@@ -11,8 +11,8 @@ export default function (req: Request, res: Response, next: NextFunction) {
       server_url: req.originalUrl,
       status_code: res.statusCode,
       method: req.method,
-      datetime: (new Date()).toISOString(),
-      duration: parseFloat(res.get('x-response-time').replace('ms', '')),
+      datetime: new Date().toISOString(),
+      duration: parseFloat(res.get('x-response-time')?.replace('ms', '')),
       body: req.body,
       error: error?.message || null
     };
