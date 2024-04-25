@@ -1,5 +1,9 @@
 import {
-  Body, Controller, HttpCode, HttpException, HttpStatus, Post
+  BadRequestException,
+  Body,
+  Controller,
+  HttpCode,
+  Post
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 
@@ -10,7 +14,8 @@ export class AuthController {
   @Post('login')
   @HttpCode(200)
   create(@Body() credentials) {
-    return this.authService.validateLogin(credentials)
-      .catch(e => { throw new HttpException(e.message, HttpStatus.BAD_REQUEST) });
+    return this.authService.validateLogin(credentials).catch(error => {
+      throw new BadRequestException(error.message);
+    });
   }
 }
