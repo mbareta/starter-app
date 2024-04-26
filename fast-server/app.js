@@ -39,7 +39,7 @@ module.exports = async function (fastify, opts) {
       error: {
         type: error.type,
         message: error.message,
-        stack: error.stack
+        // stack: error.stack
       }
     };
     request.log.info(data);
