@@ -26,6 +26,7 @@ export default {
 </script>
 
 <template>
+  <h1>LOG IN</h1>
   <input v-model="email" type="text">
   <input v-model="password" type="password">
   <button @click="login">Login</button>
@@ -35,6 +36,10 @@ export default {
 </template>
 
 <style scoped>
+  h1, p {
+    text-align: center;
+  }
+
   input, button, p {
     display: block;
     margin: 1rem auto;

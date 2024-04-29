@@ -20,7 +20,6 @@ export default {
 
 <template>
   <router-link :to="{ name: 'home' }">Home</router-link>
-  <router-link :to="{ name: 'login' }">Login</router-link>
   <router-link :to="{ name: 'users' }">Users</router-link>
   <h1>{{ msg }}</h1>
   {{ users }}

@@ -8,11 +8,7 @@ const client = axios.create({
 
 client.interceptors.request.use(config => {
   const token = localStorage.getItem('JWT');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  console.log(token);
-  console.log(config.headers);
+  if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
