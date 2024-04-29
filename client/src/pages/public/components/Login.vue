@@ -15,9 +15,10 @@ export default {
       this.message = null;
       const body = { email: this.email, password: this.password };
       return request.post('/auth/login', body)
-        .then(res => {
-          this.message = res.data;
-          localStorage.setItem('JWT', res.data.token);
+        .then(({ data }) => {
+          this.message = data;
+          localStorage.setItem('JWT', data.token);
+          if (data.user.role === 'ADMIN') return window.location.replace('/admin');
         })
         .catch(err => (this.message = err.response.data));
     }

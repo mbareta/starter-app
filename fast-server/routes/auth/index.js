@@ -7,7 +7,7 @@ module.exports = async function (fastify, opts) {
     });
     if (user.password === request.body.password) {
       const token = this.jwt.sign(user)
-      return reply.send({ token });
+      return reply.send({ token, user });
     }
     return reply.status(400).send('Login failed');
   })
