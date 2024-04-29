@@ -1,13 +1,24 @@
 'use strict'
 
+const { getAuthorizeRolesOptions } = require('../../helpers/auth');
+
 module.exports = async function (fastify, opts) {
-  fastify.addHook('preHandler', function (request, reply, done) {
-    if (request.user.role === 'ADMIN') return done();
-    return reply.status(403).send();
+  const options = getAuthorizeRolesOptions(fastify, ['ADMIN']);
+  const schema = {
+    body: {
+      type: 'object',
+      properties: {
+        email: { type: 'string' },
+        password: { type: 'string' }
+      }
+    }
+  };
+
+  fastify.get('/', options, async function (request, reply) {
+    return this.prisma.user.findMany();
   })
 
-  fastify.get('/', async function (request, reply) {
-    const users = await this.prisma.user.findMany();
-    return reply.send(users)
+  fastify.post('/', { ...options, schema }, async function (request, reply) {
+    return this.prisma.user.create({ data: request.body });
   })
 }

@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import request from '../helpers/request';
 
 export const useUsersStore = defineStore('users', {
   state: () => ({
@@ -6,9 +7,8 @@ export const useUsersStore = defineStore('users', {
   }),
   actions: {
     loadUsers() {
-      fetch('http://localhost:3000/users')
-        .then(res => res.json())
-        .then(users => (this.users = users));
+      return request.get('/users')
+        .then(({ data }) => (this.users = data));
     }
   }
 });

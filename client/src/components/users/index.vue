@@ -1,6 +1,6 @@
 <script>
 import { mapActions, mapState } from 'pinia';
-import request from '../helpers/request';
+import request from '../../helpers/request';
 
 export default {
   data() {
@@ -11,14 +11,11 @@ export default {
     };
   },
   methods: {
-    login() {
+    save() {
       this.message = null;
       const body = { email: this.email, password: this.password };
-      return request.post('/auth/login', body)
-        .then(res => {
-          this.message = res.data;
-          localStorage.setItem('JWT', res.data.token);
-        })
+      return request.post('/users', body)
+        .then(res => (this.message = res.data))
         .catch(err => (this.message = err.response.data));
     }
   }
@@ -26,9 +23,10 @@ export default {
 </script>
 
 <template>
+  <h1>Create User</h1>
   <input v-model="email" type="text">
   <input v-model="password" type="password">
-  <button @click="login">Login</button>
+  <button @click="save">Save</button>
   <p>
     {{ message }}
   </p>
