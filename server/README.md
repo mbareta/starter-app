@@ -30,6 +30,7 @@ After starting the app in dev mode, visit http://localhost:3000
 $ npx mikro-orm migration:create --name=custom-name
 
 # apply the migration
+$ npm run build
 $ npx mikro-orm migration:up
 ```
 

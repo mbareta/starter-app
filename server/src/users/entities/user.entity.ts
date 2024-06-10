@@ -18,4 +18,7 @@ export class User {
 
   @Property()
   password!: string;
+
+  @Property()
+  role!: string;
 }

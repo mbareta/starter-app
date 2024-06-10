@@ -5,6 +5,7 @@ export default function (req: Request, res: Response, next: NextFunction) {
   next();
   onFinished(res, function (error, res) {
     if (error) console.error(error);
+    const err = error || res.error;
     const data = {
       ip_address: req.ip,
       client_url: req.get('referer') || null,
@@ -14,7 +15,7 @@ export default function (req: Request, res: Response, next: NextFunction) {
       datetime: new Date().toISOString(),
       duration: parseFloat(res.get('x-response-time')?.replace('ms', '')),
       body: req.body,
-      error: error?.message || null
+      error: err?.message || null
     };
     console.log(data);
   });
