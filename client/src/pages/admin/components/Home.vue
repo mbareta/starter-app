@@ -7,13 +7,14 @@ export default {
     msg: { type: String }
   },
   computed: {
-    ...mapState(useUsersStore, ['users'])
+    ...mapState(useUsersStore, ['users', 'profile'])
   },
   methods: {
-    ...mapActions(useUsersStore, ['loadUsers'])
+    ...mapActions(useUsersStore, ['loadUsers', 'loadProfile'])
   },
   created() {
     this.loadUsers();
+    this.loadProfile();
   }
 };
 </script>
@@ -23,6 +24,7 @@ export default {
   <router-link :to="{ name: 'users' }">Users</router-link>
   <h1>{{ msg }}</h1>
   {{ users }}
+  Prof: {{ profile }}
 </template>
 
 <style scoped>

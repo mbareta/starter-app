@@ -10,4 +10,9 @@ export class AuthService {
     if (user && password && user.password === password) return user;
     throw new Error('Login failed.');
   }
+
+  async findUser({ id, email }) {
+    const user = await this.usersService.findByEmail(email);
+    return user;
+  }
 }
