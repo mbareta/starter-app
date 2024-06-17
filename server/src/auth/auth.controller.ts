@@ -1,28 +1,36 @@
 import {
+  BadRequestException,
+  Body,
   Controller,
   Get,
   HttpCode,
   Post,
-  Request,
-  UseGuards
+  Request
 } from '@nestjs/common';
-import { JwtAuthGuard } from './jwt-auth.guard';
+import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
-import { LocalAuthGuard } from './local-auth.guard';
+import { Public } from './public.decorator';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private jwtService: JwtService) {}
+  constructor(
+    private authService: AuthService,
+    private jwtService: JwtService
+  ) {}
 
+  @Public()
   @Post('login')
-  @UseGuards(LocalAuthGuard)
   @HttpCode(200)
-  login(@Request() req) {
-    const data = req.user.toJSON();
-    return { user: req.user, token: this.jwtService.sign(data) };
+  async login(@Body() body) {
+    try {
+      const user = await this.authService.validateLogin(body);
+      const userData = { id: user.id, email: user.email };
+      return { user, token: this.jwtService.sign(userData) };
+    } catch (_) {
+      throw new BadRequestException('Login failed.');
+    }
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;
