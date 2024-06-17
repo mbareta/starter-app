@@ -25,12 +25,10 @@ export class AuthGuard implements CanActivate {
       context.getClass()
     ]);
     if (isPublic) return true;
-
     const requiredRoles = this.reflector.getAllAndOverride<any[]>(ROLES_KEY, [
       context.getHandler(),
       context.getClass()
     ]);
-    if (!requiredRoles) return true;
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
     if (!token) {
@@ -45,6 +43,7 @@ export class AuthGuard implements CanActivate {
     } catch {
       throw new UnauthorizedException();
     }
+    if (!requiredRoles) return true;
     return requiredRoles.includes(request.user.role);
   }
 
