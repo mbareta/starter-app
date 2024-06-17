@@ -5,6 +5,7 @@ import {
   UnauthorizedException
 } from '@nestjs/common';
 import { IS_PUBLIC_KEY } from './public.decorator';
+import { ROLES_KEY } from './roles.decorator';
 import { JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
@@ -24,6 +25,12 @@ export class AuthGuard implements CanActivate {
       context.getClass()
     ]);
     if (isPublic) return true;
+
+    const requiredRoles = this.reflector.getAllAndOverride<any[]>(ROLES_KEY, [
+      context.getHandler(),
+      context.getClass()
+    ]);
+    if (!requiredRoles) return true;
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
     if (!token) {
@@ -38,7 +45,7 @@ export class AuthGuard implements CanActivate {
     } catch {
       throw new UnauthorizedException();
     }
-    return true;
+    return requiredRoles.includes(request.user.role);
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {
