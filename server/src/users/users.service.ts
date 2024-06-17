@@ -8,7 +8,7 @@ export class UsersService {
   constructor(private readonly userRepository: UserRepository) {}
 
   create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+    return this.userRepository.insert(createUserDto);
   }
 
   findAll() {

@@ -19,6 +19,6 @@ export class User {
   @Property()
   password!: string;
 
-  @Property()
+  @Property({ default: 'USER' })
   role!: string;
 }

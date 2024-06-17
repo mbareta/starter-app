@@ -1,42 +1,66 @@
 <script>
 import { mapActions, mapState } from 'pinia';
-import request from '../../helpers/request';
+import { useUsersStore } from '../../stores/users-store';
+import UserForm from './Form.vue';
 
 export default {
+  props: {
+    msg: { type: String }
+  },
   data() {
     return {
-      email: '',
-      password: '',
-      message: null
+      showModal: false
     };
   },
-  methods: {
-    save() {
-      this.message = null;
-      const body = { email: this.email, password: this.password };
-      return request.post('/users', body)
-        .then(res => (this.message = res.data))
-        .catch(err => (this.message = err.response.data));
-    }
+  computed: mapState(useUsersStore, ['users']),
+  methods: mapActions(useUsersStore, ['loadUsers']),
+  components: { UserForm },
+  created() {
+    this.loadUsers();
   }
 };
 </script>
 
 <template>
-  <h1>Create User</h1>
-  <input v-model="email" type="text">
-  <input v-model="password" type="password">
-  <button @click="save">Save</button>
-  <p>
-    {{ message }}
-  </p>
+  <div class="box">
+    <h1 class="title">Users</h1>
+    <p>This is a list of all users in the database.</p>
+    <button @click="showModal = true" class="button is-primary add-user-button">
+      Add User
+    </button>
+  </div>
+  <table class="table is-fullwidth is-striped">
+    <thead>
+      <th>ID</th>
+      <th>Email</th>
+      <th>Password</th>
+      <th>Role</th>
+    </thead>
+    <tbody>
+      <tr v-for="user in users">
+        <td>{{ user.id }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.password }}</td>
+        <td>{{ user.role }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <user-form
+    v-if="showModal"
+    @close="showModal = false"
+    @saved="showModal = false; loadUsers()" />
 </template>
 
-<style scoped>
-  input, button, p {
-    display: block;
-    margin: 1rem auto;
-    padding: 1rem;
-    font-size: 1.25rem;
-  }
+<style lang="scss">
+.box {
+  position: relative;
+  margin: 1rem;
+}
+
+.add-user-button {
+  position: absolute !important;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+}
 </style>

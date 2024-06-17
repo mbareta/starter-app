@@ -15,7 +15,7 @@ import { AuthModule } from './auth/auth.module';
     JwtModule.register({
       global: true,
       secret: 'TODO',
-      signOptions: { expiresIn: '60s' } // TODO
+      signOptions: { expiresIn: 3600000 } // TODO
     })
   ],
   controllers: [AppController],

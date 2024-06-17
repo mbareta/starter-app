@@ -15,7 +15,7 @@ const logout = () => {
   <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <router-link :to="{ name: 'home' }" class="navbar-item">
-      <img src="/public/logo.svg">
+      <img src="/logo.svg">
     </router-link>
   </div>
 
