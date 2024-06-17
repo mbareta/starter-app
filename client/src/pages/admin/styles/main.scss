@@ -1,0 +1,10 @@
+@use "bulma/sass" with (
+  $primary: rgb(35, 244, 139)
+);
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  color-scheme: light dark;
+  background-color: #242424;
+}
