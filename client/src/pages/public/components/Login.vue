@@ -18,7 +18,9 @@ export default {
         .then(({ data }) => {
           this.message = data;
           localStorage.setItem('JWT', data.token);
-          if (data.user.role === 'ADMIN') return window.location.replace('/admin');
+          if (data.user.role === 'ADMIN') {
+            return window.location.replace('/admin');
+          }
         })
         .catch(err => (this.message = err.response.data));
     }
