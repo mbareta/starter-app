@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { UsersRepository } from './users.repository';
 import { UsersService } from './users.service';
 
 describe('UsersService', () => {
@@ -6,7 +7,7 @@ describe('UsersService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersService],
+      providers: [UsersRepository, UsersService]
     }).compile();
 
     service = module.get<UsersService>(UsersService);
@@ -14,5 +15,10 @@ describe('UsersService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  it('should find all users', async () => {
+    const users = await service.findAll();
+    expect(users.length).toBe(0);
   });
 });

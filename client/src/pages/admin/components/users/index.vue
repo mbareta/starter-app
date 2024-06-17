@@ -29,7 +29,7 @@ export default {
       Add User
     </button>
   </div>
-  <table class="table is-fullwidth is-striped">
+  <table class="table is-striped">
     <thead>
       <th>ID</th>
       <th>Email</th>
@@ -62,5 +62,10 @@ export default {
   top: 50%;
   right: 1rem;
   transform: translateY(-50%);
+}
+
+.table {
+  width: calc(100% - 2rem);
+  margin: 1rem;
 }
 </style>

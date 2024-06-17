@@ -15,7 +15,7 @@ const logout = () => {
   <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <router-link :to="{ name: 'home' }" class="navbar-item">
-      <img src="/logo.svg">
+      <img id="logo" src="/logo.svg">
     </router-link>
   </div>
 
@@ -43,3 +43,11 @@ const logout = () => {
   </div>
 </nav>
 </template>
+
+<style lang="scss" scoped>
+html[data-theme="light"] {
+  img {
+    filter: invert(1);
+  }
+}
+</style>

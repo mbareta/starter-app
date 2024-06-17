@@ -1,26 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UserRepository } from './user.repository';
+import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(private readonly usersRepository: UsersRepository) {}
 
   create(createUserDto: CreateUserDto) {
-    return this.userRepository.insert(createUserDto);
+    return this.usersRepository.insert(createUserDto);
   }
 
   findAll() {
-    return this.userRepository.findAll();
+    return this.usersRepository.findAll();
   }
 
   findOne(id: number) {
-    return this.userRepository.findOne({ id });
+    return this.usersRepository.findOne({ id });
   }
 
   findByEmail(email: string) {
-    return this.userRepository.findOne({ email });
+    return this.usersRepository.findOne({ email });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

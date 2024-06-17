@@ -6,5 +6,16 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
   color-scheme: light dark;
-  background-color: #242424;
+}
+
+@media (data-theme: dark) {
+  :root {
+    background-color: #242424;
+  }
+}
+
+@media (data-theme: light) {
+  :root {
+    background-color: #efefef !important;
+  }
 }
