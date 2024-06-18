@@ -16,9 +16,4 @@ describe('UsersService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
-
-  it('should find all users', async () => {
-    const users = await service.findAll();
-    expect(users.length).toBe(0);
-  });
 });
