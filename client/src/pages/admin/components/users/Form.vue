@@ -1,8 +1,11 @@
 <script>
 import { mapActions, mapState } from 'pinia';
-import request from '../../helpers/request';
+import { useUsersStore } from '../../stores/users-store';
 
 export default {
+  props: {
+    user: { type: Object, default: () => ({}) }
+  },
   data() {
     return {
       email: '',
@@ -11,12 +14,24 @@ export default {
     };
   },
   methods: {
-    save() {
+    ...mapActions(useUsersStore, ['save']),
+    saveUser() {
       this.message = null;
-      const body = { email: this.email, password: this.password };
-      return request.post('/users', body)
+      const data = {
+        id: this.user?.id, email: this.email, password: this.password
+      };
+      return this.save(data)
         .then(() => this.$emit('saved'))
         .catch(err => (this.message = err.response.data));
+    }
+  },
+  watch: {
+    user: {
+      handler(val) {
+        const { email, password } = val || {};
+        Object.assign(this, { email, password });
+      },
+      immediate: true
     }
   }
 };
@@ -27,7 +42,7 @@ export default {
     <div class="modal-background"></div>
     <div class="modal-content">
       <h2 class="title has-text-centered">Create User</h2>
-      <form @submit="save">
+      <form @submit="saveUser">
         <div class="field">
           <label class="label">Email</label>
           <div class="control">

@@ -2,6 +2,7 @@
 import { mapActions, mapState } from 'pinia';
 import { useUsersStore } from '../../stores/users-store';
 import UserForm from './Form.vue';
+import UserList from './List.vue';
 
 export default {
   props: {
@@ -9,12 +10,24 @@ export default {
   },
   data() {
     return {
-      showModal: false
+      showModal: false,
+      editingUser: null
     };
   },
-  computed: mapState(useUsersStore, ['users']),
-  methods: mapActions(useUsersStore, ['loadUsers']),
-  components: { UserForm },
+  methods: {
+    ...mapActions(useUsersStore, ['destroy', 'loadUsers']),
+    closeModal() {
+      Object.assign(this, { showModal: false, editingUser: null });
+    },
+    edit(user) {
+      this.editingUser = user;
+      this.showModal = true;
+    },
+    destroyUser(user) {
+      return this.destroy(user).then(() => this.loadUsers());
+    }
+  },
+  components: { UserForm, UserList },
   created() {
     this.loadUsers();
   }
@@ -29,26 +42,12 @@ export default {
       Add User
     </button>
   </div>
-  <table class="table is-striped">
-    <thead>
-      <th>ID</th>
-      <th>Email</th>
-      <th>Password</th>
-      <th>Role</th>
-    </thead>
-    <tbody>
-      <tr v-for="user in users">
-        <td>{{ user.id }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.password }}</td>
-        <td>{{ user.role }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <user-list @edit="edit" @destroy="destroyUser" />
   <user-form
     v-if="showModal"
-    @close="showModal = false"
-    @saved="showModal = false; loadUsers()" />
+    :user="editingUser"
+    @close="closeModal"
+    @saved="closeModal(); loadUsers()" />
 </template>
 
 <style lang="scss">
