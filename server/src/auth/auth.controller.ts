@@ -1,11 +1,11 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Get,
   HttpCode,
   Post,
-  Request
+  Request,
+  UnauthorizedException
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
@@ -27,7 +27,7 @@ export class AuthController {
       const userData = { id: user.id, email: user.email };
       return { user, token: this.jwtService.sign(userData) };
     } catch (_) {
-      throw new BadRequestException('Login failed.');
+      throw new UnauthorizedException('Login failed.');
     }
   }
 

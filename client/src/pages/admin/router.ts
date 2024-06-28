@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import HomeView from './components/Home.vue';
 import UsersView from './components/users/index.vue';
 
@@ -8,6 +8,6 @@ const routes = [
 ]
 
 export default createRouter({
-  history: createWebHistory('/admin'),
+  history: createWebHashHistory('/admin'),
   routes
 })
