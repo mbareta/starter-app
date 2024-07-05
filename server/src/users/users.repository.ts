@@ -1,5 +1,4 @@
 import { EntityRepository } from '@mikro-orm/postgresql';
 import { User } from './entities/user.entity';
 
-export class UsersRepository extends EntityRepository<User> {
-}
+export class UsersRepository extends EntityRepository<User> {}

@@ -46,5 +46,30 @@ describe('Users', () => {
     });
   });
 
+  describe(`POST ${BASE_URL}`, () => {
+    it('returns 401 when user is not authorized', () => {
+      return request(server).post(BASE_URL).expect(401);
+    });
+
+    it('creates new user', async () => {
+      const data = {
+        email: 'new_user@fake.com',
+        password: 'temp',
+        role: 'USER'
+      };
+      return request(server)
+        .post(BASE_URL)
+        .send(data)
+        .set('Authorization', `Bearer ${token}`)
+        .expect(201)
+        .then(() =>
+          request(server)
+            .post('/auth/login')
+            .send({ email: data.email, password: data.password })
+            .expect(200)
+        );
+    });
+  });
+
   afterAll(() => app.close());
 });
