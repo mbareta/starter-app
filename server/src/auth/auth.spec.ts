@@ -5,7 +5,7 @@ import { INestApplication } from '@nestjs/common';
 
 const routes = { login: '/auth/login', profile: '/auth/profile' };
 const credentials = {
-  admin: { email: 'admin@test.com', password: 'test' }
+  admin: { email: 'admin@test.com', password: 'admin' }
 };
 
 describe('Auth', () => {

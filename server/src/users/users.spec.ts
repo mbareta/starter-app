@@ -5,7 +5,7 @@ import { INestApplication } from '@nestjs/common';
 
 const BASE_URL = '/users';
 const credentials = {
-  admin: { email: 'admin@test.com', password: 'test' }
+  admin: { email: 'admin@test.com', password: 'admin' }
 };
 
 describe('Users', () => {
@@ -20,6 +20,7 @@ describe('Users', () => {
 
     app = moduleRef.createNestApplication();
     await app.init();
+
     server = app.getHttpServer();
     const res = await request(server)
       .post('/auth/login')
