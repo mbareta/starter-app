@@ -1,6 +1,7 @@
 import {
   Controller,
   Get,
+  HttpCode,
   Post,
   Body,
   Patch,
@@ -42,6 +43,7 @@ export class UsersController {
 
   @Roles(Role.Admin)
   @Delete(':id')
+  @HttpCode(204)
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }

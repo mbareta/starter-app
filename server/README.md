@@ -37,11 +37,8 @@ $ npx mikro-orm migration:up
 # Test
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
+# unit/integration tests
+$ npm test
 
 # test coverage
 $ npm run test:cov

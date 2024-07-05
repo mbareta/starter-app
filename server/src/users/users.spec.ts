@@ -2,16 +2,20 @@ import * as request from 'supertest';
 import { AppModule } from '../app.module';
 import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
+import { EntityManager } from '@mikro-orm/postgresql';
+import { User } from './entities/user.entity';
 
 const BASE_URL = '/users';
 const credentials = {
   admin: { email: 'admin@test.com', password: 'admin' }
 };
+const fakeUser = { email: 'new_user@fake.com', password: 'temp', role: 'USER' };
 
 describe('Users', () => {
   let app: INestApplication;
   let server;
   let token: string;
+  let em: EntityManager;
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -20,8 +24,10 @@ describe('Users', () => {
 
     app = moduleRef.createNestApplication();
     await app.init();
-
     server = app.getHttpServer();
+
+    em = app.get(EntityManager).fork();
+
     const res = await request(server)
       .post('/auth/login')
       .send(credentials.admin);
@@ -52,22 +58,34 @@ describe('Users', () => {
     });
 
     it('creates new user', async () => {
-      const data = {
-        email: 'new_user@fake.com',
-        password: 'temp',
-        role: 'USER'
-      };
       return request(server)
         .post(BASE_URL)
-        .send(data)
+        .send(fakeUser)
         .set('Authorization', `Bearer ${token}`)
         .expect(201)
-        .then(() =>
-          request(server)
-            .post('/auth/login')
-            .send({ email: data.email, password: data.password })
-            .expect(200)
-        );
+        .then(async () => {
+          const user = await em.findOne(User, { email: fakeUser.email });
+          expect(user).not.toBeNull();
+          return request(server).post('/auth/login').send(fakeUser).expect(200);
+        });
+    });
+  });
+
+  describe(`DELETE ${BASE_URL}/:id`, () => {
+    it('returns 401 when user is not authorized', () => {
+      return request(server).delete(`${BASE_URL}/1`).expect(401);
+    });
+
+    it('deletes user', async () => {
+      const user = await em.findOne(User, { email: fakeUser.email });
+      return request(server)
+        .delete(`${BASE_URL}/${user.id}`)
+        .set('Authorization', `Bearer ${token}`)
+        .expect(204)
+        .then(async () => {
+          const user = await em.findOne(User, { email: fakeUser.email });
+          expect(user).toBeNull();
+        });
     });
   });
 
