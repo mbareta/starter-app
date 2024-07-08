@@ -1,12 +1,13 @@
 import {
+  Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
-  Post,
-  Body,
-  Patch,
+  NotFoundException,
   Param,
-  Delete
+  Patch,
+  Post
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -44,7 +45,8 @@ export class UsersController {
   @Roles(Role.Admin)
   @Delete(':id')
   @HttpCode(204)
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  async remove(@Param('id') id: string) {
+    const deletedCount = await this.usersService.remove(+id);
+    if (!deletedCount) throw new NotFoundException();
   }
 }
