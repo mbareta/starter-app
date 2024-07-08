@@ -1,5 +1,6 @@
 <script setup>
 import { useUsersStore } from '../../stores/users-store';
+import Popover from '../common/Popover.vue';
 const store = useUsersStore();
 </script>
 
@@ -22,11 +23,29 @@ const store = useUsersStore();
           <button @click="$emit('edit', user)" class="button is-info">
             Edit
           </button>
-          <button @click="$emit('destroy', user)" class="button is-danger">
-            Delete
-          </button>
+          <popover class="popover is-right">
+            <template v-slot:trigger class="button is-danger">
+              Delete
+            </template>
+            <template v-slot:content="{ close }">
+              <button @click="$emit('destroy', user)" class="button is-danger">
+                Yes
+              </button>
+              <button @click="close" class="button">
+                No
+              </button>
+            </template>
+          </popover>
         </td>
       </tr>
     </tbody>
   </table>
 </template>
+
+<style lang="scss" scoped>
+.popover {
+  button {
+    margin: 1rem;
+  }
+}
+</style>
