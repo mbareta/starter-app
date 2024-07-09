@@ -1,6 +1,6 @@
 <script>
 import { mapActions, mapState } from 'pinia';
-import { useUsersStore } from '../../stores/users-store';
+import { useUsersStore } from 'admin/stores/users-store';
 import UserForm from './Form.vue';
 import UserList from './List.vue';
 

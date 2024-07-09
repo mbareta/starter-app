@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import request from '../helpers/request';
+import request from 'admin/helpers/request';
 
 const BASE_URL = '/users';
 

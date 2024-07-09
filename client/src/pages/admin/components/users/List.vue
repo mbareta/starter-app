@@ -1,6 +1,6 @@
 <script setup>
-import { useUsersStore } from '../../stores/users-store';
-import Popover from '../common/Popover.vue';
+import { useUsersStore } from 'admin/stores/users-store';
+import Popover from 'admin/components/common/Popover.vue';
 const store = useUsersStore();
 </script>
 
@@ -58,7 +58,7 @@ const store = useUsersStore();
     margin: 1rem;
   }
 
-  &:deep .dropdown-content {
+  &:deep(.dropdown-content) {
     width: 18rem;
   }
 }

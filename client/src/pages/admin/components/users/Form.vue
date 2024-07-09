@@ -1,7 +1,7 @@
 <script>
 import { mapActions, mapState } from 'pinia';
-import { useUsersStore } from '../../stores/users-store';
-import Modal from '../common/Modal.vue';
+import { useUsersStore } from 'admin/stores/users-store';
+import Modal from 'admin/components/common/Modal.vue';
 
 export default {
   props: {
