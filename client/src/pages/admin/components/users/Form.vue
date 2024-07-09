@@ -2,6 +2,7 @@
 import { mapActions, mapState } from 'pinia';
 import { useUsersStore } from 'admin/stores/users-store';
 import Modal from 'admin/components/common/Modal.vue';
+import InputText from 'admin/components/common/input/Text.vue';
 
 export default {
   props: {
@@ -35,38 +36,18 @@ export default {
       immediate: true
     }
   },
-  components: { Modal }
+  components: { InputText, Modal }
 };
 </script>
 
 <template>
   <modal @close="$emit('close')" isOpen>
     <h2 class="title has-text-centered">Create User</h2>
-    <form @submit="saveUser">
-      <div class="field">
-        <label class="label">Email</label>
-        <div class="control">
-          <input
-            v-model="email"
-            class="input"
-            type="email"
-            placeholder="Email">
-        </div>
-      </div>
-      <div class="field">
-        <label class="label">Password</label>
-        <div class="control">
-          <input
-            v-model="password"
-            class="input"
-            type="password"
-            placeholder="Password">
-        </div>
-      </div>
+    <form @submit.prevent="saveUser">
+      <input-text v-model="email" label="Email" type="email" />
+      <input-text v-model="password" label="Password" type="password" />
       <input type="submit" value="Save" class="button is-primary">
-      <p>
-        {{ message }}
-      </p>
+      <p>{{ message }}</p>
     </form>
   </modal>
 </template>
