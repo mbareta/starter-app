@@ -19,7 +19,7 @@ const store = useUsersStore();
         <td>{{ user.email }}</td>
         <td>{{ user.password }}</td>
         <td>{{ user.role }}</td>
-        <td class="is-spaced-between">
+        <td>
           <button @click="$emit('edit', user)" class="button is-info">
             Edit
           </button>
@@ -47,6 +47,8 @@ const store = useUsersStore();
 
 <style lang="scss" scoped>
 .popover {
+  margin-left: 2rem;
+
   button {
     width: calc(50% - 2rem);
     margin: 1rem;

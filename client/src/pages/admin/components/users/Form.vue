@@ -1,6 +1,7 @@
 <script>
 import { mapActions, mapState } from 'pinia';
 import { useUsersStore } from '../../stores/users-store';
+import Modal from '../common/Modal.vue';
 
 export default {
   props: {
@@ -33,48 +34,41 @@ export default {
       },
       immediate: true
     }
-  }
+  },
+  components: { Modal }
 };
 </script>
 
 <template>
-  <div class="modal is-active">
-    <div class="modal-background"></div>
-    <div class="modal-content">
-      <h2 class="title has-text-centered">Create User</h2>
-      <form @submit="saveUser">
-        <div class="field">
-          <label class="label">Email</label>
-          <div class="control">
-            <input
-              v-model="email"
-              class="input is-danger"
-              type="email"
-              placeholder="Email">
-          </div>
+  <modal @close="$emit('close')" isOpen>
+    <h2 class="title has-text-centered">Create User</h2>
+    <form @submit="saveUser">
+      <div class="field">
+        <label class="label">Email</label>
+        <div class="control">
+          <input
+            v-model="email"
+            class="input"
+            type="email"
+            placeholder="Email">
         </div>
-        <div class="field">
-          <label class="label">Password</label>
-          <div class="control">
-            <input
-              v-model="password"
-              class="input"
-              type="password"
-              placeholder="Password">
-          </div>
+      </div>
+      <div class="field">
+        <label class="label">Password</label>
+        <div class="control">
+          <input
+            v-model="password"
+            class="input"
+            type="password"
+            placeholder="Password">
         </div>
-        <input type="submit" value="Save" class="button is-primary">
-        <p>
-          {{ message }}
-        </p>
-      </form>
-    </div>
-    <button
-      @click="$emit('close')"
-      class="modal-close is-large"
-      aria-label="close">
-    </button>
-  </div>
+      </div>
+      <input type="submit" value="Save" class="button is-primary">
+      <p>
+        {{ message }}
+      </p>
+    </form>
+  </modal>
 </template>
 
 <style scoped>
