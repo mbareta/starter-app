@@ -28,12 +28,15 @@ const store = useUsersStore();
               Delete
             </template>
             <template v-slot:content="{ close }">
-              <button @click="$emit('destroy', user)" class="button is-danger">
-                Yes
-              </button>
-              <button @click="close" class="button">
-                No
-              </button>
+              <p>Are you sure you want to delete this user?</p>
+              <div class="is-spaced-between">
+                <button @click="$emit('destroy', user)" class="button is-danger">
+                  Yes
+                </button>
+                <button @click="close" class="button">
+                  No
+                </button>
+              </div>
             </template>
           </popover>
         </td>
@@ -45,7 +48,16 @@ const store = useUsersStore();
 <style lang="scss" scoped>
 .popover {
   button {
+    width: calc(50% - 2rem);
     margin: 1rem;
+  }
+
+  p {
+    margin: 1rem;
+  }
+
+  &:deep .dropdown-content {
+    width: 18rem;
   }
 }
 </style>
