@@ -1,42 +1,70 @@
 <script>
 import { mapActions, mapState } from 'pinia';
-import request from '../../helpers/request';
+import { useUsersStore } from 'admin/stores/users-store';
+import UserForm from './Form.vue';
+import UserList from './List.vue';
 
 export default {
+  props: {
+    msg: { type: String }
+  },
   data() {
     return {
-      email: '',
-      password: '',
-      message: null
+      showModal: false,
+      editingUser: null
     };
   },
   methods: {
-    save() {
-      this.message = null;
-      const body = { email: this.email, password: this.password };
-      return request.post('/users', body)
-        .then(res => (this.message = res.data))
-        .catch(err => (this.message = err.response.data));
+    ...mapActions(useUsersStore, ['destroy', 'loadUsers']),
+    closeModal() {
+      Object.assign(this, { showModal: false, editingUser: null });
+    },
+    edit(user) {
+      this.editingUser = user;
+      this.showModal = true;
+    },
+    destroyUser(user) {
+      return this.destroy(user).then(() => this.loadUsers());
     }
+  },
+  components: { UserForm, UserList },
+  created() {
+    this.loadUsers();
   }
 };
 </script>
 
 <template>
-  <h1>Create User</h1>
-  <input v-model="email" type="text">
-  <input v-model="password" type="password">
-  <button @click="save">Save</button>
-  <p>
-    {{ message }}
-  </p>
+  <div class="box">
+    <h1 class="title">Users</h1>
+    <p>This is a list of all users in the database.</p>
+    <button @click="showModal = true" class="button is-primary add-user-button">
+      Add User
+    </button>
+  </div>
+  <user-list @edit="edit" @destroy="destroyUser" />
+  <user-form
+    v-if="showModal"
+    :user="editingUser"
+    @close="closeModal"
+    @saved="closeModal(); loadUsers()" />
 </template>
 
-<style scoped>
-  input, button, p {
-    display: block;
-    margin: 1rem auto;
-    padding: 1rem;
-    font-size: 1.25rem;
-  }
+<style lang="scss">
+.box {
+  position: relative;
+  margin: 1rem;
+}
+
+.add-user-button {
+  position: absolute !important;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+}
+
+.table {
+  width: calc(100% - 2rem);
+  margin: 1rem;
+}
 </style>

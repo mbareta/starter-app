@@ -13,5 +13,11 @@ export default defineConfig({
         admin: resolve(__dirname, 'admin.html'),
       },
     },
-  }
+  },
+  resolve: {
+    alias: {
+      admin: '/src/pages/admin',
+      public: '/src/pages/public'
+    },
+  },
 })

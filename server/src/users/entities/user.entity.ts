@@ -4,11 +4,11 @@ import {
   PrimaryKey,
   Property
 } from '@mikro-orm/core';
-import { UserRepository } from '../user.repository';
+import { UsersRepository } from '../users.repository';
 
-@Entity({ repository: () => UserRepository, tableName: 'users' })
+@Entity({ repository: () => UsersRepository, tableName: 'users' })
 export class User {
-  [EntityRepositoryType]?: UserRepository;
+  [EntityRepositoryType]?: UsersRepository;
 
   @PrimaryKey()
   id!: number;
@@ -19,6 +19,6 @@ export class User {
   @Property()
   password!: string;
 
-  @Property()
+  @Property({ default: 'USER' })
   role!: string;
 }

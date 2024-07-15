@@ -1,25 +1,23 @@
 import { Module, MiddlewareConsumer } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ResponseTimeMiddleware } from '@nest-middlewares/response-time';
 import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    AuthModule,
-    DatabaseModule,
-    UsersModule,
+    ConfigModule.forRoot({ isGlobal: true }),
     JwtModule.register({
       global: true,
-      secret: 'TODO',
-      signOptions: { expiresIn: '60s' } // TODO
-    })
-  ],
-  controllers: [AppController],
-  providers: [AppService]
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: process.env.JWT_EXPIRATION }
+    }),
+    AuthModule,
+    DatabaseModule,
+    UsersModule
+  ]
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

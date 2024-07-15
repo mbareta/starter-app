@@ -1,19 +1,20 @@
 import { defineStore } from 'pinia';
-import request from '../helpers/request';
+import request from 'admin/helpers/request';
+
+const BASE_URL = '/users';
 
 export const useUsersStore = defineStore('users', {
-  state: () => ({
-    users: [],
-    profile: {}
-  }),
+  state: () => ({ users: [] }),
   actions: {
     loadUsers() {
-      return request.get('/users')
-        .then(({ data }) => (this.users = data));
+      return request.get(BASE_URL).then(({ data }) => (this.users = data));
     },
-    loadProfile() {
-      return request.get('/auth/profile')
-        .then(({ data }) => (this.profile = data));
+    destroy(user) {
+      return request.delete(`${BASE_URL}/${user.id}`);
+    },
+    save(user) {
+      if (user.id) return request.patch(`${BASE_URL}/${user.id}`, user);
+      return request.post(BASE_URL, user);
     }
   }
 });
