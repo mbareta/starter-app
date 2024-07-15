@@ -14,6 +14,8 @@ The application would have basic user auth, connection to DB and working fronten
 ## Contents
 - `client` contains frontend files
 - `server` contains backend files
+- `fast-server` is just a simple fastify server showing how we can create multiple
+  backends in different technologies
 
 Each directory contains its own README which explains how to set up, run
 and contribute.
