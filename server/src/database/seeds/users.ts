@@ -11,7 +11,7 @@ export class DatabaseSeeder extends Seeder {
     });
     await em.create(User, {
       email: 'user@test.com',
-      password: 'admin',
+      password: 'user',
       role: 'USER'
     });
   }
