@@ -5,24 +5,12 @@ import request from '../helpers/request';
 export default {
   data() {
     return {
-      email: '',
-      password: '',
       message: null
     };
   },
   methods: {
     login() {
-      this.message = null;
-      const body = { email: this.email, password: this.password };
-      return request.post('/auth/login', body)
-        .then(({ data }) => {
-          this.message = data;
-          localStorage.setItem('JWT', data.token);
-          if (data.user.role === 'ADMIN') {
-            return window.location.replace('/admin');
-          }
-        })
-        .catch(err => (this.message = err.response.data));
+      return this.$auth0.loginWithRedirect();
     }
   }
 };
@@ -30,9 +18,8 @@ export default {
 
 <template>
   <h1>LOG IN</h1>
-  <input v-model="email" type="text">
-  <input v-model="password" type="password">
   <button @click="login">Login</button>
+  {{ $auth0.user }}
   <p>
     {{ message }}
   </p>

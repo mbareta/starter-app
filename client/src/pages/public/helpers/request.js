@@ -12,4 +12,10 @@ client.interceptors.request.use(config => {
   return config;
 });
 
+client.interceptors.response.use(res => res, err => {
+  if (err?.response?.status !== 401) throw err;
+  localStorage.clear();
+  window.location.replace('/');
+});
+
 export default client;
