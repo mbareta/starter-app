@@ -1,13 +1,5 @@
 <script>
-import { mapActions, mapState } from 'pinia';
-import request from '../helpers/request';
-
 export default {
-  data() {
-    return {
-      message: null
-    };
-  },
   methods: {
     login() {
       return this.$auth0.loginWithRedirect();
@@ -19,10 +11,7 @@ export default {
 <template>
   <h1>LOG IN</h1>
   <button @click="login">Login</button>
-  {{ $auth0.user }}
-  <p>
-    {{ message }}
-  </p>
+  <p>{{ $auth0.user }}</p>
 </template>
 
 <style scoped>
