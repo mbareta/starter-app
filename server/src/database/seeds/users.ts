@@ -5,11 +5,13 @@ import { User } from '../../users/entities/user.entity';
 export class DatabaseSeeder extends Seeder {
   async run(em: EntityManager): Promise<void> {
     await em.create(User, {
+      sub: 'admin@test.com',
       email: 'admin@test.com',
       password: 'admin',
       role: 'ADMIN'
     });
     await em.create(User, {
+      sub: 'user@test.com',
       email: 'user@test.com',
       password: 'user',
       role: 'USER'

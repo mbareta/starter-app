@@ -23,6 +23,10 @@ export class UsersService {
     return this.usersRepository.findOne({ email });
   }
 
+  findBySub(sub: string) {
+    return this.usersRepository.findOne({ sub });
+  }
+
   update(id: number, updateUserDto: UpdateUserDto) {
     return this.usersRepository.nativeUpdate({ id }, updateUserDto);
   }

@@ -11,7 +11,7 @@ export default {
 <template>
   <h1>LOG IN</h1>
   <button @click="login">Login</button>
-  <p>{{ $auth0.user }}</p>
+  <p>{{ $auth0 }}</p>
 </template>
 
 <style scoped>

@@ -2,7 +2,8 @@ import {
   Entity,
   EntityRepositoryType,
   PrimaryKey,
-  Property
+  Property,
+  Unique
 } from '@mikro-orm/core';
 import { UsersRepository } from '../users.repository';
 
@@ -12,6 +13,10 @@ export class User {
 
   @PrimaryKey()
   id!: number;
+
+  @Property()
+  @Unique()
+  sub: string;
 
   @Property()
   email!: string;
