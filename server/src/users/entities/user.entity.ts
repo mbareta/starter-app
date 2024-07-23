@@ -21,9 +21,6 @@ export class User {
   @Property()
   email!: string;
 
-  @Property()
-  password!: string;
-
   @Property({ default: 'USER' })
   role!: string;
 }

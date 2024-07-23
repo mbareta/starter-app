@@ -7,13 +7,11 @@ export class DatabaseSeeder extends Seeder {
     await em.create(User, {
       sub: 'admin@test.com',
       email: 'admin@test.com',
-      password: 'admin',
       role: 'ADMIN'
     });
     await em.create(User, {
       sub: 'user@test.com',
       email: 'user@test.com',
-      password: 'user',
       role: 'USER'
     });
   }
