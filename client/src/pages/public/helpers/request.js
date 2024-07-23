@@ -7,7 +7,7 @@ const client = axios.create({
   headers: { 'Content-Type': 'application/json' }
 });
 
-client.interceptors.request.use(config => {
+client.interceptors.request.use(async config => {
   const token =
     await app.config.globalProperties.$auth0.getAccessTokenSilently();
   if (token) config.headers.Authorization = `Bearer ${token}`;
