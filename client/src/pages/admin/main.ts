@@ -1,9 +1,11 @@
+import App from './App.vue';
+import { createApp } from 'vue';
 import { createAuth0 } from '@auth0/auth0-vue';
 import { createPinia } from 'pinia';
 import router from './router';
 import './styles/main.scss';
-import app from './app';
 
+const app = createApp(App);
 const pinia = createPinia();
 const auth0 = createAuth0({
   domain: import.meta.env.VITE_AUTH0_DOMAIN,
@@ -19,3 +21,5 @@ app.use(router);
 app.use(auth0);
 
 app.mount('#app');
+
+export default app;

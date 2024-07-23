@@ -1,3 +1,4 @@
+import app from 'admin/main';
 import axios from 'axios';
 
 // Instance of axios to be used for all API requests.
@@ -7,7 +8,8 @@ const client = axios.create({
 });
 
 client.interceptors.request.use(config => {
-  const token = localStorage.getItem('JWT');
+  const token =
+    await app.config.globalProperties.$auth0.getAccessTokenSilently();
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });

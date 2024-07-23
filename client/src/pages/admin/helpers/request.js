@@ -1,5 +1,5 @@
+import app from 'admin/main';
 import axios from 'axios';
-import app from 'admin/app';
 
 // Instance of axios to be used for all API requests.
 const client = axios.create({
