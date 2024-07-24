@@ -1,4 +1,6 @@
 <script setup>
+import clerk from 'admin/helpers/clerk';
+
 const toggleTheme = () => {
   const current = document.documentElement.getAttribute('data-theme') || 'dark';
   const value = current === 'dark' ? 'light' : 'dark';
@@ -6,6 +8,7 @@ const toggleTheme = () => {
 };
 
 const logout = () => {
+  clerk.signOut();
   localStorage.clear();
   window.location.replace('/');
 }

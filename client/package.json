@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@auth0/auth0-vue": "^2.3.3",
+    "@clerk/clerk-js": "^5.10.1",
     "axios": "^1.6.8",
     "bulma": "^1.0.1",
     "pinia": "^2.1.7",
