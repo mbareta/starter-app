@@ -14,7 +14,7 @@ export class User {
   @PrimaryKey()
   id!: number;
 
-  @Property()
+  @Property({ nullable: true })
   @Unique()
   sub: string;
 

@@ -1,5 +1,7 @@
 import request from 'supertest';
 import { AppModule } from '../app.module';
+import { AuthGuard } from '../auth/auth.guard';
+import { AuthGuardMock } from '../auth/auth.guard.mock';
 import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/postgresql';
@@ -7,10 +9,10 @@ import { User } from './entities/user.entity';
 
 const BASE_URL = '/users';
 const credentials = {
-  admin: { email: 'admin@test.com', password: 'admin' },
-  user: { email: 'user@test.com', password: 'user' }
+  admin: { email: 'admin@test.com' },
+  user: { email: 'user@test.com' }
 };
-const fakeUser = { email: 'new_user@fake.com', password: 'temp', role: 'USER' };
+const fakeUser = { email: 'new_user@fake.com', role: 'USER' };
 
 describe('Users', () => {
   let app: INestApplication;
@@ -20,9 +22,10 @@ describe('Users', () => {
   let userToken: string;
 
   beforeAll(async () => {
-    const moduleRef = await Test.createTestingModule({
-      imports: [AppModule]
-    }).compile();
+    const moduleRef = await Test.createTestingModule({ imports: [AppModule] })
+      .overrideProvider(AuthGuard)
+      .useClass(AuthGuardMock)
+      .compile();
 
     app = moduleRef.createNestApplication();
     await app.init();
@@ -30,13 +33,8 @@ describe('Users', () => {
 
     em = app.get(EntityManager).fork();
 
-    adminToken = (
-      await request(server).post('/auth/login').send(credentials.admin)
-    ).body.token;
-
-    userToken = (
-      await request(server).post('/auth/login').send(credentials.user)
-    ).body.token;
+    adminToken = credentials.admin.email;
+    userToken = credentials.user.email;
   });
 
   describe(`GET ${BASE_URL}`, () => {
@@ -47,14 +45,14 @@ describe('Users', () => {
     it('returns 403 when user is not authorized', () => {
       return request(server)
         .get(BASE_URL)
-        .set('Authorization', `Bearer ${userToken}`)
+        .set('Authorization', userToken)
         .expect(403);
     });
 
     it('returns list of users', () => {
       return request(server)
         .get(BASE_URL)
-        .set('Authorization', `Bearer ${adminToken}`)
+        .set('Authorization', adminToken)
         .expect(200)
         .then(({ body }) => {
           expect(body.length).toBeGreaterThan(0);
@@ -74,7 +72,7 @@ describe('Users', () => {
       const { id } = await em.findOne(User, { email: credentials.admin.email });
       return request(server)
         .get(`${BASE_URL}/${id}`)
-        .set('Authorization', `Bearer ${userToken}`)
+        .set('Authorization', userToken)
         .expect(403);
     });
 
@@ -82,7 +80,7 @@ describe('Users', () => {
       const { id } = await em.findOne(User, { email: credentials.admin.email });
       return request(server)
         .get(`${BASE_URL}/${id}`)
-        .set('Authorization', `Bearer ${adminToken}`)
+        .set('Authorization', adminToken)
         .expect(200)
         .then(({ body }) => {
           expect(body.email).toBe(credentials.admin.email);
@@ -99,7 +97,7 @@ describe('Users', () => {
       return request(server)
         .post(BASE_URL)
         .send(fakeUser)
-        .set('Authorization', `Bearer ${userToken}`)
+        .set('Authorization', userToken)
         .expect(403);
     });
 
@@ -107,12 +105,11 @@ describe('Users', () => {
       return request(server)
         .post(BASE_URL)
         .send(fakeUser)
-        .set('Authorization', `Bearer ${adminToken}`)
+        .set('Authorization', adminToken)
         .expect(201)
         .then(async () => {
           const user = await em.findOne(User, { email: fakeUser.email });
           expect(user).not.toBeNull();
-          return request(server).post('/auth/login').send(fakeUser).expect(200);
         });
     });
   });
@@ -127,14 +124,14 @@ describe('Users', () => {
       const { id } = await em.findOne(User, { email: credentials.admin.email });
       return request(server)
         .delete(`${BASE_URL}/${id}`)
-        .set('Authorization', `Bearer ${userToken}`)
+        .set('Authorization', userToken)
         .expect(403);
     });
 
     it('returns 404 when user does not exist', async () => {
       return request(server)
         .delete(`${BASE_URL}/0`)
-        .set('Authorization', `Bearer ${adminToken}`)
+        .set('Authorization', adminToken)
         .expect(404);
     });
 
@@ -142,7 +139,7 @@ describe('Users', () => {
       const user = await em.findOne(User, { email: fakeUser.email });
       return request(server)
         .delete(`${BASE_URL}/${user.id}`)
-        .set('Authorization', `Bearer ${adminToken}`)
+        .set('Authorization', adminToken)
         .expect(204)
         .then(async () => {
           const user = await em.findOne(User, { email: fakeUser.email });

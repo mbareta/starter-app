@@ -1,4 +1,6 @@
 import { Module, MiddlewareConsumer } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './auth/auth.guard';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
@@ -17,7 +19,8 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     DatabaseModule,
     UsersModule
-  ]
+  ],
+  providers: [AuthGuard, { provide: APP_GUARD, useExisting: AuthGuard }]
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
