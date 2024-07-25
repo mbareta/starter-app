@@ -1,5 +1,5 @@
 import app from 'public/main';
-import axios from 'axios';
+import clerk from 'admin/helpers/clerk';
 
 // Instance of axios to be used for all API requests.
 const client = axios.create({
@@ -8,8 +8,7 @@ const client = axios.create({
 });
 
 client.interceptors.request.use(async config => {
-  const token =
-    await app.config.globalProperties.$auth0.getAccessTokenSilently();
+  const token = await clerk.session.getToken();
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
