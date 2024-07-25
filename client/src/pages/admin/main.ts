@@ -1,4 +1,5 @@
 import App from './App.vue';
+import auth0Config from '/src/constants/auth0';
 import { createApp } from 'vue';
 import { createAuth0 } from '@auth0/auth0-vue';
 import { createPinia } from 'pinia';
@@ -7,14 +8,7 @@ import './styles/main.scss';
 
 const app = createApp(App);
 const pinia = createPinia();
-const auth0 = createAuth0({
-  domain: import.meta.env.VITE_AUTH0_DOMAIN,
-  clientId: import.meta.env.VITE_AUTH0_CLIENT_ID,
-  authorizationParams: {
-    redirect_uri: window.location.href,
-    audience: import.meta.env.VITE_AUTH0_AUDIENCE
-  }
-});
+const auth0 = createAuth0(auth0Config);
 
 app.use(pinia);
 app.use(router);

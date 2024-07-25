@@ -77,3 +77,7 @@ That's it. We're ready to log in for the first time.
 
 Notice that after logging in, we still cannot access any of the APIs. We need to
 add a user with our email in DB. Easiest way to do it is a simple INSERT DB query.
+
+```sql
+INSERT INTO users (email, role) VALUES ('<your email>', 'ADMIN');
+```
