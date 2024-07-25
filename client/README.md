@@ -56,6 +56,6 @@ frontend setup. Leave all of the settings default except the following:
 - Allowed Web Origins: `http://localhost:5173`
 
 Now we're ready to add the following to .env:
-- VITE_AUTH0_DOMAIN=<your Auth0 domain, ie. dev-6akn28u2adtkauhz.us.auth0.com>
-- VITE_AUTH0_CLIENT_ID=<your Auth0 client ID>
+- VITE_AUTH0_DOMAIN=[your Auth0 domain, ie. dev-6akn28u2adtkauhz.us.auth0.com]
+- VITE_AUTH0_CLIENT_ID=[your Auth0 client ID]
 - VITE_AUTH0_AUDIENCE=http://localhost:3000
