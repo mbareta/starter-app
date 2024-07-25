@@ -48,7 +48,6 @@ Depending on the requirements, we can add new pages like "courseware",
 
 # Setting up Auth0
 
-
 Create Auth0 account and create a new SPA Vue application. This Auth0 application
 will be used for frontend authentication and its settings should be used in
 frontend setup. Leave all of the settings default except the following:

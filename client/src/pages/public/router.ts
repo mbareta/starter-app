@@ -3,7 +3,7 @@ import { createAuthGuard } from '@auth0/auth0-vue';
 import HomeView from './components/Home.vue';
 
 const routes = [{
-  path: '/',
+  path: '',
   name: 'home',
   component: HomeView,
   beforeEnter: createAuthGuard()
