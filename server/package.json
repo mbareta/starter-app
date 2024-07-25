@@ -21,6 +21,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand"
   },
   "dependencies": {
+    "@clerk/backend": "^1.4.1",
     "@mikro-orm/cli": "^6.2.9",
     "@mikro-orm/core": "^6.2.9",
     "@mikro-orm/migrations": "^6.2.9",
@@ -34,10 +35,8 @@
     "@nestjs/jwt": "^10.2.0",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^10.0.0",
-    "auth0": "^4.7.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
-    "express-oauth2-jwt-bearer": "^1.6.0",
     "on-finished": "^2.4.1",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
