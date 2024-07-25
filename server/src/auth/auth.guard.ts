@@ -66,9 +66,11 @@ export class AuthGuard implements CanActivate {
   // catch the error and handle it gracefully
   private verifyJWT(req, res) {
     return new Promise((resolve) => {
+      const domain = this.configService.get('AUTH0_DOMAIN');
       return auth({
         audience: this.configService.get('AUTH0_AUDIENCE'),
-        issuerBaseURL: `https://${this.configService.get('AUTH0_DOMAIN')}/`,
+        issuerBaseURL: `https://${domain}/`,
+        jwksUri: `https://${domain}/.well-known/jwks.json`,
         tokenSigningAlg: 'RS256'
       })(req, res, resolve);
     });
