@@ -3,9 +3,12 @@
 This module handles user authentication. It depends on users service for access
 to users repository (finding user from DB).
 
-The controller has login function which authenticates user with email and
-password that are stored in the database. Once authenticated the user is issued
-a JWT token that is used to authenticate all other non-public endpoints.
+The authentication is handled by Auth0. Frontend will redirect user to Auth0 and
+after successful authentication, the frontend will be able to generate JWT
+tokens with Auth0 signature. Auth guard will verify that JWT in Auth0 and fetch
+the user from the DB and attach the user object to the request.
+Auth0 is only used for authentication and authorization is role-based within
+this app.
 
 ## Decorators
 
@@ -14,13 +17,27 @@ a JWT token that is used to authenticate all other non-public endpoints.
 
 ## AuthGuard
 
-Extracts user payload from JWT and fetches user info from the DB and attaches it
-to request object. AuthGuard is set as global APP_GUARD and can be bypassed by
-decorating the controller endpoint with @Public() decorator.
+Verifies JWT in Auth0 and fetches the user from the DB and attaches that model
+to the request object as `request.user`. AuthGuard is set as global APP_GUARD
+and can be bypassed by decorating the controller endpoint with @Public()
+decorator.
+
+First step is to verify JWT and get the `sub` (unique identifier for that
+account in Auth0) from that response. Then, we try to find the user in DB with
+that sub. If the user is not found, it means they haven't logged in before so
+we get user profile from Auth0 to retrieve email address. With that email
+address, we try to find the user once again. If the user is not found, we give
+up. If the user is found, we update `sub` in DB so next time we can find them
+without fetching user profile from Auth0.
+
 
 ## Controller endpoints
 
-- POST /auth/login - extracts `email` and `password` from request body, performs
-  authentication and  returns user profile object and JWT token.
-
 - GET /auth/profile - returns current user profile.
+
+## Tests
+
+Auth Guard is mocked in tests to avoid requests to Auth0. For convenience sake,
+we set user's email address as `Authorization` HTTP header and simply fetch that
+user from the DB with their email address. This allows simple user seeding and
+mocking and we don't need to test security aspects of Auth0.
