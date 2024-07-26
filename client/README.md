@@ -45,3 +45,18 @@ Depending on the requirements, we can add new pages like "courseware",
 3. Pinia - application state handler
 4. Bulma - CSS
 5. Axios - HTTP requests
+6. Auth0-Vue - Auth0 user authentication for Vue
+
+# Setting up Auth0
+
+Create Auth0 account and create a new SPA Vue application. This Auth0 application
+will be used for frontend authentication and its settings should be used in
+frontend setup. Leave all of the settings default except the following:
+- Allowed Callback URLs: `http://localhost:5173, http://localhost:5173/admin`
+- Allowed Logout URLs: `http://localhost:5173, http://localhost:5173/admin`
+- Allowed Web Origins: `http://localhost:5173`
+
+Now we're ready to add the following to .env:
+- VITE_AUTH0_DOMAIN=[your Auth0 domain, ie. dev-6akn28u2adtkauhz.us.auth0.com]
+- VITE_AUTH0_CLIENT_ID=[your Auth0 client ID]
+- VITE_AUTH0_AUDIENCE=http://localhost:3000

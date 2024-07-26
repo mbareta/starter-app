@@ -11,7 +11,6 @@ export default {
   data() {
     return {
       email: '',
-      password: '',
       message: null
     };
   },
@@ -19,9 +18,7 @@ export default {
     ...mapActions(useUsersStore, ['save']),
     saveUser() {
       this.message = null;
-      const data = {
-        id: this.user?.id, email: this.email, password: this.password
-      };
+      const data = { id: this.user?.id, email: this.email };
       return this.save(data)
         .then(() => this.$emit('saved'))
         .catch(err => (this.message = err.response.data));
@@ -30,8 +27,7 @@ export default {
   watch: {
     user: {
       handler(val) {
-        const { email, password } = val || {};
-        Object.assign(this, { email, password });
+        this.email = val?.email;
       },
       immediate: true
     }
@@ -45,7 +41,6 @@ export default {
     <h2 class="title has-text-centered">Create User</h2>
     <form @submit.prevent="saveUser">
       <input-text v-model="email" label="Email" type="email" />
-      <input-text v-model="password" label="Password" type="password" />
       <input type="submit" value="Save" class="button is-primary">
       <p>{{ message }}</p>
     </form>
