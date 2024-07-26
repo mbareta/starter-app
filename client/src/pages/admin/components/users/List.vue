@@ -9,7 +9,7 @@ const store = useUsersStore();
     <thead>
       <th>ID</th>
       <th>Email</th>
-      <th>Password</th>
+      <th>Sub</th>
       <th>Role</th>
       <th>Actions</th>
     </thead>
@@ -17,7 +17,7 @@ const store = useUsersStore();
       <tr v-for="user in store.users">
         <td>{{ user.id }}</td>
         <td>{{ user.email }}</td>
-        <td>{{ user.password }}</td>
+        <td>{{ user.sub }}</td>
         <td>{{ user.role }}</td>
         <td>
           <button @click="$emit('edit', user)" class="button is-info">
