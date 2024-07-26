@@ -45,6 +45,7 @@ Depending on the requirements, we can add new pages like "courseware",
 3. Pinia - application state handler
 4. Bulma - CSS
 5. Axios - HTTP requests
+6. Auth0-Vue - Auth0 user authentication for Vue
 
 # Setting up Auth0
 
