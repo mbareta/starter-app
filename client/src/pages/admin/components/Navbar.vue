@@ -1,13 +1,20 @@
-<script setup>
-const toggleTheme = () => {
-  const current = document.documentElement.getAttribute('data-theme') || 'dark';
-  const value = current === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', value);
-};
-
-const logout = () => {
-  localStorage.clear();
-  window.location.replace('/');
+<script>
+export default {
+  methods: {
+    logout() {
+      this.$auth0.logout({
+        logoutParams: { returnTo: window.location.origin }
+      });
+      localStorage.clear();
+      window.location.replace('/');
+    },
+    toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme') ||
+        'dark';
+      const value = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', value);
+    }
+  }
 }
 </script>
 
