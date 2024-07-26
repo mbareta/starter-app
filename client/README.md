@@ -52,6 +52,7 @@ Create Auth0 account and create a new SPA Vue application. This Auth0 applicatio
 will be used for frontend authentication and its settings should be used in
 frontend setup. Leave all of the settings default except the following:
 - Allowed Callback URLs: `http://localhost:5173, http://localhost:5173/admin`
+- Allowed Logout URLs: `http://localhost:5173, http://localhost:5173/admin`
 - Allowed Web Origins: `http://localhost:5173`
 
 Now we're ready to add the following to .env:

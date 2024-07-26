@@ -16,6 +16,7 @@ client.interceptors.request.use(async config => {
 
 client.interceptors.response.use(res => res, err => {
   if (err?.response?.status !== 401) throw err;
+  app.config.globalProperties.$auth0.logout();
   localStorage.clear();
   window.location.replace('/');
 });
