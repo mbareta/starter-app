@@ -22,7 +22,10 @@ export default {
 </script>
 
 <template>
-  <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+  <nav
+    class="navbar is-primary is-fixed-top"
+    role="navigation"
+    aria-label="main navigation">
   <div class="navbar-brand">
     <router-link :to="{ name: 'home' }" class="navbar-item">
       <img src="/logo.png" alt="application logo">
@@ -66,6 +69,7 @@ img {
 
 nav {
   border-bottom: 1px solid var(--bulma-primary);
+  box-shadow: 1px 1px 3px var(--bulma-primary-00);
 }
 
 .navbar-dropdown {
