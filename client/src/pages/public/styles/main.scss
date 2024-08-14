@@ -1,5 +1,7 @@
 @use "bulma/sass" with (
-  $primary: rgb(35, 244, 139)
+  $primary: #2F84FF,
+  $link: #F4F3F0,
+  $text: #21232B
 );
 
 :root {
@@ -9,11 +11,7 @@
 }
 
 :root[data-theme="dark"] {
-  --bulma-body-background-color: #222;
-}
-
-:root[data-theme="light"] {
-  --bulma-body-background-color: #efefef !important;
+  --bulma-body-background-color: #21232B;
 }
 
 .is-spaced-between {

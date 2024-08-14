@@ -1,3 +1,8 @@
 <template>
-  <h1 class="title">Welcome to starter admin pages.</h1>
+  <section class="hero is-primary is-large">
+    <div class="hero-body">
+      <h1 class="title">Welcome!</h1>
+      <h2 class="subtitle">With great power comes great responsibility.</h2>
+    </div>
+  </section>
 </template>

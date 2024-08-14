@@ -19,10 +19,13 @@ export default {
 </script>
 
 <template>
-  <nav class="navbar" role="navigation" aria-label="main navigation">
+  <nav
+    class="navbar is-fixed-top is-transparent"
+    role="navigation"
+    aria-label="main navigation">
   <div class="navbar-brand">
     <router-link :to="{ name: 'home' }" class="navbar-item">
-      <img src="/logo.svg">
+      <img src="/logo-admin.svg" alt="application logo">
     </router-link>
   </div>
 

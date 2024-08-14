@@ -1,6 +1,10 @@
 <template>
-  <h1>Welcome to starter app!</h1>
-  <p>Make yourself at home.</p>
-  <h2>This is your Auth0 config/profile.</h2>
-  <p>{{ $auth0 }}</p>
+  <div>
+    <section class="hero is-success is-large">
+      <div class="hero-body">
+        <h1 class="title">Welcome {{ $auth0.user.value.name }}!</h1>
+        <h2 class="subtitle">There's no place like 127.0.0.1!</h2>
+      </div>
+    </section>
+  </div>
 </template>
