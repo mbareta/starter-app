@@ -22,13 +22,26 @@ export default {
         <h2 class="subtitle">Here we can import, update and delete courses.</h2>
       </div>
     </section>
-    <section class="container columns">
-      <div v-for="course in catalog" :key="course.id" class="column is-3">
-        <card :course="course" />
+    <section class="container">
+      <h2 class="title">Available courses (course catalog)</h2>
+      <div class="columns">
+        <div
+          v-for="course in catalog"
+          :key="course.id"
+          class="column is-half-tablet is-one-quarter-fullhd">
+          <card :course="course" />
+        </div>
       </div>
     </section>
     <section class="container">
+      <h2 class="title">Imported courses</h2>
       <courses-list />
     </section>
   </div>
 </template>
+
+<style lang="scss" scoped>
+section {
+  margin-bottom: 4rem;
+}
+</style>
