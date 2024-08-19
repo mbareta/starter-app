@@ -5,6 +5,13 @@ const BASE_URL = '/courses';
 
 export const useCoursesStore = defineStore('courses', {
   state: () => ({ catalog: [], courses: [] }),
+  getters: {
+    isCourseImported(state) {
+      return uid => {
+        return state.courses.find(it => it.uid === uid);
+      }
+    }
+  },
   actions: {
     importCourse(sourceId) {
       return request.post(BASE_URL, { sourceId });
