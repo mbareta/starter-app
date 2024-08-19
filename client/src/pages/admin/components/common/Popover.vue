@@ -32,10 +32,11 @@ export default {
       <button
         @click="toggle"
         :class="{ 'has-arrow': isActive }"
-        class="button"
         aria-haspopup="true"
         aria-controls="dropdown-menu">
-        <slot name="trigger">Expand</slot>
+        <slot name="trigger">
+          <div class="button">Expand</div>
+        </slot>
       </button>
     </div>
     <div class="dropdown-menu" id="dropdown-menu" role="menu">

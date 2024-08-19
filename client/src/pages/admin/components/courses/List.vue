@@ -1,24 +1,24 @@
 <script setup>
-import { useUsersStore } from 'admin/stores/users.store';
+import { useCoursesStore } from 'admin/stores/courses.store';
 import Popover from 'admin/components/common/Popover.vue';
-const store = useUsersStore();
+const store = useCoursesStore();
 </script>
 
 <template>
   <table class="table is-striped">
     <thead>
       <th>ID</th>
-      <th>Email</th>
-      <th>Sub</th>
-      <th>Role</th>
+      <th>Source UID</th>
+      <th>Name</th>
+      <th>Description</th>
       <th>Actions</th>
     </thead>
     <tbody>
-      <tr v-for="user in store.users">
-        <td>{{ user.id }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.sub }}</td>
-        <td>{{ user.role }}</td>
+      <tr v-for="course in store.courses">
+        <td>{{ course.id }}</td>
+        <td>{{ course.sourceUid }}</td>
+        <td>{{ course.name }}</td>
+        <td>{{ course.description }}</td>
         <td class="actions">
           <button @click="$emit('edit', user)" class="button is-info">
             Edit

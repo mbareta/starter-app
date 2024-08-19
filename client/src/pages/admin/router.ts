@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { createAuthGuard } from '@auth0/auth0-vue';
+import CoursesView from './components/courses/index.vue';
 import HomeView from './components/Home.vue';
 import UsersView from './components/users/index.vue';
 
@@ -7,6 +8,11 @@ const routes = [{
   path: '',
   name: 'home',
   component: HomeView,
+  beforeEnter: createAuthGuard()
+}, {
+  path: '/courses',
+  name: 'courses',
+  component: CoursesView,
   beforeEnter: createAuthGuard()
 }, {
   path: '/users',
