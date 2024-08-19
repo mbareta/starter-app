@@ -28,9 +28,3 @@ onMounted(() => store.loadCourses());
     </section>
   </div>
 </template>
-
-<style lang="scss" scoped>
-section {
-  margin-bottom: 4rem;
-}
-</style>
