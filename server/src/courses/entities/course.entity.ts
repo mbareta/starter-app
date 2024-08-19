@@ -16,7 +16,7 @@ export class Course {
 
   @Property()
   @Unique()
-  sourceUid: string;
+  uid: string;
 
   @Property()
   name!: string;

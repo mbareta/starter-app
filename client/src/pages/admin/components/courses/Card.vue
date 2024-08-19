@@ -1,8 +1,12 @@
 <script>
+import { mapActions } from 'pinia';
+import { useCoursesStore } from 'admin/stores/courses.store';
+
 export default {
   props: {
     course: { type: Object, required: true }
-  }
+  },
+  methods: mapActions(useCoursesStore, ['importCourse'])
 };
 </script>
 
@@ -24,7 +28,9 @@ export default {
       </div>
     </div>
     <div class="content has-text-centered">
-      <button class="button is-primary">Import Course</button>
+      <button @click="importCourse(course.id)" class="button is-primary">
+        Import Course
+      </button>
     </div>
   </div>
 </div>

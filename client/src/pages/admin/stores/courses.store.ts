@@ -6,6 +6,9 @@ const BASE_URL = '/courses';
 export const useCoursesStore = defineStore('courses', {
   state: () => ({ catalog: [], courses: [] }),
   actions: {
+    importCourse(sourceId) {
+      return request.post(BASE_URL, { sourceId });
+    },
     loadCatalog() {
       return request.get(`${BASE_URL}/catalog`)
         .then(({ data }) => (this.catalog = data));

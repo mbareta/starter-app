@@ -1,20 +1,24 @@
 import { CoursesRepository } from './courses.repository';
+import { CreateCourseDto } from './dto/create-course.dto';
 import fs from 'node:fs';
 import { Injectable } from '@nestjs/common';
-import { CreateCourseDto } from './dto/create-course.dto';
-import { UpdateCourseDto } from './dto/update-course.dto';
+import { plainToClass } from '@nestjs/class-transformer';
+
+const BASE = '/Users/marin/Javascript/author/apps/backend/data/repository';
 
 @Injectable()
 export class CoursesService {
   constructor(private readonly coursesRepository: CoursesRepository) {}
 
-  create(createCourseDto: CreateCourseDto) {
-    return this.coursesRepository.insert(createCourseDto);
+  create({ sourceId }) {
+    const path = `${BASE}/${sourceId}/index.json`;
+    const data = JSON.parse(fs.readFileSync(path, 'utf8'));
+    const dto = plainToClass(CreateCourseDto, data);
+    return this.coursesRepository.insert(dto);
   }
 
   getCatalog() {
-    const path =
-      '/Users/marin/Javascript/author/apps/backend/data/repository/index.json';
+    const path = `${BASE}/index.json`;
     return fs.readFileSync(path, 'utf8');
   }
 
@@ -26,8 +30,8 @@ export class CoursesService {
     return this.coursesRepository.findOne({ id });
   }
 
-  update(id: number, updateCourseDto: UpdateCourseDto) {
-    return this.coursesRepository.nativeUpdate({ id }, updateCourseDto);
+  update(id: number, body) {
+    // return this.coursesRepository.nativeUpdate({ id }, updateCourseDto);
   }
 
   remove(id: number) {

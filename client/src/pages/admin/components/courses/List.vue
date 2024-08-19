@@ -8,7 +8,7 @@ const store = useCoursesStore();
   <table class="table is-striped">
     <thead>
       <th>ID</th>
-      <th>Source UID</th>
+      <th>UID</th>
       <th>Name</th>
       <th>Description</th>
       <th>Actions</th>
@@ -16,7 +16,7 @@ const store = useCoursesStore();
     <tbody>
       <tr v-for="course in store.courses">
         <td>{{ course.id }}</td>
-        <td>{{ course.sourceUid }}</td>
+        <td>{{ course.uid }}</td>
         <td>{{ course.name }}</td>
         <td>{{ course.description }}</td>
         <td class="actions">
