@@ -1,6 +1,7 @@
 <script setup>
 import { useCoursesStore } from 'admin/stores/courses.store';
 import Popover from 'admin/components/common/Popover.vue';
+
 const store = useCoursesStore();
 </script>
 

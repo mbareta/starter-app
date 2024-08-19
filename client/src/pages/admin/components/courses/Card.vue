@@ -17,7 +17,7 @@ export default {
 </script>
 
 <template>
-  <div :class="{ 'is-disabled': isDisabled }" class="card is-primary">
+  <div :class="{ 'is-disabled': isDisabled }" class="card">
   <div class="card-image">
     <figure class="image is-4by3">
       <img

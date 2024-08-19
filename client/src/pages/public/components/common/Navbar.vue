@@ -37,6 +37,9 @@ export default {
       <router-link :to="{ name: 'home' }" class="navbar-item">
         Home
       </router-link>
+      <router-link :to="{ name: 'courses' }" class="navbar-item">
+        Courses
+      </router-link>
     </div>
     <div class="navbar-end">
       <div class="navbar-item has-dropdown is-hoverable">
