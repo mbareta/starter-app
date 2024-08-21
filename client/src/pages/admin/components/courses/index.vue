@@ -6,7 +6,8 @@ import { useCoursesStore } from 'admin/stores/courses.store';
 
 export default {
   computed: mapState(useCoursesStore, ['catalog']),
-  methods: mapActions(useCoursesStore, ['loadCatalog', 'loadCourses']),
+  methods: mapActions(useCoursesStore,
+    ['deleteCourse', 'loadCatalog', 'loadCourses']),
   mounted() {
     return Promise.all([this.loadCatalog(), this.loadCourses()]);
   },
@@ -35,7 +36,7 @@ export default {
     </section>
     <section class="container">
       <h2 class="title">Imported courses</h2>
-      <courses-list />
+      <courses-list @destroy="deleteCourse" />
     </section>
   </div>
 </template>

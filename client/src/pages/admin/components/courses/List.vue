@@ -31,7 +31,9 @@ const store = useCoursesStore();
             <template v-slot:content="{ close }">
               <p>Are you sure you want to delete this user?</p>
               <div class="is-spaced-between">
-                <button @click="$emit('destroy', user)" class="button is-danger">
+                <button
+                  @click="$emit('destroy', course)"
+                  class="button is-danger">
                   Yes
                 </button>
                 <button @click="close" class="button">

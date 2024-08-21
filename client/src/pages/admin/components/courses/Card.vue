@@ -10,6 +10,10 @@ export default {
     ...mapGetters(useCoursesStore, ['isCourseImported']),
     isDisabled() {
       return this.isCourseImported(this.course.uid);
+    },
+    src() {
+      return this.course?.meta?.posterImage?.publicUrl ||
+        'https://bulma.io/assets/images/placeholders/1280x960.png';
     }
   },
   methods: mapActions(useCoursesStore, ['importCourse'])
@@ -20,10 +24,7 @@ export default {
   <div :class="{ 'is-disabled': isDisabled }" class="card">
   <div class="card-image">
     <figure class="image is-4by3">
-      <img
-        src="https://bulma.io/assets/images/placeholders/1280x960.png"
-        alt="Placeholder image"
-      />
+      <img :src="src" alt="Placeholder image">
     </figure>
   </div>
   <div class="card-content">
