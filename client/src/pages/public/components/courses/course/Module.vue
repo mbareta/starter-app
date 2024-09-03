@@ -15,7 +15,7 @@ export default {
   },
   data() {
     return {
-      isExpanded: true, // revert to false when done
+      isExpanded: false,
       showPage: false
     }
   },
@@ -27,7 +27,7 @@ export default {
         .sort((a, b) => (a.position - b.position));
     },
     className() {
-      return this.module.type === types.module ? 'is-primary' : 'is-info'
+      return this.isPage ? 'is-info' : 'is-primary';
     },
     isEmpty() {
       return this.children.length === 0;
@@ -50,10 +50,14 @@ export default {
         v-if="!isEmpty && !isPage"
         @click="isExpanded = !isExpanded"
         :class="className"
-        class="button is-outlined is-inverted">
+        class="button is-inverted">
         {{ isExpanded ? 'Collapse' : 'Expand' }}
       </button>
-      <button v-if="isPage" @click="showPage = true">
+      <button
+        v-if="isPage"
+        @click="showPage = true"
+        :class="className"
+        class="button is-info is-inverted">
         View page
       </button>
     </p>
@@ -72,7 +76,7 @@ export default {
 
 <style lang="scss" scoped>
 .panel {
-  padding-left: 2rem;
+  margin-left: 2rem;
 }
 
 .panel-heading {
