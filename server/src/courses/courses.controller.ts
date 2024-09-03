@@ -33,6 +33,11 @@ export class CoursesController {
     return this.coursesService.findOne(+id);
   }
 
+  @Get(':id/module/:moduleId')
+  findModule(@Param('id') id: string, @Param('moduleId') moduleId: string) {
+    return this.coursesService.findModule(+id, +moduleId);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() body) {
     return this.coursesService.update(+id, body);

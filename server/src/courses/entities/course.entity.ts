@@ -19,6 +19,9 @@ export class Course {
   uid: string;
 
   @Property()
+  sourceId: number;
+
+  @Property()
   name!: string;
 
   @Property({ nullable: true })

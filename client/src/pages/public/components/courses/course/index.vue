@@ -1,6 +1,6 @@
 <script>
 import { mapActions, mapState } from 'pinia';
-import Structure from './Structure.vue';
+import Module from './Module.vue';
 import { useCoursesStore } from 'public/stores/courses.store';
 
 export default {
@@ -9,13 +9,18 @@ export default {
     ...mapState(useCoursesStore, ['courses']),
     course() {
       return this.courses.find(it => it.id === this.courseId) || {};
+    },
+    rootModules() {
+      return (this.course.structure || [])
+        .filter(it => it.parentId === null)
+        .sort((a, b) => (a.position - b.position));
     }
   },
   methods: mapActions(useCoursesStore, ['loadCourses']),
   created() {
     return this.loadCourses();
   },
-  components: { Structure }
+  components: { Module }
 };
 </script>
 
@@ -28,7 +33,9 @@ export default {
       </div>
     </section>
     <section class="container">
-      <structure :structure="course.structure" />
+      <div v-for="module in rootModules" class="box">
+        <module :course="course" :module="module" />
+      </div>
     </section>
   </div>
 </template>

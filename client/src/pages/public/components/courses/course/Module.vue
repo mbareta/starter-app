@@ -1,25 +1,42 @@
 <script>
+import Modal from 'public/components/common/Modal.vue';
+import Page from './Page.vue';
+
 const types = {
   module: 'COURSE_SCHEMA/MODULE',
   page: 'COURSE_SCHEMA/PAGE'
-}
+};
+
 export default {
+  name: 'course-module',
   props: {
+    course: { type: Object, default: () => ({}) },
     module: { type: Object, default: () => ({}) }
   },
   data() {
     return {
-      isExpanded: false
+      isExpanded: true, // revert to false when done
+      showPage: false
     }
   },
   computed: {
+    children() {
+      const { structure = [] } = this.course || {};
+      return structure
+        .filter(it => it.parentId === this.module.id)
+        .sort((a, b) => (a.position - b.position));
+    },
     className() {
       return this.module.type === types.module ? 'is-primary' : 'is-info'
     },
     isEmpty() {
-      return this.module.contentContainers.length === 0;
+      return this.children.length === 0;
+    },
+    isPage(){
+      return this.module.type === types.page;
     }
-  }
+  },
+  components: { Modal, Page }
 };
 </script>
 
@@ -28,29 +45,39 @@ export default {
     <p
       :class="{ 'is-rounded': !isExpanded }"
       class="panel-heading is-spaced-between">
-      {{ module.meta.name }} ({{ module.contentContainers.length }})
+      {{ module.meta?.name }} ({{ module.type }})
       <button
-        v-if="!isEmpty"
+        v-if="!isEmpty && !isPage"
         @click="isExpanded = !isExpanded"
         :class="className"
         class="button is-outlined is-inverted">
         {{ isExpanded ? 'Collapse' : 'Expand' }}
       </button>
+      <button v-if="isPage" @click="showPage = true">
+        View page
+      </button>
     </p>
-    <div v-if="isExpanded && !isEmpty">
-      <div
-        v-for="item in module.contentContainers"
+    <div v-if="isExpanded">
+      <course-module
+        v-for="item in children"
         :key="item.id"
-        class="panel-block">
-        {{ item }}
-      </div>
+        :course="course"
+        :module="item" />
     </div>
+    <modal @close="showPage = null" :isOpen="showPage">
+      <page v-if="showPage" :course="course" :page="module" />
+    </modal>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.panel {
+  padding-left: 2rem;
+}
+
 .panel-heading {
   align-items: center;
+  padding: 0.75rem;
 
   button {
     width: 6rem;
