@@ -33,19 +33,21 @@ export default {
 <template>
   <div>
     <h3 class="title has-text-centered">{{ page.meta?.name }}</h3>
-    <div class="container-nav">
+    <div v-if="page.contentContainers.length > 1" class="container-nav">
       <button
         @click="selectedContainerIndex--"
         class="button is-white is-outlined is-small">
         Previous
       </button>
-      <button
-        v-for="(container, index) in page.contentContainers"
-        :key="container.uid"
-        @click="selectedContainerIndex = index"
-        :class="{ 'is-active': index === selectedContainerIndex }"
-        class="pill">
-      </button>
+      <div class="pill-container">
+        <button
+          v-for="(container, index) in page.contentContainers"
+          :key="container.uid"
+          @click="selectedContainerIndex = index"
+          :class="{ 'is-active': index === selectedContainerIndex }"
+          class="pill">
+        </button>
+      </div>
       <button
         @click="selectedContainerIndex++"
         class="button is-white is-outlined is-small">
@@ -64,10 +66,15 @@ export default {
 .container-nav {
   padding: 1rem;
   margin-bottom: 2rem;
-  border-bottom: 2px solid var(--bulma-white);
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+
+  .pill-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   .pill {
     width: 1rem;
@@ -76,11 +83,17 @@ export default {
     background: var(--bulma-white);
     border-radius: 1rem;
     text-align: center;
-    transform: translateX(-0.5rem);
+    transition: padding 0.3s;
 
     &.is-active {
-      width: 2rem;
+      padding: 0 1rem;
     }
   }
+}
+
+.content {
+  min-height: 20rem;
+  padding: 2rem;
+  border-top: 2px solid var(--bulma-white);
 }
 </style>
