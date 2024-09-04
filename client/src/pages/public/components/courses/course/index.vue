@@ -33,9 +33,11 @@ export default {
       </div>
     </section>
     <section class="container">
-      <div v-for="module in rootModules" class="box">
-        <module :course="course" :module="module" />
-      </div>
+      <module
+        v-for="module in rootModules"
+        :key="module.uid"
+        :course="course"
+        :module="module" />
     </section>
   </div>
 </template>

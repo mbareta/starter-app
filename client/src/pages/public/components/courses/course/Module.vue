@@ -27,7 +27,7 @@ export default {
         .sort((a, b) => (a.position - b.position));
     },
     className() {
-      return this.isPage ? 'is-info' : 'is-primary';
+      return this.isPage ? 'is-page' : 'is-module';
     },
     isEmpty() {
       return this.children.length === 0;
@@ -41,26 +41,22 @@ export default {
 </script>
 
 <template>
-  <div :class="className" class="panel">
-    <p
-      :class="{ 'is-rounded': !isExpanded }"
-      class="panel-heading is-spaced-between">
+  <div :class="className" class="module-container">
+    <div class="module-heading is-spaced-between">
       {{ module.meta?.name }} ({{ module.type }})
       <button
         v-if="!isEmpty && !isPage"
         @click="isExpanded = !isExpanded"
-        :class="className"
-        class="button is-inverted">
+        class="button is-primary is-inverted">
         {{ isExpanded ? 'Collapse' : 'Expand' }}
       </button>
       <button
         v-if="isPage"
         @click="showPage = true"
-        :class="className"
         class="button is-info is-inverted">
         View page
       </button>
-    </p>
+    </div>
     <div v-if="isExpanded">
       <course-module
         v-for="item in children"
@@ -75,20 +71,26 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-.panel {
-  margin-left: 2rem;
-}
+.module-container {
+  margin-left: 1.5rem;
+  border-left: 3px solid var(--bulma-text);
 
-.panel-heading {
-  align-items: center;
-  padding: 0.75rem;
-
-  button {
-    width: 6rem;
+  .module-heading {
+    display: flex;
+    align-items: center;
+    margin: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    font-weight: var(--bulma-weight-semibold);
   }
-}
 
-.is-rounded {
-  border-radius: var(--bulma-panel-radius);
+  &.is-module .module-heading {
+    color: var(--bulma-primary-invert);
+    background: var(--bulma-primary);
+  }
+
+  &.is-page .module-heading {
+    color: var(--bulma-info-invert);
+    background: var(--bulma-info);
+  }
 }
 </style>
