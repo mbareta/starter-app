@@ -17,8 +17,8 @@
     "test": "jest || true",
     "posttest": "NODE_ENV=test npx mikro-orm schema:drop -r",
     "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand"
+    "test:cov": "npm run pretest && jest --coverage && npm run posttest",
+    "test:debug": "npm run pretest && node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand"
   },
   "dependencies": {
     "@mikro-orm/cli": "^6.2.9",
