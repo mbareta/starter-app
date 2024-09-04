@@ -19,8 +19,7 @@ export class CoursesService {
   }
 
   getCatalog() {
-    const path = `${BASE}/index.json`;
-    return fs.readFileSync(path, 'utf8');
+    return getData(`${BASE}/index.json`) || [];
   }
 
   findAll() {

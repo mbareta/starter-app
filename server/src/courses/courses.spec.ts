@@ -52,6 +52,55 @@ describe('Users', () => {
     });
   });
 
+  describe(`GET ${BASE_URL}/catalog`, () => {
+    it('returns 401 when user is not authenticated', () => {
+      return request(server).get(`${BASE_URL}/catalog`).expect(401);
+    });
+
+    it('returns 403 when user is not authorized', () => {
+      return request(server)
+        .get(`${BASE_URL}/catalog`)
+        .set('Authorization', userToken)
+        .expect(403);
+    });
+
+    it('returns list of courses in the catalog', () => {
+      return request(server)
+        .get(`${BASE_URL}/catalog`)
+        .set('Authorization', adminToken)
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.length).toBe(2); // TODO
+        });
+    });
+  });
+
+  describe(`POST ${BASE_URL}`, () => {
+    it('returns 401 when user is not authenticated', () => {
+      return request(server).post(BASE_URL).expect(401);
+    });
+
+    it('returns 403 when user is not authorized', () => {
+      return request(server)
+        .post(BASE_URL)
+        .set('Authorization', userToken)
+        .expect(403);
+    });
+
+    it('imports course', () => {
+      const sourceId = 3;
+      return request(server)
+        .post(BASE_URL)
+        .send({ sourceId })
+        .set('Authorization', adminToken)
+        .expect(201)
+        .then(async () => {
+          const course = await em.findOne(Course, { sourceId });
+          expect(course.id).toBeGreaterThan(0);
+        });
+    });
+  });
+
   describe(`DELETE ${BASE_URL}/:id`, () => {
     it('returns 401 when user is not authenticated', async () => {
       const { id } = await em.findOne(Course, { sourceId: 1 });
