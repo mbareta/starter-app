@@ -1,5 +1,6 @@
 <script>
 import LoadingSpinner from 'public/components/common/LoadingSpinner.vue';
+import ContentElement from './content-elements/index.vue';
 import request from 'public/helpers/request';
 
 export default {
@@ -34,7 +35,7 @@ export default {
       }
     }
   },
-  components: { LoadingSpinner }
+  components: { ContentElement, LoadingSpinner }
 };
 </script>
 
@@ -65,7 +66,7 @@ export default {
     <div class="content">
       <loading-spinner :isLoading="isLoading" />
       <div v-for="element in data.elements" :key="element.uid">
-        {{ element.type }}
+        <content-element :element="element" />
       </div>
     </div>
   </div>
