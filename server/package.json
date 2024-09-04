@@ -13,7 +13,7 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "pretest": "NODE_ENV=test npx mikro-orm schema:create -r && NODE_ENV=test npx mikro-orm migration:up && NODE_ENV=test npx mikro-orm seeder:run",
+    "pretest": "NODE_ENV=test npx mikro-orm schema:fresh --run --seed",
     "test": "jest || true",
     "posttest": "NODE_ENV=test npx mikro-orm schema:drop -r",
     "test:watch": "jest --watch",

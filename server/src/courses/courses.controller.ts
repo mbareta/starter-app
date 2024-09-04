@@ -3,17 +3,21 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  NotFoundException,
   Param,
-  Patch,
   Post
 } from '@nestjs/common';
+import { Role, Roles } from '../auth/roles.decorator';
 import { CoursesService } from './courses.service';
 
 @Controller('courses')
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}
 
+  @Roles(Role.Admin)
   @Post()
+  @HttpCode(201)
   create(@Body() body) {
     return this.coursesService.create(body);
   }
@@ -23,14 +27,10 @@ export class CoursesController {
     return this.coursesService.findAll();
   }
 
+  @Roles(Role.Admin)
   @Get('catalog')
   catalog() {
     return this.coursesService.getCatalog();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.coursesService.findOne(+id);
   }
 
   @Get(':id/module/:moduleId')
@@ -38,13 +38,11 @@ export class CoursesController {
     return this.coursesService.findModule(+id, +moduleId);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() body) {
-    return this.coursesService.update(+id, body);
-  }
-
+  @Roles(Role.Admin)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.coursesService.remove(+id);
+  @HttpCode(204)
+  async remove(@Param('id') id: string) {
+    const deletedCount = await this.coursesService.remove(+id);
+    if (!deletedCount) throw new NotFoundException();
   }
 }
