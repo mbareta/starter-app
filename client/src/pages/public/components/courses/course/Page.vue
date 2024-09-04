@@ -32,11 +32,11 @@ export default {
 
 <template>
   <div>
-    <h3 class="title has-text-centered">{{ page.meta?.name }}</h3>
+    <h3 class="title has-text-white has-text-centered">{{ page.meta?.name }}</h3>
     <div v-if="page.contentContainers.length > 1" class="container-nav">
       <button
         @click="selectedContainerIndex--"
-        class="button is-white is-outlined is-small">
+        class="button is-white is-outlined">
         Previous
       </button>
       <div class="pill-container">
@@ -50,7 +50,7 @@ export default {
       </div>
       <button
         @click="selectedContainerIndex++"
-        class="button is-white is-outlined is-small">
+        class="button is-white is-outlined">
         Next
       </button>
     </div>
@@ -89,11 +89,17 @@ export default {
       padding: 0 1rem;
     }
   }
+
+  .button {
+    width: 6rem;
+  }
 }
 
 .content {
   min-height: 20rem;
   padding: 2rem;
   border-top: 2px solid var(--bulma-white);
+  background: var(--bulma-white);
+  border-radius: var(--bulma-radius-small);
 }
 </style>
