@@ -1,4 +1,5 @@
 <script>
+import LoadingSpinner from 'public/components/common/LoadingSpinner.vue';
 import request from 'public/helpers/request';
 
 export default {
@@ -9,13 +10,19 @@ export default {
   data() {
     return {
       data: {},
+      isLoading: true,
       selectedContainerIndex: 0
     };
   },
   methods: {
     loadData({ courseId, containerId }) {
+      this.isLoading = true;
+      this.data = {};
       return request.get(`/courses/${courseId}/module/${containerId}`)
-        .then(({ data }) => (this.data = data));
+        .then(({ data }) => {
+          this.data = data;
+          this.isLoading = false;
+        });
     }
   },
   watch: {
@@ -26,7 +33,8 @@ export default {
         return this.loadData({ courseId: this.course.id, containerId });
       }
     }
-  }
+  },
+  components: { LoadingSpinner }
 };
 </script>
 
@@ -55,6 +63,7 @@ export default {
       </button>
     </div>
     <div class="content">
+      <loading-spinner :isLoading="isLoading" />
       <div v-for="element in data.elements" :key="element.uid">
         {{ element.type }}
       </div>
@@ -98,6 +107,7 @@ export default {
 .content {
   min-height: 20rem;
   padding: 2rem;
+  color: var(--bulma-scheme-invert);
   border-top: 2px solid var(--bulma-white);
   background: var(--bulma-white);
   border-radius: var(--bulma-radius-small);
