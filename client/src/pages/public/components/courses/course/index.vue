@@ -1,12 +1,13 @@
 <script>
 import { mapActions, mapState } from 'pinia';
+import LoadingSpinner from 'public/components/common/LoadingSpinner.vue';
 import Module from './Module.vue';
 import { useCoursesStore } from 'public/stores/courses.store';
 
 export default {
   props: { courseId: { type: Number, required: true } },
   computed: {
-    ...mapState(useCoursesStore, ['courses']),
+    ...mapState(useCoursesStore, ['courses', 'isLoading']),
     course() {
       return this.courses.find(it => it.id === this.courseId) || {};
     },
@@ -20,7 +21,7 @@ export default {
   created() {
     if (!this.course.id) return this.loadCourses();
   },
-  components: { Module }
+  components: { LoadingSpinner, Module }
 };
 </script>
 
@@ -32,6 +33,7 @@ export default {
         <h2 class="subtitle">{{ course.description }}</h2>
       </div>
     </section>
+    <loading-spinner :isLoading="isLoading" class="loading-spinner" />
     <section class="container">
       <module
         v-for="module in rootModules"
@@ -41,3 +43,9 @@ export default {
     </section>
   </div>
 </template>
+
+<style lang="scss" scoped>
+:deep(.loading-spinner) p {
+  color: var(--bulma-scheme);
+}
+</style>

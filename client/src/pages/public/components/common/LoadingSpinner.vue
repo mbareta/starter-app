@@ -10,7 +10,7 @@ export default {
   <div
     :class="{ 'is-sr-only': !isLoading }"
     aria-live="assertive"
-    class="spinner-container has-text-centered"
+    class="has-text-centered"
     role="alert">
     <div class="loader"></div>
     <p v-if="isLoading">Loading, please wait...</p>

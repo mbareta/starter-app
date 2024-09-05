@@ -1,5 +1,6 @@
 <script setup>
 import Card from './Card.vue';
+import LoadingSpinner from 'public/components/common/LoadingSpinner.vue';
 import { onMounted } from 'vue';
 import { useCoursesStore } from 'public/stores/courses.store';
 
@@ -17,6 +18,7 @@ onMounted(() => store.loadCourses());
     </section>
     <section class="container">
       <h2 class="title">Available Courses</h2>
+      <loading-spinner :isLoading="store.isLoading" class="loading-spinner" />
       <div class="columns">
         <div
           v-for="course in store.courses"
@@ -28,3 +30,9 @@ onMounted(() => store.loadCourses());
     </section>
   </div>
 </template>
+
+<style lang="scss" scoped>
+:deep(.loading-spinner) p {
+  color: var(--bulma-scheme);
+}
+</style>

@@ -4,10 +4,14 @@ import request from 'public/helpers/request';
 const BASE_URL = '/courses';
 
 export const useCoursesStore = defineStore('courses', {
-  state: () => ({ courses: [] }),
+  state: () => ({ courses: [], isLoading: false }),
   actions: {
     loadCourses() {
-      return request.get(BASE_URL).then(({ data }) => (this.courses = data));
+      this.isLoading = true;
+      return request.get(BASE_URL).then(({ data }) => {
+        this.courses = data;
+        this.isLoading = false;
+      });
     }
   }
 });
