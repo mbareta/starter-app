@@ -1,6 +1,7 @@
 <script setup>
-import { useUsersStore } from 'admin/stores/users.store';
 import Popover from 'admin/components/common/Popover.vue';
+import { useUsersStore } from 'admin/stores/users.store';
+
 const store = useUsersStore();
 </script>
 

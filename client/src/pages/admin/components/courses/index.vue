@@ -2,16 +2,18 @@
 import { mapActions, mapState } from 'pinia';
 import Card from './Card.vue';
 import CoursesList from './List.vue';
+import LoadingSpinner from 'admin/components/common/LoadingSpinner.vue';
 import { useCoursesStore } from 'admin/stores/courses.store';
 
 export default {
-  computed: mapState(useCoursesStore, ['catalog']),
+  computed: mapState(useCoursesStore,
+    ['catalog', 'isLoadingCatalog', 'isLoadingCourses']),
   methods: mapActions(useCoursesStore,
     ['deleteCourse', 'loadCatalog', 'loadCourses']),
   mounted() {
     return Promise.all([this.loadCatalog(), this.loadCourses()]);
   },
-  components: { Card, CoursesList }
+  components: { Card, CoursesList, LoadingSpinner }
 };
 </script>
 
@@ -25,6 +27,7 @@ export default {
     </section>
     <section class="container">
       <h2 class="title">Available courses (course catalog)</h2>
+      <loading-spinner :isLoading="isLoadingCatalog" class="loading-spinner" />
       <div class="columns">
         <div
           v-for="course in catalog"
@@ -36,7 +39,8 @@ export default {
     </section>
     <section class="container">
       <h2 class="title">Imported courses</h2>
-      <courses-list @destroy="deleteCourse" />
+      <loading-spinner :isLoading="isLoadingCourses" class="loading-spinner" />
+      <courses-list v-if="!isLoadingCourses" @destroy="deleteCourse" />
     </section>
   </div>
 </template>
@@ -44,5 +48,14 @@ export default {
 <style lang="scss" scoped>
 section {
   margin-bottom: 4rem;
+}
+
+.loading-spinner {
+  margin: auto;
+  padding: 2rem;
+}
+
+:deep(.loading-spinner) p {
+  color: var(--bulma-scheme);
 }
 </style>

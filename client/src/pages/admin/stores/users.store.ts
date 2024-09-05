@@ -4,10 +4,14 @@ import request from 'admin/helpers/request';
 const BASE_URL = '/users';
 
 export const useUsersStore = defineStore('users', {
-  state: () => ({ users: [] }),
+  state: () => ({ isLoading: false, users: [] }),
   actions: {
     loadUsers() {
-      return request.get(BASE_URL).then(({ data }) => (this.users = data));
+      this.isLoading = true;
+      return request.get(BASE_URL).then(({ data }) => {
+        this.users = data;
+        this.isLoading = false;
+      });
     },
     destroy(user) {
       return request.delete(`${BASE_URL}/${user.id}`);

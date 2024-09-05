@@ -4,7 +4,12 @@ import request from 'admin/helpers/request';
 const BASE_URL = '/courses';
 
 export const useCoursesStore = defineStore('courses', {
-  state: () => ({ catalog: [], courses: [] }),
+  state: () => ({
+    catalog: [],
+    courses: [],
+    isLoadingCatalog: false,
+    isLoadingCourses: false
+  }),
   getters: {
     isCourseImported(state) {
       return uid => {
@@ -22,11 +27,18 @@ export const useCoursesStore = defineStore('courses', {
       return request.post(BASE_URL, { sourceId }).then(this.loadCourses);
     },
     loadCatalog() {
-      return request.get(`${BASE_URL}/catalog`)
-        .then(({ data }) => (this.catalog = data));
+      this.isLoadingCatalog = true;
+      return request.get(`${BASE_URL}/catalog`).then(({ data }) => {
+        this.catalog = data;
+        this.isLoadingCatalog = false;
+      });
     },
     loadCourses() {
-      return request.get(BASE_URL).then(({ data }) => (this.courses = data));
+      this.isLoadingCourses = true;
+      return request.get(BASE_URL).then(({ data }) => {
+        this.courses = data;
+        this.isLoadingCourses = false;
+      });
     }
   }
 });

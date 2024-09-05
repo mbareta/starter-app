@@ -14,6 +14,7 @@ export default {
       editingUser: null
     };
   },
+  computed: mapState(useUsersStore, ['isLoading']),
   methods: {
     ...mapActions(useUsersStore, ['destroy', 'loadUsers']),
     closeModal() {

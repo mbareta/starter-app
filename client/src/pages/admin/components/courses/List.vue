@@ -1,6 +1,7 @@
 <script setup>
-import { useCoursesStore } from 'admin/stores/courses.store';
+import LoadingSpinner from 'admin/components/common/LoadingSpinner.vue';
 import Popover from 'admin/components/common/Popover.vue';
+import { useCoursesStore } from 'admin/stores/courses.store';
 
 const store = useCoursesStore();
 </script>
@@ -15,6 +16,7 @@ const store = useCoursesStore();
       <th>Actions</th>
     </thead>
     <tbody>
+      <loading-spinner :isLoading="store.isLoading" class="loading-spinner" />
       <tr v-for="course in store.courses">
         <td>{{ course.id }}</td>
         <td>{{ course.uid }}</td>
