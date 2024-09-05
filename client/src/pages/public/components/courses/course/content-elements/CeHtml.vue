@@ -11,7 +11,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-::v-deep strong {
+:deep(strong) {
   color: var(--bulma-scheme-invert) !important;
 }
 </style>

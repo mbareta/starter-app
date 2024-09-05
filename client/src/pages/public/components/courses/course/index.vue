@@ -18,7 +18,7 @@ export default {
   },
   methods: mapActions(useCoursesStore, ['loadCourses']),
   created() {
-    return this.loadCourses();
+    if (!this.course.id) return this.loadCourses();
   },
   components: { Module }
 };

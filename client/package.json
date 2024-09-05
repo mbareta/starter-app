@@ -10,11 +10,11 @@
   },
   "dependencies": {
     "@auth0/auth0-vue": "^2.3.3",
-    "axios": "^1.6.8",
-    "bulma": "^1.0.1",
-    "pinia": "^2.1.7",
-    "vue": "^3.4.27",
-    "vue-router": "^4.3.3"
+    "axios": "^1.7.7",
+    "bulma": "^1.0.2",
+    "pinia": "^2.2.2",
+    "vue": "^3.5.1",
+    "vue-router": "^4.4.3"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
