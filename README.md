@@ -1,5 +1,7 @@
 # Web Application Starter App
 
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/mbareta/starter-app/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/mbareta/starter-app/tree/master)
+
 ## Description
 The idea was to set up a preconfigured application with backend and frontend without
 any business logic.
