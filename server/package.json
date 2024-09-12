@@ -34,6 +34,7 @@
     "@nestjs/jwt": "^10.2.0",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/swagger": "^7.4.0",
     "auth0": "^4.7.0",
     "class-validator": "^0.14.1",
     "express-oauth2-jwt-bearer": "^1.6.0",
