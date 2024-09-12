@@ -14,7 +14,8 @@ jobs:
     working_directory: ~/app/server
     executor: node
     steps:
-      - checkout
+      - checkout:
+          path: ~/app
       - node/install-packages:
           override-ci-command: npm i
       - run:
