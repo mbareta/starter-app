@@ -43,9 +43,17 @@ $ npm run dev
 
 Visit http://localhost:5173/
 
+## CircleCI
+
+This repo contains CircleCI config.yaml. The workflow is set up to test and lint
+commits in pull requests and to test and build the app for commits on master
+branch.
+
+The project is currently built on my CircleCI account, but that can be easily
+changed when the project is forked.
+
 ### Future Plans
-- add Tailor connection
-- allow multiple auth strategies (JWT, Auth0, ...)
+- add infrastructure code (Pulumi)
+- add OpenAPI documentation
 - try setting up GraphQL
 - try using Fastify as NestJS backend
-- include CI/CD setup

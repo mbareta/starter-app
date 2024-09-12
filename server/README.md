@@ -40,3 +40,8 @@ $ npm test
 # test coverage
 $ npm run test:cov
 ```
+
+# Deployment
+
+This directory contains Dockerfile for simple deployment as web server. It also
+contains `compose.yaml` to simplify Docker build testing locally.

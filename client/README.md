@@ -27,6 +27,11 @@ $ npm run preview
 ```
 to preview built files locally.
 
+# Linter
+
+We currently have eslint set up with Vue3 recommended rules. I didn't like some
+rules so I disabled them. See full config in `eslint.config.js`.
+
 # Contributing
 
 The app is set up as [MPA](https://vitejs.dev/config/shared-options.html#apptype).
