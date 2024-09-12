@@ -32,9 +32,9 @@ export class CoursesService {
     return this.coursesRepository.findOne({ id });
   }
 
-  async findModule(id: number, moduleId: number) {
+  async findContainer(id: number, containerId: number) {
     const course = await this.coursesRepository.findOne({ id });
-    return getData(`${BASE}/${course.sourceId}/${moduleId}.container.json`);
+    return getData(`${BASE}/${course.sourceId}/${containerId}.container.json`);
   }
 
   remove(id: number) {

@@ -41,14 +41,27 @@ const catalog = [{
   }]
 }];
 
+const container = {
+  id: 1,
+  uid: 'container-1',
+  type: 'SECTION',
+  position: 1,
+  elements: []
+};
+
+const writeJsonFile = (base, filename, data) => {
+  if (!fs.existsSync(base)) fs.mkdirSync(base, { recursive: true });
+  fs.writeFileSync(`${base}/${filename}`, JSON.stringify(data));
+}
+
 const writeCatalog = () => {
-  if (!fs.existsSync(BASE_PATH)) fs.mkdirSync(BASE_PATH, { recursive: true });
-  fs.writeFileSync(`${BASE_PATH}/index.json`, JSON.stringify(catalog));
+  writeJsonFile(BASE_PATH, 'index.json', catalog);
   catalog.forEach(course => {
-    const basePath = `${BASE_PATH}/${course.id}`;
-    if (!fs.existsSync(basePath)) fs.mkdirSync(basePath, { recursive: true });
-    fs.writeFileSync(`${basePath}/index.json`, JSON.stringify(course));
+    writeJsonFile(`${BASE_PATH}/${course.id}`, 'index.json', course);
   });
+  // NOTE: course ID and container ID are hardcoded here,
+  // if this section expands we should provide better test data
+  writeJsonFile(`${BASE_PATH}/3`, '1.container.json', container);
 };
 
 describe('Courses', () => {
@@ -138,6 +151,30 @@ describe('Courses', () => {
           const course = await em.findOne(Course, { sourceId });
           expect(course.id).toBeGreaterThan(0);
         });
+    });
+  });
+
+  describe(`GET ${BASE_URL}/:id/container/:containerId`, () => {
+    it('returns 401 when user is not authenticated', () => {
+      return request(server).post(BASE_URL).expect(401);
+    });
+
+    it('returns requested container to admin', async () => {
+      const sourceId = 3;
+      const course = await em.findOne(Course, { sourceId });
+      return request(server)
+        .get(`${BASE_URL}/${course.id}/container/1`)
+        .set('Authorization', adminToken)
+        .expect(200);
+    });
+
+    it('returns requested container to user', async () => {
+      const sourceId = 3;
+      const course = await em.findOne(Course, { sourceId });
+      return request(server)
+        .get(`${BASE_URL}/${course.id}/container/1`)
+        .set('Authorization', userToken)
+        .expect(200);
     });
   });
 
