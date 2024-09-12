@@ -17,6 +17,28 @@ executors:
     docker:
       - image: cimg/base:current
 jobs:
+  lint-client:
+    working_directory: ~/app/client
+    executor: node
+    steps:
+      - checkout:
+          path: ~/app
+      - node/install-packages:
+          override-ci-command: npm i
+      - run:
+          name: Build server
+          command: npm run lint
+  lint-server:
+    working_directory: ~/app/server
+    executor: node
+    steps:
+      - checkout:
+          path: ~/app
+      - node/install-packages:
+          override-ci-command: npm i
+      - run:
+          name: Build server
+          command: npm run lint
   test-server:
     working_directory: ~/app/server
     executor: test
@@ -67,6 +89,8 @@ workflows:
       and:
         - not: [master, << pipeline.git.branch >>]
     jobs:
+      - lint-server
+      - lint-client
       - test-server
   test-build-and-deploy:
     when:
