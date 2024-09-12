@@ -1,6 +1,6 @@
 <script>
-import Modal from 'user/components/common/Modal.vue';
-import Page from './Page.vue';
+import CoursePage from './CoursePage.vue';
+import ModalWrapper from 'user/components/common/ModalWrapper.vue';
 
 const types = {
   module: 'COURSE_SCHEMA/MODULE',
@@ -9,7 +9,7 @@ const types = {
 
 export default {
   name: 'CourseModule',
-  components: { Modal, Page },
+  components: { CoursePage, ModalWrapper },
   props: {
     course: { type: Object, default: () => ({}) },
     module: { type: Object, default: () => ({}) }
@@ -64,9 +64,9 @@ export default {
         :course="course"
         :module="item" />
     </div>
-    <modal :is-open="showPage" @close="showPage = null">
-      <page v-if="showPage" :course="course" :page="module" />
-    </modal>
+    <modal-wrapper :is-open="showPage" @close="showPage = null">
+      <course-page v-if="showPage" :course="course" :page="module" />
+    </modal-wrapper>
   </div>
 </template>
 

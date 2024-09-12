@@ -1,12 +1,12 @@
 <script>
 import { mapActions, mapState } from 'pinia';
-import Card from './Card.vue';
-import CoursesList from './List.vue';
+import CourseCard from './CourseCard.vue';
+import CourseList from './CourseList.vue';
 import LoadingSpinner from 'admin/components/common/LoadingSpinner.vue';
 import { useCoursesStore } from 'admin/stores/courses.store';
 
 export default {
-  components: { Card, CoursesList, LoadingSpinner },
+  components: { CourseCard, CourseList, LoadingSpinner },
   computed: mapState(useCoursesStore,
     ['catalog', 'isLoadingCatalog', 'isLoadingCourses']),
   mounted() {
@@ -33,14 +33,14 @@ export default {
           v-for="course in catalog"
           :key="course.id"
           class="column is-half-tablet is-one-quarter-fullhd">
-          <card :course="course" />
+          <course-card :course="course" />
         </div>
       </div>
     </section>
     <section class="container">
       <h2 class="title">Imported courses</h2>
       <loading-spinner :is-loading="isLoadingCourses" class="loading-spinner" />
-      <courses-list v-if="!isLoadingCourses" @destroy="deleteCourse" />
+      <course-list v-if="!isLoadingCourses" @destroy="deleteCourse" />
     </section>
   </div>
 </template>

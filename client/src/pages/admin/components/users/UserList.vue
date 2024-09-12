@@ -1,9 +1,8 @@
 <script setup>
-import LoadingSpinner from 'admin/components/common/LoadingSpinner.vue';
-import Popover from 'admin/components/common/Popover.vue';
-import { useCoursesStore } from 'admin/stores/courses.store';
+import PopOver from 'admin/components/common/PopOver.vue';
+import { useUsersStore } from 'admin/stores/users.store';
 
-const store = useCoursesStore();
+const store = useUsersStore();
 defineEmits(['destroy', 'edit']);
 </script>
 
@@ -11,32 +10,29 @@ defineEmits(['destroy', 'edit']);
   <table class="table is-striped">
     <thead>
       <th>ID</th>
-      <th>UID</th>
-      <th>Name</th>
-      <th>Description</th>
+      <th>Email</th>
+      <th>Sub</th>
+      <th>Role</th>
       <th>Actions</th>
     </thead>
     <tbody>
-      <loading-spinner :is-loading="store.isLoading" class="loading-spinner" />
-      <tr v-for="course in store.courses" :key="course.uid">
-        <td>{{ course.id }}</td>
-        <td>{{ course.uid }}</td>
-        <td>{{ course.name }}</td>
-        <td>{{ course.description }}</td>
+      <tr v-for="user in store.users" :key="user.id">
+        <td>{{ user.id }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.sub }}</td>
+        <td>{{ user.role }}</td>
         <td class="actions">
           <button class="button is-info" @click="$emit('edit', user)">
             Edit
           </button>
-          <popover class="popover is-right">
+          <pop-over class="popover is-right">
             <template #trigger>
               <div class="button is-danger">Delete</div>
             </template>
             <template #content="{ close }">
               <p>Are you sure you want to delete this user?</p>
               <div class="is-spaced-between">
-                <button
-                  class="button is-danger"
-                  @click="$emit('destroy', course)">
+                <button class="button is-danger" @click="$emit('destroy', user)">
                   Yes
                 </button>
                 <button class="button" @click="close">
@@ -44,7 +40,7 @@ defineEmits(['destroy', 'edit']);
                 </button>
               </div>
             </template>
-          </popover>
+          </pop-over>
         </td>
       </tr>
     </tbody>

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { createAuthGuard } from '@auth0/auth0-vue';
 import CoursesView from './components/courses/index.vue';
-import HomeView from './components/Home.vue';
+import HomeView from './components/HomeView.vue';
 import UsersView from './components/users/index.vue';
 
 const routes = [{

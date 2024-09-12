@@ -1,11 +1,11 @@
 <script>
 import { mapActions, mapState } from 'pinia';
 import LoadingSpinner from 'user/components/common/LoadingSpinner.vue';
-import Module from './Module.vue';
+import CourseModule from './CourseModule.vue';
 import { useCoursesStore } from 'user/stores/courses.store';
 
 export default {
-  components: { LoadingSpinner, Module },
+  components: { CourseModule, LoadingSpinner },
   props: { courseId: { type: Number, required: true } },
   computed: {
     ...mapState(useCoursesStore, ['courses', 'isLoading']),
@@ -35,7 +35,7 @@ export default {
     </section>
     <loading-spinner :is-loading="isLoading" class="loading-spinner" />
     <section class="container">
-      <module
+      <course-module
         v-for="module in rootModules"
         :key="module.uid"
         :course="course"

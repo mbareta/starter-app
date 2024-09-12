@@ -1,11 +1,11 @@
 <script>
-import InputText from 'admin/components/common/input/Text.vue';
+import TextInput from 'admin/components/common/input/TextInput.vue';
 import { mapActions } from 'pinia';
-import Modal from 'admin/components/common/Modal.vue';
+import ModalWrapper from 'admin/components/common/ModalWrapper.vue';
 import { useUsersStore } from 'admin/stores/users.store';
 
 export default {
-  components: { InputText, Modal },
+  components: { TextInput, ModalWrapper },
   props: {
     user: { type: Object, default: () => ({}) }
   },
@@ -38,14 +38,14 @@ export default {
 </script>
 
 <template>
-  <modal is-open @close="$emit('close')">
+  <modal-wrapper is-open @close="$emit('close')">
     <h2 class="title has-text-centered">Create User</h2>
     <form @submit.prevent="saveUser">
-      <input-text v-model="email" label="Email" type="email" />
+      <text-input v-model="email" label="Email" type="email" />
       <input type="submit" value="Save" class="button is-primary">
       <p>{{ message }}</p>
     </form>
-  </modal>
+  </modal-wrapper>
 </template>
 
 <style scoped>
