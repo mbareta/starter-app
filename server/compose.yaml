@@ -1,0 +1,9 @@
+services:
+  web:
+    build:
+      context: .
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - DB_URL=postgres://marin@host.docker.internal/nest
