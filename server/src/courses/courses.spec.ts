@@ -15,31 +15,38 @@ const credentials = {
   user: { email: 'user@test.com' }
 };
 
-const catalog = [{
-  id: 2,
-  uid: 'test',
-  name: 'Test course',
-  description: 'Test description',
-  structure: []
-}, {
-  id: 3,
-  uid: 'test again',
-  name: 'Test course again',
-  description: 'Test description again',
-  structure: [{
-    id: 1,
-    uid: 'module-1',
-    parentId: null,
-    position: 1,
-    contentContainers: [{
-      id: 1,
-      uid: 'container-1',
-      type: 'SECTION',
-      publishedAs: 'container',
-      elementCount: 1
-    }]
-  }]
-}];
+const catalog = [
+  {
+    id: 2,
+    uid: 'test',
+    name: 'Test course',
+    description: 'Test description',
+    structure: []
+  },
+  {
+    id: 3,
+    uid: 'test again',
+    name: 'Test course again',
+    description: 'Test description again',
+    structure: [
+      {
+        id: 1,
+        uid: 'module-1',
+        parentId: null,
+        position: 1,
+        contentContainers: [
+          {
+            id: 1,
+            uid: 'container-1',
+            type: 'SECTION',
+            publishedAs: 'container',
+            elementCount: 1
+          }
+        ]
+      }
+    ]
+  }
+];
 
 const container = {
   id: 1,
@@ -52,11 +59,11 @@ const container = {
 const writeJsonFile = (base, filename, data) => {
   if (!fs.existsSync(base)) fs.mkdirSync(base, { recursive: true });
   fs.writeFileSync(`${base}/${filename}`, JSON.stringify(data));
-}
+};
 
 const writeCatalog = () => {
   writeJsonFile(BASE_PATH, 'index.json', catalog);
-  catalog.forEach(course => {
+  catalog.forEach((course) => {
     writeJsonFile(`${BASE_PATH}/${course.id}`, 'index.json', course);
   });
   // NOTE: course ID and container ID are hardcoded here,
@@ -90,7 +97,7 @@ describe('Courses', () => {
   });
 
   afterAll(() => {
-    fs.rmSync(BASE_PATH.split('/')[0], { force: true, recursive: true })
+    fs.rmSync(BASE_PATH.split('/')[0], { force: true, recursive: true });
   });
 
   describe(`GET ${BASE_URL}`, () => {
