@@ -1,12 +1,13 @@
 <script>
 import { mapActions, mapState } from 'pinia';
 import { useUsersStore } from 'admin/stores/users.store';
-import UserForm from './Form.vue';
-import UserList from './List.vue';
+import UserForm from './UserForm.vue';
+import UserList from './UserList.vue';
 
 export default {
+  components: { UserForm, UserList },
   props: {
-    msg: { type: String }
+    msg: { type: String, default: '' }
   },
   data() {
     return {
@@ -15,6 +16,9 @@ export default {
     };
   },
   computed: mapState(useUsersStore, ['isLoading']),
+  created() {
+    this.loadUsers();
+  },
   methods: {
     ...mapActions(useUsersStore, ['destroy', 'loadUsers']),
     closeModal() {
@@ -27,10 +31,6 @@ export default {
     destroyUser(user) {
       return this.destroy(user).then(() => this.loadUsers());
     }
-  },
-  components: { UserForm, UserList },
-  created() {
-    this.loadUsers();
   }
 };
 </script>
@@ -42,7 +42,7 @@ export default {
       <h2 class="subtitle">This is a list of all users in the database.</h2>
     </div>
   </section>
-  <button @click="showModal = true" class="button is-primary add-user-button">
+  <button class="button is-primary add-user-button" @click="showModal = true">
     Add New User
   </button>
   <user-list @edit="edit" @destroy="destroyUser" />

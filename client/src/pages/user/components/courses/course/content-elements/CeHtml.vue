@@ -7,7 +7,7 @@ export default {
 </script>
 
 <template>
-  <div v-html="element.data.content"></div>
+  <div v-html="element.data.content" />
 </template>
 
 <style lang="scss" scoped>

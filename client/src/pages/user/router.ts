@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { createAuthGuard } from '@auth0/auth0-vue';
 import CoursesView from './components/courses/index.vue';
 import CourseView from './components/courses/course/index.vue';
-import HomeView from './components/Home.vue';
+import HomeView from './components/HomeView.vue';
 
 const routes = [{
   path: '',

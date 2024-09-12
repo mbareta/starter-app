@@ -1,10 +1,11 @@
 <script>
 import { mapActions, mapState } from 'pinia';
 import LoadingSpinner from 'user/components/common/LoadingSpinner.vue';
-import Module from './Module.vue';
+import CourseModule from './CourseModule.vue';
 import { useCoursesStore } from 'user/stores/courses.store';
 
 export default {
+  components: { CourseModule, LoadingSpinner },
   props: { courseId: { type: Number, required: true } },
   computed: {
     ...mapState(useCoursesStore, ['courses', 'isLoading']),
@@ -17,11 +18,10 @@ export default {
         .sort((a, b) => (a.position - b.position));
     }
   },
-  methods: mapActions(useCoursesStore, ['loadCourses']),
   created() {
     if (!this.course.id) return this.loadCourses();
   },
-  components: { LoadingSpinner, Module }
+  methods: mapActions(useCoursesStore, ['loadCourses'])
 };
 </script>
 
@@ -33,9 +33,9 @@ export default {
         <h2 class="subtitle">{{ course.description }}</h2>
       </div>
     </section>
-    <loading-spinner :isLoading="isLoading" class="loading-spinner" />
+    <loading-spinner :is-loading="isLoading" class="loading-spinner" />
     <section class="container">
-      <module
+      <course-module
         v-for="module in rootModules"
         :key="module.uid"
         :course="course"

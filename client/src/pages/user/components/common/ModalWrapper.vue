@@ -1,17 +1,17 @@
 <script setup>
-defineProps({ isOpen: { type: Boolean, default: false } })
+defineProps({ isOpen: { type: Boolean, default: false } });
+defineEmits(['close']);
 </script>
 
 <template>
   <div :class="{ 'is-active': isOpen }" class="modal">
-    <div class="modal-background"></div>
+    <div class="modal-background" />
     <div class="modal-content">
-      <slot></slot>
+      <slot />
     </div>
     <button
-      @click="$emit('close')"
       class="modal-close is-large"
-      aria-label="close">
-    </button>
+      aria-label="close"
+      @click="$emit('close')" />
   </div>
 </template>

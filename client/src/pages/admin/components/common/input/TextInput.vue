@@ -8,6 +8,7 @@ export default {
     placeholder: { type: String, default: '' },
     type: { type: String, default: 'text' }
   },
+  emits: ['update:modelValue'],
   computed: {
     value: {
       get() {
@@ -31,8 +32,7 @@ export default {
         :name="name"
         :placeholder="placeholder || `Enter ${label}...`"
         :type="type"
-        class="input"
-        name="label">
+        class="input">
     </div>
   </div>
 </template>

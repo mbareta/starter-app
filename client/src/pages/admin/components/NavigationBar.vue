@@ -23,38 +23,38 @@ export default {
     class="navbar is-fixed-top is-transparent"
     role="navigation"
     aria-label="main navigation">
-  <div class="navbar-brand">
-    <router-link :to="{ name: 'home' }" class="navbar-item">
-      <img src="/logo-admin.svg" alt="application logo">
-    </router-link>
-  </div>
-
-  <div id="navbar" class="navbar-menu">
-    <div class="navbar-start">
+    <div class="navbar-brand">
       <router-link :to="{ name: 'home' }" class="navbar-item">
-        Home
-      </router-link>
-      <router-link :to="{ name: 'users' }" class="navbar-item">
-        Users
-      </router-link>
-      <router-link :to="{ name: 'courses' }" class="navbar-item">
-        Courses
+        <img src="/logo-admin.svg" alt="application logo">
       </router-link>
     </div>
-    <div class="navbar-end">
-      <div class="navbar-item">
-        <div class="buttons">
-          <button @click="toggleTheme" class="button is-primary">
-            Toggle theme
-          </button>
-          <button @click="logout" class="button">
-            Log Out
-          </button>
+
+    <div id="navbar" class="navbar-menu">
+      <div class="navbar-start">
+        <router-link :to="{ name: 'home' }" class="navbar-item">
+          Home
+        </router-link>
+        <router-link :to="{ name: 'users' }" class="navbar-item">
+          Users
+        </router-link>
+        <router-link :to="{ name: 'courses' }" class="navbar-item">
+          Courses
+        </router-link>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <button class="button is-primary" @click="toggleTheme">
+              Toggle theme
+            </button>
+            <button class="button" @click="logout">
+              Log Out
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</nav>
+  </nav>
 </template>
 
 <style lang="scss" scoped>

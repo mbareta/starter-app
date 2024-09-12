@@ -5,6 +5,12 @@ export default {
       isActive: false
     };
   },
+  mounted() {
+    document.addEventListener('click', this.onClick);
+  },
+  beforeUnmount() {
+    document.removeEventListener('click', this.onClick);
+  },
   methods: {
     onClick(e) {
       if (this.$el === e.target || this.$el.contains(e.target)) return;
@@ -16,12 +22,6 @@ export default {
     toggle() {
       this.isActive = !this.isActive;
     }
-  },
-  mounted() {
-    document.addEventListener('click', this.onClick);
-  },
-  beforeDestroy() {
-    document.removeEventListener('click', this.onClick);
   }
 };
 </script>
@@ -30,16 +30,16 @@ export default {
   <div :class="{ 'is-active': isActive }" class="dropdown">
     <div class="dropdown-trigger">
       <button
-        @click="toggle"
         :class="{ 'has-arrow': isActive }"
         aria-haspopup="true"
-        aria-controls="dropdown-menu">
+        aria-controls="dropdown-menu"
+        @click="toggle">
         <slot name="trigger">
           <div class="button">Expand</div>
         </slot>
       </button>
     </div>
-    <div class="dropdown-menu" id="dropdown-menu" role="menu">
+    <div id="dropdown-menu" class="dropdown-menu" role="menu">
       <div class="dropdown-content">
         <slot :close="close" name="content">No content yet...</slot>
       </div>

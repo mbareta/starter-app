@@ -1,5 +1,5 @@
 <script setup>
-import Card from './Card.vue';
+import CourseCard from './CourseCard.vue';
 import LoadingSpinner from 'user/components/common/LoadingSpinner.vue';
 import { onMounted } from 'vue';
 import { useCoursesStore } from 'user/stores/courses.store';
@@ -18,13 +18,13 @@ onMounted(() => store.loadCourses());
     </section>
     <section class="container">
       <h2 class="title">Available Courses</h2>
-      <loading-spinner :isLoading="store.isLoading" class="loading-spinner" />
+      <loading-spinner :is-loading="store.isLoading" class="loading-spinner" />
       <div class="columns">
         <div
           v-for="course in store.courses"
           :key="course.id"
           class="column is-half-tablet is-one-quarter-fullhd">
-          <card :course="course" />
+          <course-card :course="course" />
         </div>
       </div>
     </section>
