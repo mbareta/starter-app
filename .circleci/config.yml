@@ -1,0 +1,77 @@
+version: 2.1
+orbs:
+  node: circleci/node@5.2.0
+
+executors:
+  test:
+    docker:
+      - image: cimg/node:22.8.0
+      - image: cimg/postgres:16.0
+  node:
+    docker:
+      - image: cimg/node:22.8.0
+  builder:
+    machine:
+      image: ubuntu-2204:current
+  base:
+    docker:
+      - image: cimg/base:current
+jobs:
+  test-server:
+    working_directory: ~/app/server
+    executor: test
+    environment:
+      TEST_DB_URL: postgresql://postgres@localhost/circle_test
+    steps:
+      - checkout:
+          path: ~/app
+      - node/install-packages:
+          override-ci-command: npm i
+      - run:
+          name: Build server
+          command: npm run build
+      - run:
+          name: Run tests
+          command: npm test
+  build-server:
+    working_directory: ~/app/server
+    executor: builder
+    steps:
+      - checkout:
+          path: ~/app
+      - run:
+          name: Build and Push application Docker image
+          command: |
+            TAG=1.$CIRCLE_BUILD_NUM
+            docker build -t $DOCKERHUB_USERNAME/starter-app:$TAG .
+            echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+            docker push $DOCKERHUB_USERNAME/starter-app:$TAG
+  build-client:
+    working_directory: ~/app/client
+    executor: node
+    steps:
+      - checkout:
+          path: ~/app
+      - node/install-packages:
+          override-ci-command: npm ci
+      - run:
+          name: Build server
+          command: npm run build
+      - store_artifacts:
+          path: dist
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test-server
+  test-build-and-deploy:
+    when:
+      and:
+        - equal: [master, << pipeline.git.branch >>]
+    jobs:
+      - test-server
+      - build-client
+      - build-server:
+          requires:
+            - test-server

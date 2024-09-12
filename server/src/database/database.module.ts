@@ -8,7 +8,7 @@ const isTest = process.env.NODE_ENV === 'test';
 
 export const DatabaseModule = MikroOrmModule.forRoot({
   driver: PostgreSqlDriver,
-  dbName: isTest ? process.env.TEST_DB_NAME : process.env.DB_NAME,
+  clientUrl: isTest ? process.env.TEST_DB_URL : process.env.DB_URL,
   entities: ['**/*.entity'],
   autoLoadEntities: true
 });
