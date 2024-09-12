@@ -3,17 +3,55 @@ import { AuthGuard } from '../auth/auth.guard';
 import { AuthGuardMock } from '../auth/auth.guard.mock';
 import { Course } from './entities/course.entity';
 import { EntityManager } from '@mikro-orm/postgresql';
+import fs from 'node:fs';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { Test } from '@nestjs/testing';
 
+const BASE_PATH = 'test_data/repository';
 const BASE_URL = '/courses';
 const credentials = {
   admin: { email: 'admin@test.com' },
   user: { email: 'user@test.com' }
 };
 
-describe('Users', () => {
+const catalog = [{
+  id: 2,
+  uid: 'test',
+  name: 'Test course',
+  description: 'Test description',
+  structure: []
+}, {
+  id: 3,
+  uid: 'test again',
+  name: 'Test course again',
+  description: 'Test description again',
+  structure: [{
+    id: 1,
+    uid: 'module-1',
+    parentId: null,
+    position: 1,
+    contentContainers: [{
+      id: 1,
+      uid: 'container-1',
+      type: 'SECTION',
+      publishedAs: 'container',
+      elementCount: 1
+    }]
+  }]
+}];
+
+const writeCatalog = () => {
+  if (!fs.existsSync(BASE_PATH)) fs.mkdirSync(BASE_PATH, { recursive: true });
+  fs.writeFileSync(`${BASE_PATH}/index.json`, JSON.stringify(catalog));
+  catalog.forEach(course => {
+    const basePath = `${BASE_PATH}/${course.id}`;
+    if (!fs.existsSync(basePath)) fs.mkdirSync(basePath, { recursive: true });
+    fs.writeFileSync(`${basePath}/index.json`, JSON.stringify(course));
+  });
+};
+
+describe('Courses', () => {
   let app: INestApplication;
   let em: EntityManager;
   let server;
@@ -34,6 +72,12 @@ describe('Users', () => {
 
     adminToken = credentials.admin.email;
     userToken = credentials.user.email;
+
+    writeCatalog();
+  });
+
+  afterAll(() => {
+    fs.rmSync(BASE_PATH.split('/')[0], { force: true, recursive: true })
   });
 
   describe(`GET ${BASE_URL}`, () => {
@@ -46,9 +90,7 @@ describe('Users', () => {
         .get(BASE_URL)
         .set('Authorization', adminToken)
         .expect(200)
-        .then(({ body }) => {
-          expect(body.length).toBeGreaterThan(0);
-        });
+        .then(({ body }) => expect(body.length).toBeGreaterThan(0));
     });
   });
 
@@ -69,9 +111,7 @@ describe('Users', () => {
         .get(`${BASE_URL}/catalog`)
         .set('Authorization', adminToken)
         .expect(200)
-        .then(({ body }) => {
-          expect(body.length).toBe(2); // TODO
-        });
+        .then(({ body }) => expect(body.length).toBe(2));
     });
   });
 
