@@ -10,8 +10,8 @@ executors:
     docker:
       - image: cimg/base:current
 jobs:
-  test:
-    working_directory: ~/app
+  test-server:
+    working_directory: ~/app/server
     executor: node
     steps:
       - checkout
@@ -25,4 +25,4 @@ workflows:
     version: 2
     build-and-deploy:
       jobs:
-        - test
+        - test-server
