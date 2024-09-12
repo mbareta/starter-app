@@ -19,7 +19,7 @@ export default {
     loadData({ courseId, containerId }) {
       this.isLoading = true;
       this.data = {};
-      return request.get(`/courses/${courseId}/module/${containerId}`)
+      return request.get(`/courses/${courseId}/container/${containerId}`)
         .then(({ data }) => {
           this.data = data;
           this.isLoading = false;
