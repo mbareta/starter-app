@@ -41,10 +41,8 @@ jobs:
       - run:
           name: Build server
           command: npm run build
-      - persist_to_workspace:
-          root: .
-          paths:
-            - dist
+      - store_artifacts:
+          path: dist
 
 workflows:
   version: 2
