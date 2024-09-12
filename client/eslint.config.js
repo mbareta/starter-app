@@ -9,7 +9,8 @@ export default [
       'vue/singleline-html-element-content-newline': 'off',
       'vue/html-closing-bracket-newline': 'off',
       'vue/max-attributes-per-line': 'off',
-      'vue/multi-word-component-names': ['error', { ignores: ['index'] }]
+      'vue/multi-word-component-names': ['error', { ignores: ['index'] }],
+      'vue/no-v-html': 'off'
     }
   }
 ]
