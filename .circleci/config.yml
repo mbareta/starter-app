@@ -3,17 +3,20 @@ orbs:
   node: circleci/node@5.2.0
 
 executors:
-  node:
+  test:
     docker:
       - image: cimg/node:22.8.0
       - image: cimg/postgres:16.0
+  node:
+    docker:
+      - image: cimg/node:22.8.0
   base:
     docker:
       - image: cimg/base:current
 jobs:
   test-server:
     working_directory: ~/app/server
-    executor: node
+    executor: test
     environment:
       TEST_DB_URL: postgresql://postgres@localhost/circle_test
     steps:
@@ -27,9 +30,25 @@ jobs:
       - run:
           name: Run tests
           command: npm test
+  build-client:
+    working_directory: ~/app/client
+    executor: node
+    steps:
+      - checkout:
+          path: ~/app
+      - node/install-packages:
+          override-ci-command: npm ci
+      - run:
+          name: Build server
+          command: vite build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist
 
 workflows:
   version: 2
   build-and-deploy:
     jobs:
       - test-server
+      - build-client
