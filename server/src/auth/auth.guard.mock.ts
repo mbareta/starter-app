@@ -23,10 +23,10 @@ export class AuthGuardMock implements CanActivate {
       context.getClass()
     ]);
     if (isPublic) return true;
-    const requiredRoles = this.reflector.getAllAndOverride<any[]>(ROLES_KEY, [
-      context.getHandler(),
-      context.getClass()
-    ]);
+    const requiredRoles = this.reflector.getAllAndOverride<string[]>(
+      ROLES_KEY,
+      [context.getHandler(), context.getClass()]
+    );
     const request: Request = context.switchToHttp().getRequest();
     const email = request.headers.authorization;
     if (!email) throw new UnauthorizedException();

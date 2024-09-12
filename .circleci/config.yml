@@ -55,6 +55,8 @@ jobs:
       - run:
           name: Run tests
           command: npm test
+      - store_artifacts:
+          path: coverage
   build-server:
     working_directory: ~/app/server
     executor: builder
