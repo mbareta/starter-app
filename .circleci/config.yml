@@ -87,7 +87,8 @@ workflows:
   test:
     when:
       and:
-        - not: [master, << pipeline.git.branch >>]
+        - not:
+            equal: [master, << pipeline.git.branch >>]
     jobs:
       - lint-server
       - lint-client
