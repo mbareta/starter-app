@@ -1,25 +1,27 @@
 <script setup>
+import LoadingSpinner from 'admin/components/common/LoadingSpinner.vue';
 import Popover from 'admin/components/common/Popover.vue';
-import { useUsersStore } from 'admin/stores/users.store';
+import { useCoursesStore } from 'admin/stores/courses.store';
 
-const store = useUsersStore();
+const store = useCoursesStore();
 </script>
 
 <template>
   <table class="table is-striped">
     <thead>
       <th>ID</th>
-      <th>Email</th>
-      <th>Sub</th>
-      <th>Role</th>
+      <th>UID</th>
+      <th>Name</th>
+      <th>Description</th>
       <th>Actions</th>
     </thead>
     <tbody>
-      <tr v-for="user in store.users">
-        <td>{{ user.id }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.sub }}</td>
-        <td>{{ user.role }}</td>
+      <loading-spinner :isLoading="store.isLoading" class="loading-spinner" />
+      <tr v-for="course in store.courses">
+        <td>{{ course.id }}</td>
+        <td>{{ course.uid }}</td>
+        <td>{{ course.name }}</td>
+        <td>{{ course.description }}</td>
         <td class="actions">
           <button @click="$emit('edit', user)" class="button is-info">
             Edit
@@ -31,7 +33,9 @@ const store = useUsersStore();
             <template v-slot:content="{ close }">
               <p>Are you sure you want to delete this user?</p>
               <div class="is-spaced-between">
-                <button @click="$emit('destroy', user)" class="button is-danger">
+                <button
+                  @click="$emit('destroy', course)"
+                  class="button is-danger">
                   Yes
                 </button>
                 <button @click="close" class="button">

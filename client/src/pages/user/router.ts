@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { createAuthGuard } from '@auth0/auth0-vue';
 import CoursesView from './components/courses/index.vue';
+import CourseView from './components/courses/course/index.vue';
 import HomeView from './components/Home.vue';
-import UsersView from './components/users/index.vue';
 
 const routes = [{
   path: '',
@@ -15,13 +15,14 @@ const routes = [{
   component: CoursesView,
   beforeEnter: createAuthGuard()
 }, {
-  path: '/users',
-  name: 'users',
-  component: UsersView,
-  beforeEnter: createAuthGuard()
+  path: '/courses/:courseId',
+  name: 'course',
+  component: CourseView,
+  beforeEnter: createAuthGuard(),
+  props: route => ({ courseId: Number(route.params.courseId) })
 }];
 
 export default createRouter({
-  history: createWebHistory('/admin'),
+  history: createWebHistory('/'),
   routes
-});
+})

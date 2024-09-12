@@ -20,3 +20,21 @@
   display: flex;
   justify-content: space-between;
 }
+
+.hero {
+  background-image: url("/hero-background.webp");
+  background-size: contain;
+
+  .title, .subtitle {
+    background: var(--bulma-info);
+    mix-blend-mode: luminosity;
+  }
+
+  .title {
+    padding: 0.75rem 1rem 0 1rem;
+  }
+
+  .subtitle {
+    padding: 0 1rem 0.75rem 1rem;
+  }
+}

@@ -1,6 +1,6 @@
 <script>
 import { mapActions, mapState } from 'pinia';
-import { useUsersStore } from 'admin/stores/users-store';
+import { useUsersStore } from 'admin/stores/users.store';
 import UserForm from './Form.vue';
 import UserList from './List.vue';
 
@@ -14,6 +14,7 @@ export default {
       editingUser: null
     };
   },
+  computed: mapState(useUsersStore, ['isLoading']),
   methods: {
     ...mapActions(useUsersStore, ['destroy', 'loadUsers']),
     closeModal() {
@@ -35,13 +36,15 @@ export default {
 </script>
 
 <template>
-  <div class="box">
-    <h1 class="title">Users</h1>
-    <p>This is a list of all users in the database.</p>
-    <button @click="showModal = true" class="button is-primary add-user-button">
-      Add User
-    </button>
-  </div>
+  <section class="hero is-medium is-warning">
+    <div class="hero-body">
+      <h1 class="title">Users</h1>
+      <h2 class="subtitle">This is a list of all users in the database.</h2>
+    </div>
+  </section>
+  <button @click="showModal = true" class="button is-primary add-user-button">
+    Add New User
+  </button>
   <user-list @edit="edit" @destroy="destroyUser" />
   <user-form
     v-if="showModal"
@@ -51,16 +54,8 @@ export default {
 </template>
 
 <style lang="scss">
-.box {
-  position: relative;
-  margin: 1rem;
-}
-
 .add-user-button {
-  position: absolute !important;
-  top: 50%;
-  right: 1rem;
-  transform: translateY(-50%);
+  margin: 1rem 1rem 0 1rem;
 }
 
 .table {

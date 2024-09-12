@@ -1,6 +1,6 @@
 <script>
 import { mapActions, mapState } from 'pinia';
-import { useUsersStore } from 'admin/stores/users-store';
+import { useUsersStore } from 'admin/stores/users.store';
 import Modal from 'admin/components/common/Modal.vue';
 import InputText from 'admin/components/common/input/Text.vue';
 

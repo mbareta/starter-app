@@ -1,4 +1,4 @@
-import app from 'public/main';
+import app from 'user/main';
 import axios from 'axios';
 
 // Instance of axios to be used for all API requests.

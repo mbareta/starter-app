@@ -12,7 +12,10 @@ const rewrite = {
   name: 'mpa-rewrite-middleware',
   configureServer(serve) {
     serve.middlewares.use((req, _, next) => {
-      if (req.url.startsWith('/admin')) req.url = '/admin'
+      if (req.url.startsWith('/admin')) req.url = '/admin';
+      // TODO - find a better way to achieve this
+      if (req.url === '/') req.url = '/';
+      if (req.url.startsWith('/courses')) req.url = '/';
       next()
     })
   }
@@ -25,7 +28,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        public: resolve(__dirname, 'index.html'),
+        index: resolve(__dirname, 'index.html'),
         admin: resolve(__dirname, 'admin.html'),
       },
     },
@@ -33,7 +36,7 @@ export default defineConfig({
   resolve: {
     alias: {
       admin: '/src/pages/admin',
-      public: '/src/pages/public'
+      user: '/src/pages/user'
     },
   },
 })

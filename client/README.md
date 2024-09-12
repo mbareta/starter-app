@@ -32,7 +32,7 @@ to preview built files locally.
 The app is set up as [MPA](https://vitejs.dev/config/shared-options.html#apptype).
 
 Two separate pages are:
-1. public - this is what most people will use and will contain auth pages
+1. user - this is what most people will use and will contain auth pages
 2. admin - space for admins to view data and make changes
 
 Depending on the requirements, we can add new pages like "courseware",

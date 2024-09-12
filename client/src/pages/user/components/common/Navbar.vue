@@ -1,5 +1,5 @@
 <script>
-import UserAvatar from 'public/components/common/UserAvatar.vue';
+import UserAvatar from 'user/components/common/UserAvatar.vue';
 
 export default {
   methods: {
@@ -36,6 +36,9 @@ export default {
     <div class="navbar-start">
       <router-link :to="{ name: 'home' }" class="navbar-item">
         Home
+      </router-link>
+      <router-link :to="{ name: 'courses' }" class="navbar-item">
+        Courses
       </router-link>
     </div>
     <div class="navbar-end">
