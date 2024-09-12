@@ -40,7 +40,7 @@ jobs:
           override-ci-command: npm ci
       - run:
           name: Build server
-          command: vite build
+          command: npm run build
       - persist_to_workspace:
           root: .
           paths:
