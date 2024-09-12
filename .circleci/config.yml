@@ -63,6 +63,9 @@ jobs:
 workflows:
   version: 2
   test:
+    when:
+      and:
+        - not: [master, << pipeline.git.branch >>]
     jobs:
       - test-server
   test-build-and-deploy:
