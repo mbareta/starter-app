@@ -3,6 +3,7 @@ import Popover from 'admin/components/common/Popover.vue';
 import { useUsersStore } from 'admin/stores/users.store';
 
 const store = useUsersStore();
+defineEmits(['destroy', 'edit']);
 </script>
 
 <template>
@@ -15,7 +16,7 @@ const store = useUsersStore();
       <th>Actions</th>
     </thead>
     <tbody>
-      <tr v-for="user in store.users">
+      <tr v-for="user in store.users" :key="user.id">
         <td>{{ user.id }}</td>
         <td>{{ user.email }}</td>
         <td>{{ user.sub }}</td>

@@ -1,18 +1,28 @@
 <script>
-import { mapActions, mapState } from 'pinia';
-import { useUsersStore } from 'admin/stores/users.store';
-import Modal from 'admin/components/common/Modal.vue';
 import InputText from 'admin/components/common/input/Text.vue';
+import { mapActions } from 'pinia';
+import Modal from 'admin/components/common/Modal.vue';
+import { useUsersStore } from 'admin/stores/users.store';
 
 export default {
+  components: { InputText, Modal },
   props: {
     user: { type: Object, default: () => ({}) }
   },
+  emits: ['close', 'saved', 'watch'],
   data() {
     return {
       email: '',
       message: null
     };
+  },
+  watch: {
+    user: {
+      handler(val) {
+        this.email = val?.email;
+      },
+      immediate: true
+    }
   },
   methods: {
     ...mapActions(useUsersStore, ['save']),
@@ -23,16 +33,7 @@ export default {
         .then(() => this.$emit('saved'))
         .catch(err => (this.message = err.response.data));
     }
-  },
-  watch: {
-    user: {
-      handler(val) {
-        this.email = val?.email;
-      },
-      immediate: true
-    }
-  },
-  components: { InputText, Modal }
+  }
 };
 </script>
 

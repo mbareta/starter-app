@@ -5,6 +5,7 @@ import Module from './Module.vue';
 import { useCoursesStore } from 'user/stores/courses.store';
 
 export default {
+  components: { LoadingSpinner, Module },
   props: { courseId: { type: Number, required: true } },
   computed: {
     ...mapState(useCoursesStore, ['courses', 'isLoading']),
@@ -17,11 +18,10 @@ export default {
         .sort((a, b) => (a.position - b.position));
     }
   },
-  methods: mapActions(useCoursesStore, ['loadCourses']),
   created() {
     if (!this.course.id) return this.loadCourses();
   },
-  components: { LoadingSpinner, Module }
+  methods: mapActions(useCoursesStore, ['loadCourses'])
 };
 </script>
 

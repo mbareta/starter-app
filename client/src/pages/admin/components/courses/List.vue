@@ -4,6 +4,7 @@ import Popover from 'admin/components/common/Popover.vue';
 import { useCoursesStore } from 'admin/stores/courses.store';
 
 const store = useCoursesStore();
+defineEmits(['destroy', 'edit']);
 </script>
 
 <template>
@@ -17,7 +18,7 @@ const store = useCoursesStore();
     </thead>
     <tbody>
       <loading-spinner :is-loading="store.isLoading" class="loading-spinner" />
-      <tr v-for="course in store.courses">
+      <tr v-for="course in store.courses" :key="course.uid">
         <td>{{ course.id }}</td>
         <td>{{ course.uid }}</td>
         <td>{{ course.name }}</td>

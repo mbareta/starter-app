@@ -5,8 +5,9 @@ import UserForm from './Form.vue';
 import UserList from './List.vue';
 
 export default {
+  components: { UserForm, UserList },
   props: {
-    msg: { type: String }
+    msg: { type: String, default: '' }
   },
   data() {
     return {
@@ -15,6 +16,9 @@ export default {
     };
   },
   computed: mapState(useUsersStore, ['isLoading']),
+  created() {
+    this.loadUsers();
+  },
   methods: {
     ...mapActions(useUsersStore, ['destroy', 'loadUsers']),
     closeModal() {
@@ -27,10 +31,6 @@ export default {
     destroyUser(user) {
       return this.destroy(user).then(() => this.loadUsers());
     }
-  },
-  components: { UserForm, UserList },
-  created() {
-    this.loadUsers();
   }
 };
 </script>

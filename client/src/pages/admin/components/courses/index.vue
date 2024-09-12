@@ -6,14 +6,14 @@ import LoadingSpinner from 'admin/components/common/LoadingSpinner.vue';
 import { useCoursesStore } from 'admin/stores/courses.store';
 
 export default {
+  components: { Card, CoursesList, LoadingSpinner },
   computed: mapState(useCoursesStore,
     ['catalog', 'isLoadingCatalog', 'isLoadingCourses']),
-  methods: mapActions(useCoursesStore,
-    ['deleteCourse', 'loadCatalog', 'loadCourses']),
   mounted() {
     return Promise.all([this.loadCatalog(), this.loadCourses()]);
   },
-  components: { Card, CoursesList, LoadingSpinner }
+  methods: mapActions(useCoursesStore,
+    ['deleteCourse', 'loadCatalog', 'loadCourses'])
 };
 </script>
 

@@ -1,5 +1,6 @@
 <script setup>
-defineProps({ isOpen: { type: Boolean, default: false } })
+defineProps({ isOpen: { type: Boolean, default: false } });
+defineEmits(['close']);
 </script>
 
 <template>
