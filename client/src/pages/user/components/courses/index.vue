@@ -1,8 +1,8 @@
 <script setup>
 import Card from './Card.vue';
-import LoadingSpinner from 'public/components/common/LoadingSpinner.vue';
+import LoadingSpinner from 'user/components/common/LoadingSpinner.vue';
 import { onMounted } from 'vue';
-import { useCoursesStore } from 'public/stores/courses.store';
+import { useCoursesStore } from 'user/stores/courses.store';
 
 const store = useCoursesStore();
 onMounted(() => store.loadCourses());

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import request from 'public/helpers/request';
+import request from 'user/helpers/request';
 
 const BASE_URL = '/courses';
 

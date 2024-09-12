@@ -36,7 +36,7 @@ export default defineConfig({
   resolve: {
     alias: {
       admin: '/src/pages/admin',
-      public: '/src/pages/public'
+      user: '/src/pages/user'
     },
   },
 })

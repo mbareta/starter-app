@@ -1,5 +1,5 @@
 <script>
-import Modal from 'public/components/common/Modal.vue';
+import Modal from 'user/components/common/Modal.vue';
 import Page from './Page.vue';
 
 const types = {

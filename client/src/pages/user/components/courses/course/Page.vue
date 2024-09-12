@@ -1,7 +1,7 @@
 <script>
-import LoadingSpinner from 'public/components/common/LoadingSpinner.vue';
+import LoadingSpinner from 'user/components/common/LoadingSpinner.vue';
 import ContentElement from './content-elements/index.vue';
-import request from 'public/helpers/request';
+import request from 'user/helpers/request';
 
 export default {
   props: {
