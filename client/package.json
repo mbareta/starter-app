@@ -6,7 +6,6 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite",
-    "format": "prettier .  --write",
     "lint": "eslint ./src",
     "preview": "vite preview"
   },
@@ -23,7 +22,6 @@
     "eslint": "^9.10.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-vue": "^9.28.0",
-    "prettier": "^3.3.3",
     "sass": "^1.77.5",
     "typescript": "^5.2.2",
     "vite": "^5.2.13",
