@@ -8,7 +8,8 @@ export default [
     rules: {
       'vue/singleline-html-element-content-newline': 'off',
       'vue/html-closing-bracket-newline': 'off',
-      'vue/max-attributes-per-line': 'off'
+      'vue/max-attributes-per-line': 'off',
+      'vue/multi-word-component-names': ['error', { ignores: ['index'] }]
     }
   }
 ]

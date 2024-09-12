@@ -2,6 +2,7 @@
 import UserAvatar from 'user/components/common/UserAvatar.vue';
 
 export default {
+  components: { UserAvatar },
   methods: {
     logout() {
       this.$auth0.logout({
@@ -16,8 +17,7 @@ export default {
       const value = current === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', value);
     }
-  },
-  components: { UserAvatar }
+  }
 }
 </script>
 
@@ -46,12 +46,12 @@ export default {
           <user-avatar :user="$auth0.user" />
           <div class="navbar-dropdown is-right">
             <div class="navbar-item">
-              <button @click="toggleTheme" class="button is-primary">
+              <button class="button is-primary" @click="toggleTheme">
                 Toggle theme
               </button>
             </div>
             <div class="navbar-item">
-              <button @click="logout" class="button">
+              <button class="button" @click="logout">
                 Log Out
               </button>
             </div>

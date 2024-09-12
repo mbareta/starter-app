@@ -18,7 +18,7 @@ onMounted(() => store.loadCourses());
     </section>
     <section class="container">
       <h2 class="title">Available Courses</h2>
-      <loading-spinner :isLoading="store.isLoading" class="loading-spinner" />
+      <loading-spinner :is-loading="store.isLoading" class="loading-spinner" />
       <div class="columns">
         <div
           v-for="course in store.courses"

@@ -36,9 +36,9 @@ export default {
       </div>
       <div class="content has-text-centered">
         <button
-          @click="importCourse(course.id)"
           :disabled="isDisabled"
-          class="button is-primary">
+          class="button is-primary"
+          @click="importCourse(course.id)">
           Import Course
         </button>
       </div>

@@ -12,7 +12,7 @@ export default {
     aria-live="assertive"
     class="has-text-centered"
     role="alert">
-    <div class="loader"></div>
+    <div class="loader" />
     <p v-if="isLoading">Loading, please wait...</p>
     <p class="is-sr-only">Loading, please wait...</p>
   </div>

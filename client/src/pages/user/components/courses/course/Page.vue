@@ -4,6 +4,7 @@ import ContentElement from './content-elements/index.vue';
 import request from 'user/helpers/request';
 
 export default {
+  components: { ContentElement, LoadingSpinner },
   props: {
     course: { type: Object, default: () => ({}) },
     page: { type: Object, default: () => ({}) }
@@ -15,6 +16,15 @@ export default {
       selectedContainerIndex: 0
     };
   },
+  watch: {
+    selectedContainerIndex: {
+      immediate: true,
+      handler(index) {
+        const { id: containerId } = this.page.contentContainers[index];
+        return this.loadData({ courseId: this.course.id, containerId });
+      }
+    }
+  },
   methods: {
     loadData({ courseId, containerId }) {
       this.isLoading = true;
@@ -25,17 +35,7 @@ export default {
           this.isLoading = false;
         });
     }
-  },
-  watch: {
-    selectedContainerIndex: {
-      immediate: true,
-      handler(index) {
-        const { id: containerId } = this.page.contentContainers[index];
-        return this.loadData({ courseId: this.course.id, containerId });
-      }
-    }
-  },
-  components: { ContentElement, LoadingSpinner }
+  }
 };
 </script>
 
@@ -44,27 +44,26 @@ export default {
     <h3 class="title has-text-white has-text-centered">{{ page.meta?.name }}</h3>
     <div v-if="page.contentContainers.length > 1" class="container-nav">
       <button
-        @click="selectedContainerIndex--"
-        class="button is-white is-outlined">
+        class="button is-white is-outlined"
+        @click="selectedContainerIndex--">
         Previous
       </button>
       <div class="pill-container">
         <button
           v-for="(container, index) in page.contentContainers"
           :key="container.uid"
-          @click="selectedContainerIndex = index"
           :class="{ 'is-active': index === selectedContainerIndex }"
-          class="pill">
-        </button>
+          class="pill"
+          @click="selectedContainerIndex = index" />
       </div>
       <button
-        @click="selectedContainerIndex++"
-        class="button is-white is-outlined">
+        class="button is-white is-outlined"
+        @click="selectedContainerIndex++">
         Next
       </button>
     </div>
     <div class="content">
-      <loading-spinner :isLoading="isLoading" />
+      <loading-spinner :is-loading="isLoading" />
       <div v-for="element in data.elements" :key="element.uid">
         <content-element :element="element" />
       </div>

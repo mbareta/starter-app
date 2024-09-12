@@ -16,29 +16,29 @@ const store = useCoursesStore();
       <th>Actions</th>
     </thead>
     <tbody>
-      <loading-spinner :isLoading="store.isLoading" class="loading-spinner" />
+      <loading-spinner :is-loading="store.isLoading" class="loading-spinner" />
       <tr v-for="course in store.courses">
         <td>{{ course.id }}</td>
         <td>{{ course.uid }}</td>
         <td>{{ course.name }}</td>
         <td>{{ course.description }}</td>
         <td class="actions">
-          <button @click="$emit('edit', user)" class="button is-info">
+          <button class="button is-info" @click="$emit('edit', user)">
             Edit
           </button>
           <popover class="popover is-right">
-            <template v-slot:trigger>
+            <template #trigger>
               <div class="button is-danger">Delete</div>
             </template>
-            <template v-slot:content="{ close }">
+            <template #content="{ close }">
               <p>Are you sure you want to delete this user?</p>
               <div class="is-spaced-between">
                 <button
-                  @click="$emit('destroy', course)"
-                  class="button is-danger">
+                  class="button is-danger"
+                  @click="$emit('destroy', course)">
                   Yes
                 </button>
-                <button @click="close" class="button">
+                <button class="button" @click="close">
                   No
                 </button>
               </div>

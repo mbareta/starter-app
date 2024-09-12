@@ -37,7 +37,7 @@ export default {
 </script>
 
 <template>
-  <modal @close="$emit('close')" isOpen>
+  <modal is-open @close="$emit('close')">
     <h2 class="title has-text-centered">Create User</h2>
     <form @submit.prevent="saveUser">
       <input-text v-model="email" label="Email" type="email" />

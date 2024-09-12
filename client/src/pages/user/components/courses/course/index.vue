@@ -33,7 +33,7 @@ export default {
         <h2 class="subtitle">{{ course.description }}</h2>
       </div>
     </section>
-    <loading-spinner :isLoading="isLoading" class="loading-spinner" />
+    <loading-spinner :is-loading="isLoading" class="loading-spinner" />
     <section class="container">
       <module
         v-for="module in rootModules"

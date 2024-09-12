@@ -44,10 +44,10 @@ export default {
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <button @click="toggleTheme" class="button is-primary">
+            <button class="button is-primary" @click="toggleTheme">
               Toggle theme
             </button>
-            <button @click="logout" class="button">
+            <button class="button" @click="logout">
               Log Out
             </button>
           </div>

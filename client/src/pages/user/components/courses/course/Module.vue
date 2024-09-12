@@ -8,7 +8,8 @@ const types = {
 };
 
 export default {
-  name: 'course-module',
+  name: 'CourseModule',
+  components: { Modal, Page },
   props: {
     course: { type: Object, default: () => ({}) },
     module: { type: Object, default: () => ({}) }
@@ -35,8 +36,7 @@ export default {
     isPage(){
       return this.module.type === types.page;
     }
-  },
-  components: { Modal, Page }
+  }
 };
 </script>
 
@@ -46,14 +46,14 @@ export default {
       {{ module.meta?.name }} ({{ module.type }})
       <button
         v-if="!isEmpty && !isPage"
-        @click="isExpanded = !isExpanded"
-        class="button is-primary is-inverted">
+        class="button is-primary is-inverted"
+        @click="isExpanded = !isExpanded">
         {{ isExpanded ? 'Collapse' : 'Expand' }}
       </button>
       <button
         v-if="isPage"
-        @click="showPage = true"
-        class="button is-info is-inverted">
+        class="button is-info is-inverted"
+        @click="showPage = true">
         View page
       </button>
     </div>
@@ -64,7 +64,7 @@ export default {
         :course="course"
         :module="item" />
     </div>
-    <modal @close="showPage = null" :isOpen="showPage">
+    <modal :is-open="showPage" @close="showPage = null">
       <page v-if="showPage" :course="course" :page="module" />
     </modal>
   </div>

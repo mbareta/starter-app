@@ -21,20 +21,20 @@ const store = useUsersStore();
         <td>{{ user.sub }}</td>
         <td>{{ user.role }}</td>
         <td class="actions">
-          <button @click="$emit('edit', user)" class="button is-info">
+          <button class="button is-info" @click="$emit('edit', user)">
             Edit
           </button>
           <popover class="popover is-right">
-            <template v-slot:trigger>
+            <template #trigger>
               <div class="button is-danger">Delete</div>
             </template>
-            <template v-slot:content="{ close }">
+            <template #content="{ close }">
               <p>Are you sure you want to delete this user?</p>
               <div class="is-spaced-between">
-                <button @click="$emit('destroy', user)" class="button is-danger">
+                <button class="button is-danger" @click="$emit('destroy', user)">
                   Yes
                 </button>
-                <button @click="close" class="button">
+                <button class="button" @click="close">
                   No
                 </button>
               </div>

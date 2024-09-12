@@ -8,6 +8,7 @@ const types = {
 }
 
 export default {
+  components: { CeHtml, CeImage },
   props: {
     element: { type: Object, required: true }
   },
@@ -15,8 +16,7 @@ export default {
     componentName() {
       return types[this.element.type];
     }
-  },
-  components: { CeHtml, CeImage }
+  }
 };
 </script>
 

@@ -27,7 +27,7 @@ export default {
     </section>
     <section class="container">
       <h2 class="title">Available courses (course catalog)</h2>
-      <loading-spinner :isLoading="isLoadingCatalog" class="loading-spinner" />
+      <loading-spinner :is-loading="isLoadingCatalog" class="loading-spinner" />
       <div class="columns">
         <div
           v-for="course in catalog"
@@ -39,7 +39,7 @@ export default {
     </section>
     <section class="container">
       <h2 class="title">Imported courses</h2>
-      <loading-spinner :isLoading="isLoadingCourses" class="loading-spinner" />
+      <loading-spinner :is-loading="isLoadingCourses" class="loading-spinner" />
       <courses-list v-if="!isLoadingCourses" @destroy="deleteCourse" />
     </section>
   </div>
