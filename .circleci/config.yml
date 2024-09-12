@@ -26,7 +26,7 @@ jobs:
       - node/install-packages:
           override-ci-command: npm i
       - run:
-          name: Build server
+          name: Lint client
           command: npm run lint
   lint-server:
     working_directory: ~/app/server
@@ -37,7 +37,7 @@ jobs:
       - node/install-packages:
           override-ci-command: npm i
       - run:
-          name: Build server
+          name: Lint server
           command: npm run lint
   test-server:
     working_directory: ~/app/server
