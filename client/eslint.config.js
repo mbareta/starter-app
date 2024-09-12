@@ -6,6 +6,9 @@ export default [
   ...pluginVue.configs['flat/recommended'],
   {
     rules: {
+      'vue/singleline-html-element-content-newline': 'off',
+      'vue/html-closing-bracket-newline': 'off',
+      'vue/max-attributes-per-line': 'off'
     }
   }
 ]
