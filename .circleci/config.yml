@@ -22,6 +22,9 @@ jobs:
       - node/install-packages:
           override-ci-command: npm i
       - run:
+          name: Build server
+          command: npm run build
+      - run:
           name: Run tests
           command: npm test
 
