@@ -7,13 +7,22 @@ The idea was to set up a preconfigured application with backend and frontend wit
 any business logic.
 The application would have basic user auth, connection to DB and working frontend.
 
+## Requirements
+
+Make sure you have the following installed, configured and running:
+
+- Node 21 or higher
+- Postgresql
+
 
 ## Tech
+
 - NestJS powered backend
 - MikroORM models and DB queries
 - Vue3 with Vite for frontend
 
 ## Contents
+
 - `client` contains frontend files
 - `server` contains backend files
 - `fast-server` is just a simple fastify server showing how we can create multiple
