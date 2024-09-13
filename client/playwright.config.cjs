@@ -1,4 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
+import path from 'path';
+
+// load .env.e2e
+dotenv.config({ path: path.resolve(__dirname, '.env.e2e') });
 
 /**
  * @see https://playwright.dev/docs/test-configuration
@@ -15,7 +20,7 @@ module.exports = defineConfig({
     trace: 'on-first-retry'
   },
   projects: [
-    { name: 'setup', testMatch: /.*\.setup\.js/ },
+    { name: 'setup', testMatch: /.*\.setup\.ts/ },
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } }
     // { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
     // { name: 'webkit', use: { ...devices['Desktop Safari'] } },

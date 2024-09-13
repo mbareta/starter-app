@@ -1,11 +1,11 @@
-const { expect, test: setup } = require('@playwright/test');
-const { login } = require('./helpers/login');
+import { expect, test } from '@playwright/test';
+import { login } from './helpers/login';
 
-setup('Admin logs in', async ({ page }) => {
-  await page.goto('/');
-  // await expect(page.getByRole('heading')).toHaveText('Welcome !');
-  // const storageFile = 'playwright/.auth/admin.json';
-  // await login(page, 'admin@ntc.org', 'admin123');
-  // await expect(page.getByRole('heading')).toHaveText('Welcome admin@ntc.org!');
-  // await page.context().storageState({ path: storageFile });
+const { ADMIN_EMAIL, ADMIN_PASSWORD } = process.env;
+
+test('Admin logs in', async ({ page }) => {
+  const storageFile = 'playwright/.auth/admin.json';
+  await login(page, ADMIN_EMAIL, ADMIN_PASSWORD);
+  await expect(page.locator('h1')).toContainText(`Welcome ${ADMIN_EMAIL}!`);
+  await page.context().storageState({ path: storageFile });
 });

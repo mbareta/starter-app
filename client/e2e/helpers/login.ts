@@ -1,12 +1,6 @@
-'use strict';
-
-const login = async (page, email, password) => {
-  // await page.goto('/');
-  // const emailLocator = await page.getByRole('textbox', { name: 'Email' });
-  // const passwordLocator = await page.getByRole('textbox', { name: 'Password' });
-  // await emailLocator.fill(email);
-  // await passwordLocator.fill(password);
-  // return page.getByRole('button', { name: 'Login' }).click();
+export async function login(page, email, password) {
+  await page.goto('/');
+  await page.getByLabel('Email address').fill(email);
+  await page.getByLabel('Password').fill(password);
+  await page.getByRole('button', { name: 'Continue', exact: true }).click();
 };
-
-module.exports = { login };
