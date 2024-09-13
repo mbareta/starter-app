@@ -6,6 +6,13 @@ export default [
   ...pluginVue.configs['flat/recommended'],
   {
     rules: {
+      'sort-imports': ['error', {
+        ignoreCase: true,
+        ignoreDeclarationSort: false,
+        ignoreMemberSort: false,
+        memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
+        allowSeparatedGroups: false
+      }],
       'vue/singleline-html-element-content-newline': 'off',
       'vue/html-closing-bracket-newline': 'off',
       'vue/max-attributes-per-line': 'off',

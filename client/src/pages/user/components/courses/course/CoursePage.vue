@@ -1,6 +1,6 @@
 <script>
-import LoadingSpinner from 'user/components/common/LoadingSpinner.vue';
 import ContentElement from './content-elements/index.vue';
+import LoadingSpinner from 'user/components/common/LoadingSpinner.vue';
 import request from 'user/helpers/request';
 
 export default {

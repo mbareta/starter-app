@@ -1,7 +1,7 @@
 <script>
 import { mapActions, mapState } from 'pinia';
-import LoadingSpinner from 'user/components/common/LoadingSpinner.vue';
 import CourseModule from './CourseModule.vue';
+import LoadingSpinner from 'user/components/common/LoadingSpinner.vue';
 import { useCoursesStore } from 'user/stores/courses.store';
 
 export default {
