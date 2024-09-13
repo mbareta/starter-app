@@ -32,6 +32,17 @@ to preview built files locally.
 We currently have eslint set up with Vue3 recommended rules. I didn't like some
 rules so I disabled them. See full config in `eslint.config.js`.
 
+# Tests
+
+E2E tests are written for Playwright. Running Playwright will automatically run
+both client and server processes so there is no need to run the app before testing.
+
+Running tests:
+
+```bash
+$ npm test
+```
+
 # Contributing
 
 The app is set up as [MPA](https://vitejs.dev/config/shared-options.html#apptype).

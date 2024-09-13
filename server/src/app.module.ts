@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { CoursesModule } from './courses/courses.module';
 import { DatabaseModule } from './database/database.module';
+import { HealthController } from 'health.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { ResponseTimeMiddleware } from '@nest-middlewares/response-time';
 import { UsersModule } from './users/users.module';
@@ -22,7 +23,8 @@ import { UsersModule } from './users/users.module';
     DatabaseModule,
     UsersModule
   ],
-  providers: [AuthGuard, { provide: APP_GUARD, useExisting: AuthGuard }]
+  providers: [AuthGuard, { provide: APP_GUARD, useExisting: AuthGuard }],
+  controllers: [HealthController]
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
