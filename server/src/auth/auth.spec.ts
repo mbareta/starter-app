@@ -1,9 +1,9 @@
-import request from 'supertest';
 import { AppModule } from '../app.module';
 import { AuthGuard } from './auth.guard';
 import { AuthGuardMock } from './auth.guard.mock';
-import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
+import request from 'supertest';
+import { Test } from '@nestjs/testing';
 
 const routes = { profile: '/auth/profile' };
 const credentials = {

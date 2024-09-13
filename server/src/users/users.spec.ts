@@ -1,10 +1,10 @@
-import request from 'supertest';
 import { AppModule } from '../app.module';
 import { AuthGuard } from '../auth/auth.guard';
 import { AuthGuardMock } from '../auth/auth.guard.mock';
-import { Test } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/postgresql';
+import { INestApplication } from '@nestjs/common';
+import request from 'supertest';
+import { Test } from '@nestjs/testing';
 import { User } from './entities/user.entity';
 
 const BASE_URL = '/users';

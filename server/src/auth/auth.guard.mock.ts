@@ -5,9 +5,9 @@ import {
   UnauthorizedException
 } from '@nestjs/common';
 import { IS_PUBLIC_KEY } from './public.decorator';
-import { ROLES_KEY } from './roles.decorator';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
+import { ROLES_KEY } from './roles.decorator';
 import { UsersService } from '../users/users.service';
 
 @Injectable()
