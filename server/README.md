@@ -48,7 +48,7 @@ Now we're ready to set .env variables like this:
 ---
 
 After that, go to `Applications -> APIs`, click on `Auth0 Management API`, then
-switch to `Machine To Machine Applications` and authorize the app that we set up.
+switch to `Machine To Machine Applications` tab and authorize the app that we set up.
 
 [![Screenshot-2024-09-16-at-14-21-19.png](https://i.postimg.cc/SxGhq1bb/Screenshot-2024-09-16-at-14-21-19.png)](https://postimg.cc/213J7w50)
 
