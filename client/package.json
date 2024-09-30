@@ -8,7 +8,7 @@
     "dev": "vite",
     "lint": "eslint src e2e",
     "preview": "vite preview",
-    "test": "npx playwright test"
+    "test": "NODE_ENV=test npx playwright test"
   },
   "dependencies": {
     "@auth0/auth0-vue": "^2.3.3",
