@@ -18,9 +18,9 @@ executors:
       - image: cimg/base:current
   playwright:
     docker:
+      - image: mcr.microsoft.com/playwright:v1.47.2-noble
       - image: cimg/node:22.8.0
       - image: cimg/postgres:16.0
-      - image: mcr.microsoft.com/playwright:v1.47.2-noble
 jobs:
   lint-client:
     working_directory: ~/app/client
