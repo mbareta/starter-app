@@ -68,6 +68,18 @@ branch.
 The project is currently built on my CircleCI account, but that can be easily
 changed when the project is forked.
 
+### Playwright in CircleCI
+
+In order to run Playwright tests in CircleCI, we need to run client and server
+so our browser can run tests. To be able to run client and server in the browser
+we need to set correct environment variables.
+
+That means we need to set the same variables in CircleCI as we have locally,
+both in client and server apps. Those include server's Auth0 config (client ID,
+secret, domain and audience), client's Auth0 config (client ID, domain and
+audience), .env.e2e which contains user login credentials for the app and lastly
+Docker credentials so our Docker image can be uploaded to Docker Hub.
+
 ## Caveats
 
 ### Registration
