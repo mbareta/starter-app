@@ -8,12 +8,13 @@
     "dev": "vite",
     "lint": "eslint src e2e",
     "preview": "vite preview",
-    "test": "npx playwright test"
+    "test": "NODE_ENV=test npx playwright test"
   },
   "dependencies": {
     "@auth0/auth0-vue": "^2.3.3",
     "axios": "^1.7.7",
     "bulma": "^1.0.2",
+    "dotenv": "^16.4.5",
     "pinia": "^2.2.2",
     "vue": "^3.5.1",
     "vue-router": "^4.4.3"

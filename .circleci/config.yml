@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  node: circleci/node@5.2.0
+  node: circleci/node@6.1.0
 
 executors:
   test:
@@ -16,6 +16,11 @@ executors:
   base:
     docker:
       - image: cimg/base:current
+  playwright:
+    docker:
+      - image: mcr.microsoft.com/playwright:v1.47.2-noble
+      - image: cimg/node:22.8.0
+      - image: cimg/postgres:16.0
 jobs:
   lint-client:
     working_directory: ~/app/client
@@ -39,6 +44,27 @@ jobs:
       - run:
           name: Lint server
           command: npm run lint
+  test-client:
+    working_directory: ~/app/client
+    executor: playwright
+    environment:
+      TEST_DB_URL: postgresql://postgres@localhost/circle_test
+    steps:
+      - checkout:
+          path: ~/app
+      - node/install-packages:
+          app-dir: ../server
+          override-ci-command: npm i
+      - node/install-packages:
+          override-ci-command: npm i
+      - run:
+          name: Install Playwright
+          command: npx playwright install
+      - run:
+          name: Run tests
+          command: npm test
+      - store_artifacts:
+          path: playwright-report/index.html
   test-server:
     working_directory: ~/app/server
     executor: test
@@ -95,6 +121,7 @@ workflows:
       - lint-server
       - lint-client
       - test-server
+      - test-client
   test-build-and-deploy:
     when:
       and:
