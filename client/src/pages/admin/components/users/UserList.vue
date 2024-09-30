@@ -32,7 +32,9 @@ defineEmits(['destroy', 'edit']);
             <template #content="{ close }">
               <p>Are you sure you want to delete this user?</p>
               <div class="is-spaced-between">
-                <button class="button is-danger" @click="$emit('destroy', user)">
+                <button
+                  class="button is-danger"
+                  @click="$emit('destroy', user)">
                   Yes
                 </button>
                 <button class="button" @click="close">

@@ -8,10 +8,9 @@ import { Request, Response } from 'express';
 import { auth } from 'express-oauth2-jwt-bearer';
 import { ConfigService } from '@nestjs/config';
 import { IS_PUBLIC_KEY } from './public.decorator';
-import { ROLES_KEY } from './roles.decorator';
-import { JwtService } from '@nestjs/jwt';
 import { ManagementClient } from 'auth0';
 import { Reflector } from '@nestjs/core';
+import { ROLES_KEY } from './roles.decorator';
 import { UsersService } from '../users/users.service';
 
 @Injectable()
@@ -20,7 +19,6 @@ export class AuthGuard implements CanActivate {
 
   constructor(
     private configService: ConfigService,
-    private jwtService: JwtService,
     private reflector: Reflector,
     private usersService: UsersService
   ) {

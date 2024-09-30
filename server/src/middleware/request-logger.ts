@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import onFinished from 'on-finished';
 
 export default function (req: Request, res: Response, next: NextFunction) {

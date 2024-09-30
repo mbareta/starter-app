@@ -14,6 +14,13 @@ export default [{
     parser: tsParser
   },
   rules: {
-    'prettier/prettier': ['error', { singleQuote: true, trailingComma: 'none' }]
+    'prettier/prettier': ['error', { singleQuote: true, trailingComma: 'none' }],
+    'sort-imports': ['error', {
+        ignoreCase: true,
+        ignoreDeclarationSort: false,
+        ignoreMemberSort: false,
+        memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
+        allowSeparatedGroups: false
+    }]
   }
 }];
