@@ -1,11 +1,17 @@
 import js from '@eslint/js';
 import pluginVue from 'eslint-plugin-vue';
+import tseslint from 'typescript-eslint';
 
 export default [
   js.configs.recommended,
+  ...tseslint.configs.recommended,
   ...pluginVue.configs['flat/recommended'],
   {
+    files: [
+      '**/*.ts', '**/*.vue'
+    ],
     rules: {
+      'max-len': ['error', { tabWidth: 2 }],
       'sort-imports': ['error', {
         ignoreCase: true,
         ignoreDeclarationSort: false,

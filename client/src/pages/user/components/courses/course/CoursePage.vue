@@ -41,7 +41,9 @@ export default {
 
 <template>
   <div>
-    <h3 class="title has-text-white has-text-centered">{{ page.meta?.name }}</h3>
+    <h3 class="title has-text-white has-text-centered">
+      {{ page.meta?.name }}
+    </h3>
     <div v-if="page.contentContainers.length > 1" class="container-nav">
       <button
         class="button is-white is-outlined"
