@@ -41,8 +41,8 @@ export default defineConfig({
   projects: [
     { name: 'setup', testMatch: /.*\.setup\.ts/ },
     {
-      name: 'chrome',
-      use: { channel: 'chrome' },
+      name: 'chromium',
+      use: { channel: 'chromium' },
       dependencies: ['setup']
     }
   ],
