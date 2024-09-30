@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  node: circleci/node@5.2.0
+  node: circleci/node@6.1.0
 
 executors:
   test:
@@ -52,6 +52,9 @@ jobs:
     steps:
       - checkout:
           path: ~/app
+      - node/install-packages:
+          app-dir: ../server
+          override-ci-command: npm i
       - node/install-packages:
           override-ci-command: npm i
       - run:
