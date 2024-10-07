@@ -109,6 +109,31 @@ jobs:
           command: npm run build
       - store_artifacts:
           path: dist
+  deploy:
+    working_directory: ~/app/infrastructure
+    executor: node
+    steps:
+      - pulumi/login
+      - node/install-packages
+      - pulumi/update:
+          stack: dev
+          skip-preview: true
+      - pulumi/stack_output:
+          stack: dev
+          property_name: frontendBucketName
+          env_var: S3_SITE_BUCKET
+      - pulumi/stack_output:
+          stack: dev
+          property_name: cloudfrontId
+          env_var: CF_DISTRIBUTION_ID
+      - aws-cli/setup:
+          role_arn: << parameters.role_arn >>
+          region: us-east-1
+      - run:
+        name: Deploy to S3
+        command: |
+          aws s3 sync dist s3://${S3_SITE_BUCKET} --no-progress --delete
+          aws cloudfront create-invalidation --distribution-id ${CF_DISTRIBUTION_ID} --paths "/*"
 
 workflows:
   version: 2
@@ -128,7 +153,11 @@ workflows:
         - equal: [master, << pipeline.git.branch >>]
     jobs:
       - test-server
-      - build-client
+      - test-client
+      - build-client:
+          requires:
+            - test-client
       - build-server:
           requires:
             - test-server
+      - deploy

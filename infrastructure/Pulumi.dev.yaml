@@ -1,0 +1,6 @@
+config:
+  appAws:hostedZoneId: Z05254081WLKRGY6WVJ6V
+  appAws:ssmPrefix: /starter/dev/server
+  aws:region: us-east-1
+  starter-app:domain: starter.gostudion.com
+  starter-app:projectName: starter-dev
