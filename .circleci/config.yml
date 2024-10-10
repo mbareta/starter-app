@@ -113,6 +113,10 @@ jobs:
     working_directory: ~/app/infrastructure
     executor: node
     steps:
+      - run
+          name: Configure envs
+          command: |
+            export SERVER_IMAGE="<< parameters.account_id >>.dkr.ecr.<< parameters.region >>.amazonaws.com/<< parameters.ecr_repo_server >>:${CIRCLE_SHA1}"
       - pulumi/login
       - node/install-packages
       - pulumi/update:
