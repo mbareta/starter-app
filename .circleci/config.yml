@@ -52,11 +52,6 @@ jobs:
   test-client:
     working_directory: ~/app/client
     executor: playwright
-    environment:
-      DATABASE_HOST=localhost
-      DATABASE_PORT=5432
-      DATABASE_NAME=circle_test
-      DATABASE_USER=postgres
     steps:
       - checkout:
           path: ~/app
@@ -71,16 +66,16 @@ jobs:
       - run:
           name: Run tests
           command: npm test
+          environment:
+            DATABASE_HOST=localhost
+            DATABASE_PORT=5432
+            DATABASE_NAME=circle_test
+            DATABASE_USER=postgres
       - store_artifacts:
           path: playwright-report/index.html
   test-server:
     working_directory: ~/app/server
     executor: test
-    environment:
-      DATABASE_HOST=localhost
-      DATABASE_PORT=5432
-      DATABASE_NAME=circle_test
-      DATABASE_USER=postgres
     steps:
       - checkout:
           path: ~/app
@@ -92,6 +87,11 @@ jobs:
       - run:
           name: Run tests
           command: npm test
+          environment:
+            DATABASE_HOST=localhost
+            DATABASE_PORT=5432
+            DATABASE_NAME=circle_test
+            DATABASE_USER=postgres
       - store_artifacts:
           path: coverage
   build-server:
