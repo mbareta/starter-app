@@ -21,4 +21,4 @@ FROM configure AS server
   WORKDIR /usr/src/app
   ENV NODE_ENV production
   USER node
-  CMD npm run build && npx mikro-orm migration:up && npm start
+  CMD npm run build && npx mikro-orm migration:up && npm start:prod
