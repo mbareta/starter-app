@@ -158,6 +158,8 @@ jobs:
       stack:
         type: string
     steps:
+      - attach_workspace:
+          at: .
       - checkout:
           path: ~/app
       - aws-cli/setup:
