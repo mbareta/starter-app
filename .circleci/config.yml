@@ -158,10 +158,10 @@ jobs:
       stack:
         type: string
     steps:
-      - attach_workspace:
-          at: .
       - checkout:
           path: ~/app
+      - attach_workspace:
+          at: ..
       - aws-cli/setup:
           role_arn: << parameters.role_arn >>
           region: << parameters.region >>
