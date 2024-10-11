@@ -166,7 +166,8 @@ jobs:
       - run:
           name: Configure envs
           command: |
-            export SERVER_IMAGE="<< parameters.account_id >>.dkr.ecr.<< parameters.region >>.amazonaws.com/<< parameters.ecr_repo >>:${CIRCLE_SHA1}"
+            echo 'export SERVER_IMAGE="<< parameters.account_id >>.dkr.ecr.<< parameters.region >>.amazonaws.com/<< parameters.ecr_repo >>:${CIRCLE_SHA1}"' >> "$BASH_ENV"
+            source "$BASH_ENV"
       - pulumi/login
       - node/install-packages
       - pulumi/update:
