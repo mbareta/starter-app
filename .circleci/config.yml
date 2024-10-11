@@ -215,7 +215,7 @@ workflows:
       - deploy:
           <<: *studion-aws-credentials
           account_id: ${STUDION_AWS_ACCOUNT_ID}
-          ecr_repo_server: starter-app/dev
+          ecr_repo: starter-app/dev
           stack: dev
           requires:
             - build-server
