@@ -1,8 +1,6 @@
 name: starter-app
 runtime:
   name: nodejs
-  options:
-    typescript: false
 description: App that is used as starter template.
 config:
   pulumi:tags:
