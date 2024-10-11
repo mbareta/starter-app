@@ -8,7 +8,11 @@ const isTest = process.env.NODE_ENV === 'test';
 
 const config: Options = {
   driver: PostgreSqlDriver,
-  clientUrl: isTest ? process.env.TEST_DB_URL : process.env.DB_URL,
+  host: process.env.DATABASE_HOST,
+  port: +process.env.DATABASE_PORT,
+  dbName: process.env.DATABASE_NAME,
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
   entities: ['**/*.entity.js'],
   extensions: [Migrator, SeedManager],
   migrations: {

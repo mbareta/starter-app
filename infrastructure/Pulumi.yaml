@@ -1,0 +1,8 @@
+name: starter-app
+runtime:
+  name: nodejs
+description: App that is used as starter template.
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: aws-javascript
