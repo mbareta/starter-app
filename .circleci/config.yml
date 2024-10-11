@@ -6,7 +6,7 @@ orbs:
   pulumi: pulumi/pulumi@2.1.0
 
 studion-aws-credentials: &studion-aws-credentials
-  role_arn: arn:aws:iam::${STUDION_AWS_ACCOUNT_ID}:role/circle_ci_build
+  role_arn: arn:aws:iam::${STUDION_AWS_ACCOUNT_ID}:role/circle_ci_starter
   region: ${STUDION_AWS_REGION}
 
 executors:
