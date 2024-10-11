@@ -158,6 +158,8 @@ jobs:
       stack:
         type: string
     steps:
+      - checkout:
+          path: ~/app
       - run:
           name: Configure envs
           command: |
