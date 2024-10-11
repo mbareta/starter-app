@@ -67,10 +67,10 @@ jobs:
           name: Run tests
           command: npm test
           environment:
-            DATABASE_HOST=localhost
-            DATABASE_PORT=5432
-            DATABASE_NAME=circle_test
-            DATABASE_USER=postgres
+            DATABASE_HOST: localhost
+            DATABASE_PORT: 5432
+            DATABASE_NAME: circle_test
+            DATABASE_USER: postgres
       - store_artifacts:
           path: playwright-report/index.html
   test-server:
@@ -88,10 +88,10 @@ jobs:
           name: Run tests
           command: npm test
           environment:
-            DATABASE_HOST=localhost
-            DATABASE_PORT=5432
-            DATABASE_NAME=circle_test
-            DATABASE_USER=postgres
+            DATABASE_HOST: localhost
+            DATABASE_PORT: 5432
+            DATABASE_NAME: circle_test
+            DATABASE_USER: postgres
       - store_artifacts:
           path: coverage
   build-server:
