@@ -12,8 +12,9 @@ $ npm install
 
 Set these .env variables to get running easily.
 
-DB_URL=postgresql://localhost/starter_app
-TEST_DB_URL=postgresql://localhost/starter_app_test
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_NAME=starter_app_test
 
 Use these values if you have local Postgres server set up without the need for
 username and password. Otherwise, add username and password to the connection URL.

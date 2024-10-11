@@ -6,4 +6,7 @@ services:
       - .env
     environment:
       - NODE_ENV=production
-      - DB_URL=postgres://marin@host.docker.internal/nest
+      - DATABASE_HOST=host.docker.internal
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=nest
+      - DATABASE_USER=postgres
