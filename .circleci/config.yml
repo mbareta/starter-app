@@ -160,6 +160,9 @@ jobs:
     steps:
       - checkout:
           path: ~/app
+      - aws-cli/setup:
+          role_arn: << parameters.role_arn >>
+          region: << parameters.region >>
       - run:
           name: Configure envs
           command: |
