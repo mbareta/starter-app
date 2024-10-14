@@ -7,7 +7,7 @@ dotenv.config();
 
 const isProduction = process.env.NODE_ENV === 'production';
 const ssl = isProduction
-  ? { ca: require('fs').readFileSync(`../rds-cert-us-east-1.pem`) }
+  ? { ca: require('fs').readFileSync(`./rds-cert-us-east-1.pem`) }
   : false;
 
 const config: Options = {
