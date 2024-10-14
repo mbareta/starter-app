@@ -69,7 +69,7 @@ const cluster = new aws.ecs.Cluster(`${PROJECT_NAME}-cluster`, {
 });
 
 const getEnvironment = database => [
-  { name: 'HOSTNAME', value: domain },
+  { name: 'HOSTNAME', value: `api.${domain}` },
   { name: 'IP', value: '0.0.0.0' },
   { name: 'PORT', value: '3000' },
   { name: 'DATABASE_NAME', value: db.instance.dbName },
