@@ -4,8 +4,6 @@ import { Migrator } from '@mikro-orm/migrations';
 import { SeedManager } from '@mikro-orm/seeder';
 dotenv.config();
 
-const isTest = process.env.NODE_ENV === 'test';
-
 const config: Options = {
   driver: PostgreSqlDriver,
   host: process.env.DATABASE_HOST,

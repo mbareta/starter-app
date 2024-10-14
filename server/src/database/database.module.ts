@@ -4,10 +4,14 @@ import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 
 dotenv.config();
 
-const isTest = process.env.NODE_ENV === 'test';
+const isProduction = process.env.NODE_ENV === 'production';
+const ssl = isProduction
+  ? { ca: require('fs').readFileSync(`../../rds-cert-us-east-1.pem`) }
+  : false;
 
 export const DatabaseModule = MikroOrmModule.forRoot({
   driver: PostgreSqlDriver,
+  driverOptions: { connection: { ssl } },
   host: process.env.DATABASE_HOST,
   port: +process.env.DATABASE_PORT,
   dbName: process.env.DATABASE_NAME,
