@@ -71,6 +71,8 @@ jobs:
             DATABASE_PORT: 5432
             DATABASE_NAME: circle_test
             DATABASE_USER: postgres
+            VITE_AUTH0_DOMAIN=dev-6akn28u2adtkauhz.us.auth0.com
+            VITE_AUTH0_CLIENT_ID=G0JUp8hOgPRpsDo4mcUSYUFrGhPQPk37
       - store_artifacts:
           path: playwright-report/index.html
   test-server:
@@ -210,7 +212,10 @@ workflows:
         - equal: [master, << pipeline.git.branch >>]
     jobs:
       - test-server
+      - test-client
       - build-client:
+          requires:
+            - test-client
       - build-server:
           <<: *studion-aws-credentials
           account_id: ${STUDION_AWS_ACCOUNT_ID}
