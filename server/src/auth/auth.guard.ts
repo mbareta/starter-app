@@ -7,8 +7,10 @@ import {
 import { Request, Response } from 'express';
 import { auth } from 'express-oauth2-jwt-bearer';
 import { ConfigService } from '@nestjs/config';
+import { CreateUserDto } from '../users/dto/create-user.dto';
 import { IS_PUBLIC_KEY } from './public.decorator';
 import { ManagementClient } from 'auth0';
+import { plainToClass } from '@nestjs/class-transformer';
 import { Reflector } from '@nestjs/core';
 import { ROLES_KEY } from './roles.decorator';
 import { UsersService } from '../users/users.service';
@@ -49,6 +51,16 @@ export class AuthGuard implements CanActivate {
         const { data } = await this.managementClient.users.get({ id: sub });
         user = await this.usersService.findByEmail(data.email);
         // TODO update user's sub/create the user/whatever
+        if (!user) {
+          // temporarily allow all new accounts
+          const dto = plainToClass(
+            CreateUserDto,
+            { email: data.email, role: 'ADMIN', sub }
+          );
+          user = await this.usersService.create(dto);
+          console.log(user);
+        }
+
       }
       if (!user) throw new UnauthorizedException();
       request['user'] = user;
