@@ -5,7 +5,7 @@ export default {
   },
   computed: {
     imageUrl() {
-      return this.user.value.picture;
+      return this.user?.value?.picture;
     }
   }
 };
