@@ -222,7 +222,10 @@ workflows:
         - equal: [master, << pipeline.git.branch >>]
     jobs:
       - test-server
-      - build-client
+      - test-client
+      - build-client:
+          requires:
+            - test-client
       - build-server:
           <<: *studion-aws-credentials
           account_id: ${STUDION_AWS_ACCOUNT_ID}
