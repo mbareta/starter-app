@@ -13,6 +13,7 @@ import { ManagementClient } from 'auth0';
 import { plainToClass } from '@nestjs/class-transformer';
 import { Reflector } from '@nestjs/core';
 import { ROLES_KEY } from './roles.decorator';
+import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 
 @Injectable()
@@ -49,7 +50,7 @@ export class AuthGuard implements CanActivate {
     }
   }
 
-  async getUser(request) {
+  protected async getUser(request: Request): Promise<User> {
     const { sub } = request.auth.payload;
     let user = await this.usersService.findBySub(sub);
     if (!user) {
@@ -69,7 +70,7 @@ export class AuthGuard implements CanActivate {
     return user;
   }
 
-  private getRequiredRoles(context: ExecutionContext) {
+  private getRequiredRoles(context: ExecutionContext): string[] {
     return this.reflector.getAllAndOverride<string[]>(ROLES_KEY, [
       context.getHandler(),
       context.getClass()
