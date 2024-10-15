@@ -13,6 +13,7 @@ import { ManagementClient } from 'auth0';
 import { plainToClass } from '@nestjs/class-transformer';
 import { Reflector } from '@nestjs/core';
 import { ROLES_KEY } from './roles.decorator';
+import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 
 @Injectable()
@@ -20,9 +21,9 @@ export class AuthGuard implements CanActivate {
   managementClient: ManagementClient;
 
   constructor(
-    private configService: ConfigService,
-    private reflector: Reflector,
-    private usersService: UsersService
+    protected configService: ConfigService,
+    protected reflector: Reflector,
+    protected usersService: UsersService
   ) {
     this.managementClient = new ManagementClient({
       domain: this.configService.get('AUTH0_DOMAIN'),
@@ -32,35 +33,13 @@ export class AuthGuard implements CanActivate {
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
-      context.getHandler(),
-      context.getClass()
-    ]);
-    if (isPublic) return true;
-    const requiredRoles = this.reflector.getAllAndOverride<string[]>(
-      ROLES_KEY,
-      [context.getHandler(), context.getClass()]
-    );
+    if (this.isPublic(context)) return true;
+    const requiredRoles = this.getRequiredRoles(context);
     const request: Request = context.switchToHttp().getRequest();
     const response: Response = context.switchToHttp().getResponse();
     try {
       await this.verifyJWT(request, response);
-      const { sub } = request.auth.payload;
-      let user = await this.usersService.findBySub(sub);
-      if (!user) {
-        const { data } = await this.managementClient.users.get({ id: sub });
-        user = await this.usersService.findByEmail(data.email);
-        // TODO update user's sub/create the user/whatever
-        if (!user) {
-          // temporarily allow all new accounts
-          const dto = plainToClass(
-            CreateUserDto,
-            { email: data.email, role: 'ADMIN', sub }
-          );
-          user = await this.usersService.create(dto);
-        }
-
-      }
+      const user = await this.getUser(request);
       if (!user) throw new UnauthorizedException();
       request['user'] = user;
       if (!requiredRoles) return true;
@@ -71,9 +50,43 @@ export class AuthGuard implements CanActivate {
     }
   }
 
+  protected async getUser(request: Request): Promise<User> {
+    const { sub } = request.auth.payload;
+    let user = await this.usersService.findBySub(sub);
+    if (!user) {
+      const { data } = await this.managementClient.users.get({ id: sub });
+      user = await this.usersService.findByEmail(data.email);
+      // TODO define and handle use-case when user is not found
+      // temporarily allow all new accounts, but rejection is also valid
+      if (!user) {
+        const dto = plainToClass(CreateUserDto, {
+          email: data.email,
+          role: 'ADMIN',
+          sub
+        });
+        user = await this.usersService.create(dto);
+      }
+    }
+    return user;
+  }
+
+  private getRequiredRoles(context: ExecutionContext): string[] {
+    return this.reflector.getAllAndOverride<string[]>(ROLES_KEY, [
+      context.getHandler(),
+      context.getClass()
+    ]);
+  }
+
+  private isPublic(context: ExecutionContext): boolean {
+    return this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+      context.getHandler(),
+      context.getClass()
+    ]);
+  }
+
   // NOTE: this is a wrapper for Auth0 Express middleware, but this way we can
   // catch the error and handle it gracefully
-  private verifyJWT(req, res) {
+  private verifyJWT(req, res): Promise<any> {
     return new Promise((resolve) => {
       const domain = this.configService.get('AUTH0_DOMAIN');
       return auth({
