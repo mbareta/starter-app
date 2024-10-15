@@ -29,11 +29,6 @@ export class AuthGuard implements CanActivate {
       clientId: this.configService.get('AUTH0_CLIENT_ID'),
       clientSecret: this.configService.get('AUTH0_CLIENT_SECRET')
     });
-    console.log({
-      domain: this.configService.get('AUTH0_DOMAIN'),
-      clientId: this.configService.get('AUTH0_CLIENT_ID'),
-      clientSecret: this.configService.get('AUTH0_CLIENT_SECRET')
-    });
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -83,7 +78,7 @@ export class AuthGuard implements CanActivate {
   // catch the error and handle it gracefully
   private verifyJWT(req, res) {
     return new Promise((resolve) => {
-      console.log('header', req.headers.get('Authorization'));
+      console.log('header', req.get('Authorization'));
       const domain = this.configService.get('AUTH0_DOMAIN');
       console.log('domain', domain);
       console.log('aud', this.configService.get('AUTH0_AUDIENCE'));
