@@ -46,11 +46,9 @@ export class AuthGuard implements CanActivate {
     try {
       await this.verifyJWT(request, response);
       const { sub } = request.auth.payload;
-      console.log('sub', sub);
       let user = await this.usersService.findBySub(sub);
       if (!user) {
         const { data } = await this.managementClient.users.get({ id: sub });
-        console.log('mgmt', data);
         user = await this.usersService.findByEmail(data.email);
         // TODO update user's sub/create the user/whatever
         if (!user) {
@@ -60,7 +58,6 @@ export class AuthGuard implements CanActivate {
             { email: data.email, role: 'ADMIN', sub }
           );
           user = await this.usersService.create(dto);
-          console.log(user);
         }
 
       }
@@ -78,10 +75,7 @@ export class AuthGuard implements CanActivate {
   // catch the error and handle it gracefully
   private verifyJWT(req, res) {
     return new Promise((resolve) => {
-      console.log('header', req.get('Authorization'));
       const domain = this.configService.get('AUTH0_DOMAIN');
-      console.log('domain', domain);
-      console.log('aud', this.configService.get('AUTH0_AUDIENCE'));
       return auth({
         audience: this.configService.get('AUTH0_AUDIENCE'),
         issuerBaseURL: `https://${domain}/`,
