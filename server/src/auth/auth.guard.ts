@@ -58,10 +58,11 @@ export class AuthGuard implements CanActivate {
       // TODO define and handle use-case when user is not found
       // temporarily allow all new accounts, but rejection is also valid
       if (!user) {
-        const dto = plainToClass(
-          CreateUserDto,
-          { email: data.email, role: 'ADMIN', sub }
-        );
+        const dto = plainToClass(CreateUserDto, {
+          email: data.email,
+          role: 'ADMIN',
+          sub
+        });
         user = await this.usersService.create(dto);
       }
     }
@@ -69,10 +70,10 @@ export class AuthGuard implements CanActivate {
   }
 
   private getRequiredRoles(context: ExecutionContext) {
-    return this.reflector.getAllAndOverride<string[]>(
-      ROLES_KEY,
-      [context.getHandler(), context.getClass()]
-    );
+    return this.reflector.getAllAndOverride<string[]>(ROLES_KEY, [
+      context.getHandler(),
+      context.getClass()
+    ]);
   }
 
   private isPublic(context: ExecutionContext): boolean {

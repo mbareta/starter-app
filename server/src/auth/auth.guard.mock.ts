@@ -1,14 +1,5 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  Injectable,
-  UnauthorizedException
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
-import { ConfigService } from '@nestjs/config';
-import { IS_PUBLIC_KEY } from './public.decorator';
-import { Reflector } from '@nestjs/core';
-import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthGuardMock extends AuthGuard {
