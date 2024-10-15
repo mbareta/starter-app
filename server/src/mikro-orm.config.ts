@@ -1,13 +1,19 @@
 import { Options, PostgreSqlDriver } from '@mikro-orm/postgresql';
 import dotenv from 'dotenv';
+import fs from 'fs';
 import { Migrator } from '@mikro-orm/migrations';
 import { SeedManager } from '@mikro-orm/seeder';
+
 dotenv.config();
 
-const isTest = process.env.NODE_ENV === 'test';
+const isProduction = process.env.NODE_ENV === 'production';
+const ssl = isProduction
+  ? { ca: fs.readFileSync(`./rds-cert-us-east-1.pem`) }
+  : false;
 
 const config: Options = {
   driver: PostgreSqlDriver,
+  driverOptions: { connection: { ssl } },
   host: process.env.DATABASE_HOST,
   port: +process.env.DATABASE_PORT,
   dbName: process.env.DATABASE_NAME,

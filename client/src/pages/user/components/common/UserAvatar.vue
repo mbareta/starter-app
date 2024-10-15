@@ -5,7 +5,7 @@ export default {
   },
   computed: {
     imageUrl() {
-      return this.user.value.picture;
+      return this.user?.value?.picture;
     }
   }
 };
@@ -15,7 +15,7 @@ export default {
   <div class="is-spaced-between">
     <img :src="imageUrl" alt="user's profile picture">
     <div>
-      {{ user.value.email }}
+      {{ user.value?.email }}
     </div>
   </div>
 </template>

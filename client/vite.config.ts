@@ -14,9 +14,8 @@ const rewrite = {
     serve.middlewares.use((req, _, next) => {
       if (req.url.startsWith('/admin')) req.url = '/admin';
       // TODO - find a better way to achieve this
-      if (req.url === '/') req.url = '/';
       if (req.url.startsWith('/courses')) req.url = '/';
-      next()
+      next();
     })
   }
 };

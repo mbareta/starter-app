@@ -71,6 +71,13 @@ jobs:
             DATABASE_PORT: 5432
             DATABASE_NAME: circle_test
             DATABASE_USER: postgres
+            VITE_AUTH0_DOMAIN: dev-6akn28u2adtkauhz.us.auth0.com
+            VITE_AUTH0_CLIENT_ID: CA4vZt9hxJ3E6vEm8T9GVHS0XUouS3F5
+            VITE_AUTH0_AUDIENCE: http://localhost:3000
+            AUTH0_DOMAIN: dev-6akn28u2adtkauhz.us.auth0.com
+            AUTH0_AUDIENCE: http://localhost:3000
+            AUTH0_CLIENT_ID: 8zssnzjdMtmjYkyfqmST4Krjh6VBijNI
+            AUTH0_CLIENT_SECRET: ${TEST_AUTH0_CLIENT_SECRET}
       - store_artifacts:
           path: playwright-report/index.html
   test-server:
@@ -137,6 +144,11 @@ jobs:
       - run:
           name: Build server
           command: npm run build
+          environment:
+            VITE_API_URL: https://api.starter.gostudion.com
+            VITE_AUTH0_AUDIENCE: https://api.starter.gostudion.com
+            VITE_AUTH0_DOMAIN: dev-6akn28u2adtkauhz.us.auth0.com
+            VITE_AUTH0_CLIENT_ID: G0JUp8hOgPRpsDo4mcUSYUFrGhPQPk37
       - store_artifacts:
           path: dist
       - persist_to_workspace:
