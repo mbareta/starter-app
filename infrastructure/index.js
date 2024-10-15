@@ -68,14 +68,14 @@ const cluster = new aws.ecs.Cluster(`${PROJECT_NAME}-cluster`, {
   name: `${PROJECT_NAME}-${stack}`
 });
 
-const getEnvironment = database => [
+const getEnvironment = () => [
   { name: 'HOSTNAME', value: `api.${domain}` },
   { name: 'IP', value: '0.0.0.0' },
   { name: 'PORT', value: '3000' },
   { name: 'DATABASE_NAME', value: db.instance.dbName },
   { name: 'DATABASE_USER', value: db.instance.username },
-  { name: 'DATABASE_HOST', value: database.instance.address },
-  { name: 'DATABASE_PORT', value: database.instance.port.apply(val => String(val)) }
+  { name: 'DATABASE_HOST', value: db.instance.address },
+  { name: 'DATABASE_PORT', value: db.instance.port.apply(val => String(val)) }
 ];
 
 const getSecrets = () => {
@@ -105,7 +105,7 @@ const backend = new studion.WebServer(`${PROJECT_NAME}-api`, {
   size: 'small',
   desiredCount: 1,
   healthCheckPath: '/healthcheck',
-  environment: getEnvironment(db),
+  environment: getEnvironment(),
   secrets: getSecrets()
 });
 

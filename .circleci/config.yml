@@ -73,6 +73,7 @@ jobs:
             DATABASE_USER: postgres
             VITE_AUTH0_DOMAIN: dev-6akn28u2adtkauhz.us.auth0.com
             VITE_AUTH0_CLIENT_ID: G0JUp8hOgPRpsDo4mcUSYUFrGhPQPk37
+            VITE_AUTH0_AUDIENCE: http://localhost:3000
       - store_artifacts:
           path: playwright-report/index.html
   test-server:
@@ -141,6 +142,9 @@ jobs:
           command: npm run build
           environment:
             VITE_API_URL: https://api.starter.gostudion.com
+            VITE_AUTH0_AUDIENCE: https://api.starter.gostudion.com
+            VITE_AUTH0_DOMAIN: dev-6akn28u2adtkauhz.us.auth0.com
+            VITE_AUTH0_CLIENT_ID: G0JUp8hOgPRpsDo4mcUSYUFrGhPQPk37
       - store_artifacts:
           path: dist
       - persist_to_workspace:
