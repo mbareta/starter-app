@@ -22,7 +22,11 @@ const routes = [{
   props: route => ({ courseId: Number(route.params.courseId) })
 }];
 
-export default createRouter({
-  history: createWebHistory('/'),
-  routes
-})
+const router = createRouter({ history: createWebHistory('/'), routes });
+router.beforeEach(to => {
+  if (!to.fullPath.startsWith('/admin')) return true;
+  window.location.replace('/admin');
+  return false;
+});
+
+export default router;
