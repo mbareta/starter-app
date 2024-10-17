@@ -1,6 +1,6 @@
 <script>
 import { Scene } from '@soulmachines/smwebsdk';
-const apiKey = 'eyJzb3VsSWQiOiJkZG5hLW1hcmluLWJhcmV0YS1vcmc0N2I3LS1kaWdpdGFsLWNoaWVmLWV4cGUiLCJhdXRoU2VydmVyIjoiaHR0cHM6Ly9kaC5zb3VsbWFjaGluZXMuY2xvdWQvYXBpL2p3dCIsImF1dGhUb2tlbiI6ImFwaWtleV92MV84YTlkMTQ5YS1mZjU0LTQ0ZGEtOWZjMy1mMWRiZTQ3ZGEzZjMifQ==';
+const apiKey = import.meta.env.VITE_SOUL_MACHINE_API_KEY;
 
 export default {
   mounted() {
@@ -13,13 +13,13 @@ export default {
         pageUrl: true
       }
     });
-    return scene.connect().then(sessionId => scene.startVideo());
+    return scene.connect().then(() => scene.startVideo());
   }
 };
 </script>
 
 <template>
   <div>
-    <video ref="video" width="640" height="640"></video>
+    <video ref="video" width="640" height="640" />
   </div>
 </template>
