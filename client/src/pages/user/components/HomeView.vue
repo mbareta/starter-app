@@ -1,3 +1,7 @@
+<script setup>
+import SoulMachine from './common/SoulMachine.vue';
+</script>
+
 <template>
   <div>
     <section class="hero is-success is-large">
@@ -6,5 +10,6 @@
         <h2 class="subtitle">There's no place like 127.0.0.1!</h2>
       </div>
     </section>
+    <soul-machine />
   </div>
 </template>
