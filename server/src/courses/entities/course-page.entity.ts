@@ -1,32 +1,33 @@
 import {
   Entity,
+  EntityRepositoryType,
   ManyToOne,
   PrimaryKey,
   Property,
   Unique
 } from '@mikro-orm/core';
 import { Course } from './course.entity';
+import { CoursePagesRepository } from '../course-pages.repository';
 
-@Entity({ tableName: 'course_pages' })
+@Entity({ repository: () => CoursePagesRepository, tableName: 'course_pages' })
 export class CoursePage {
+  [EntityRepositoryType]?: CoursePagesRepository;
+
   @PrimaryKey()
   id!: number;
 
   @Property()
   @Unique()
-  uid: string;
+  uid!: string;
 
   @Property()
-  sourceId: number;
+  position!: number;
 
   @Property()
-  name!: string;
-
-  @Property({ nullable: true })
-  description: string;
+  type!: string;
 
   @Property({ type: 'jsonb' })
-  structure: object;
+  elements: object;
 
   @ManyToOne()
   course!: Course;

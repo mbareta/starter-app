@@ -33,12 +33,12 @@ export class CoursesController {
     return this.coursesService.getCatalog();
   }
 
-  @Get(':id/container/:containerId')
-  findContainer(
+  @Get(':courseId/page/:id')
+  findPage(
     @Param('id') id: string,
-    @Param('containerId') containerId: string
+    @Param('courseId') courseId: string
   ) {
-    return this.coursesService.findContainer(+id, +containerId);
+    return this.coursesService.findPage(+id, +courseId);
   }
 
   @Roles(Role.Admin)

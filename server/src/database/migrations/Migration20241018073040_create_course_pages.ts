@@ -11,6 +11,7 @@ export class CreateCoursePages extends Migration {
       table.integer('position').notNullable();
       table.string('type').notNullable();
       table.jsonb('elements').notNullable();
+      table.integer('course_id').notNullable();
       table.foreign('course_id').references('courses.id').onDelete('CASCADE');
     });
     this.addSql(create.toQuery());
