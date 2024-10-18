@@ -81,7 +81,7 @@ After starting the app in dev mode, visit http://localhost:3000
 
 ```bash
 # create new migration
-$ npx mikro-orm migration:create --name=custom-name
+$ npx mikro-orm migration:create --blank
 
 # apply the migration
 $ npm run build
