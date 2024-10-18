@@ -20,16 +20,16 @@ export default {
     selectedContainerIndex: {
       immediate: true,
       handler(index) {
-        const { id: containerId } = this.page.contentContainers[index];
-        return this.loadData({ courseId: this.course.id, containerId });
+        const { id: pageId } = this.page.contentContainers[index];
+        return this.loadData({ courseId: this.course.id, pageId });
       }
     }
   },
   methods: {
-    loadData({ courseId, containerId }) {
+    loadData({ courseId, pageId }) {
       this.isLoading = true;
       this.data = {};
-      return request.get(`/courses/${courseId}/container/${containerId}`)
+      return request.get(`/courses/${courseId}/page/${pageId}`)
         .then(({ data }) => {
           this.data = data;
           this.isLoading = false;
