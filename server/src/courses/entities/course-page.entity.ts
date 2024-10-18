@@ -1,6 +1,5 @@
 import {
   Entity,
-  EntityRepositoryType,
   ManyToOne,
   PrimaryKey,
   Property,

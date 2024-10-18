@@ -5,7 +5,7 @@ const TABLE_NAME = 'users';
 export class CreateUsers extends Migration {
   async up(): Promise<void> {
     const knex = this.getKnex();
-    const create = knex.schema.createTable(TABLE_NAME, table => {
+    const create = knex.schema.createTable(TABLE_NAME, (table) => {
       table.increments('id').primary();
       table.string('sub').unique();
       table.string('email').notNullable().unique();

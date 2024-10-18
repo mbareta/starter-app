@@ -5,7 +5,7 @@ const TABLE_NAME = 'course_pages';
 export class CreateCoursePages extends Migration {
   async up(): Promise<void> {
     const knex = this.getKnex();
-    const create = knex.schema.createTable(TABLE_NAME, table => {
+    const create = knex.schema.createTable(TABLE_NAME, (table) => {
       table.increments('id').primary();
       table.string('uid').notNullable().unique();
       table.integer('position').notNullable();
