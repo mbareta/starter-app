@@ -52,7 +52,7 @@ export class CoursesService {
   }
 
   async findPage(id: number, courseId: number) {
-    const course = await this.coursesRepository.findOne({ id });
+    const course = await this.coursesRepository.findOne({ id: courseId });
     return this.coursePagesRepository.findOne({ id, course });
   }
 

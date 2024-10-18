@@ -34,10 +34,7 @@ export class CoursesController {
   }
 
   @Get(':courseId/page/:id')
-  findPage(
-    @Param('id') id: string,
-    @Param('courseId') courseId: string
-  ) {
+  findPage(@Param('id') id: string, @Param('courseId') courseId: string) {
     return this.coursesService.findPage(+id, +courseId);
   }
 
