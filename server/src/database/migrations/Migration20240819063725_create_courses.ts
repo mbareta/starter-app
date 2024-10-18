@@ -1,18 +1,21 @@
 import { Migration } from '@mikro-orm/migrations';
 
-export class Migration20240819063725_create_courses extends Migration {
+const TABLE_NAME = 'courses';
+
+export class CreateCourses extends Migration {
   async up(): Promise<void> {
-    this.addSql(`create table "courses" (
-      "id" serial primary key,
-      "source_id" integer not null,
-      "uid" varchar(255) not null,
-      "name" varchar(255) not null,
-      "description" varchar(255) null,
-      "structure" jsonb not null);`);
-    this.addSql(`alter table "courses"
-      add constraint "courses_uid_unique" unique ("uid");`);
+    const knex = this.getKnex();
+    const create = knex.schema.createTable(TABLE_NAME, table => {
+      table.increments('id').primary();
+      table.integer('source_id').notNullable();
+      table.string('uid').notNullable().unique();
+      table.string('name').notNullable();
+      table.string('description');
+      table.jsonb('structure').notNullable();
+    });
+    this.addSql(create.toQuery());
   }
   async down(): Promise<void> {
-    this.addSql('drop table if exists "courses" cascade;');
+    this.addSql(`drop table if exists "${TABLE_NAME}" cascade;`);
   }
 }

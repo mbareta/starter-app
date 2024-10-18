@@ -8,7 +8,7 @@ export class CourseSeeder extends Seeder {
       sourceId: 1,
       uid: 'uniq',
       name: 'Test Course',
-      structure: {}
+      structure: []
     });
   }
 }

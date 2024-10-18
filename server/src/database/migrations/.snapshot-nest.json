@@ -15,14 +15,23 @@
           "nullable": false,
           "mappedType": "integer"
         },
-        "source_uid": {
-          "name": "source_uid",
+        "uid": {
+          "name": "uid",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
           "mappedType": "string"
+        },
+        "source_id": {
+          "name": "source_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
         },
         "name": {
           "name": "name",
@@ -57,10 +66,10 @@
       "indexes": [
         {
           "columnNames": [
-            "source_uid"
+            "uid"
           ],
           "composite": false,
-          "keyName": "courses_source_uid_unique",
+          "keyName": "courses_uid_unique",
           "constraint": true,
           "primary": false,
           "unique": true
