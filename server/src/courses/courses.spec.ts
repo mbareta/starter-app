@@ -2,6 +2,7 @@ import { AppModule } from '../app.module';
 import { AuthGuard } from '../auth/auth.guard';
 import { AuthGuardMock } from '../auth/auth.guard.mock';
 import { Course } from './entities/course.entity';
+import { CoursePage } from './entities/course-page.entity';
 import { EntityManager } from '@mikro-orm/postgresql';
 import fs from 'node:fs';
 import { INestApplication } from '@nestjs/common';
@@ -161,16 +162,17 @@ describe('Courses', () => {
     });
   });
 
-  describe(`GET ${BASE_URL}/:id/container/:containerId`, () => {
+  describe(`GET ${BASE_URL}/:id/page/:pageId`, () => {
     it('returns 401 when user is not authenticated', () => {
       return request(server).post(BASE_URL).expect(401);
     });
 
-    it('returns requested container to admin', async () => {
+    it('returns requested page to admin', async () => {
       const sourceId = 3;
       const course = await em.findOne(Course, { sourceId });
+      const page = await em.findOne(CoursePage, { course });
       return request(server)
-        .get(`${BASE_URL}/${course.id}/container/1`)
+        .get(`${BASE_URL}/${course.id}/page/${page.id}`)
         .set('Authorization', adminToken)
         .expect(200);
     });
@@ -178,8 +180,9 @@ describe('Courses', () => {
     it('returns requested container to user', async () => {
       const sourceId = 3;
       const course = await em.findOne(Course, { sourceId });
+      const page = await em.findOne(CoursePage, { course });
       return request(server)
-        .get(`${BASE_URL}/${course.id}/container/1`)
+        .get(`${BASE_URL}/${course.id}/page/${page.id}`)
         .set('Authorization', userToken)
         .expect(200);
     });

@@ -45,7 +45,6 @@ export class AuthGuard implements CanActivate {
       if (!requiredRoles) return true;
       return requiredRoles.includes(user.role);
     } catch (error) {
-      console.log(error);
       throw new UnauthorizedException();
     }
   }
