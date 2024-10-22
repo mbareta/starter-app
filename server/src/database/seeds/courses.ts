@@ -15,7 +15,8 @@ export class CourseSeeder extends Seeder {
       course,
       position: 1,
       type: 'MODULE/PAGE',
-      uid: 'abc'
+      uid: 'abc',
+      elements: []
     });
   }
 }
