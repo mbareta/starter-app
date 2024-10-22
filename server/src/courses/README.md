@@ -3,6 +3,10 @@
 This module provides Tailor course functionality. It allows listing courses from
 course catalog, importing and viewing those courses.
 
+The course update functionality is missing on purpose. If your implementation
+requires it, it should be fairly easy to add, but it is outside of the starter
+app scope.
+
 ## Importing Courses
 
 Tailor export should be located in `PROJECT_ROOT/server/data`. The directory is
@@ -21,10 +25,17 @@ property.
 This module is a simple wrapper of MikroORM EntityRepository.
 Docs here: https://mikro-orm.io/api/knex/class/EntityRepository
 
+## Course Page Model and Repository
+
+CoursePage entity is used to store Tailor container data. This is the actual
+page that contains the teaching elements. Usually, it is pulled from S3 but
+this implementation stores the data in the database, binds it to a course with
+a foreign key and allows easier fetch.
+
 ## Controller endpoints
 
 - GET /courses - returns all courses
 - GET /courses/catalog - returns all courses from Tailor catalog
-- GET /courses/:id/module/:moduleId - gets course module data
+- GET /courses/:id/page/:pageId - gets course page data
 - POST /courses - imports course from Tailor storage
 - DELETE /users/:id - deletes a course from the DB (courses are not soft-deleted)

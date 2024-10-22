@@ -1,17 +1,19 @@
 import { Migration } from '@mikro-orm/migrations';
 
-const TABLE_NAME = 'courses';
+const TABLE_NAME = 'course_pages';
 
-export class CreateCourses extends Migration {
+export class CreateCoursePages extends Migration {
   async up(): Promise<void> {
     const knex = this.getKnex();
     const create = knex.schema.createTable(TABLE_NAME, (table) => {
       table.increments('id').primary();
-      table.integer('source_id').notNullable();
+      table.integer('source_id').notNullable().unique();
       table.string('uid').notNullable().unique();
-      table.string('name').notNullable();
-      table.string('description');
-      table.jsonb('structure').notNullable();
+      table.integer('position').notNullable();
+      table.string('type').notNullable();
+      table.jsonb('elements').notNullable();
+      table.integer('course_id').notNullable();
+      table.foreign('course_id').references('courses.id').onDelete('CASCADE');
     });
     this.addSql(create.toQuery());
   }

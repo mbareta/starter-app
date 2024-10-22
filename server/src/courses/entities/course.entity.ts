@@ -1,10 +1,13 @@
 import {
+  Cascade,
   Entity,
   EntityRepositoryType,
+  OneToMany,
   PrimaryKey,
   Property,
   Unique
 } from '@mikro-orm/core';
+import { CoursePage } from './course-page.entity';
 import { CoursesRepository } from '../courses.repository';
 
 @Entity({ repository: () => CoursesRepository, tableName: 'courses' })
@@ -29,4 +32,11 @@ export class Course {
 
   @Property({ type: 'jsonb' })
   structure: object;
+
+  @OneToMany({
+    entity: () => CoursePage,
+    mappedBy: 'course',
+    cascade: [Cascade.ALL]
+  })
+  coursePages: CoursePage;
 }
