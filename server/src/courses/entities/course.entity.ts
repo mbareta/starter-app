@@ -7,8 +7,8 @@ import {
   Property,
   Unique
 } from '@mikro-orm/core';
-import { CoursesRepository } from '../courses.repository';
 import { CoursePage } from './course-page.entity';
+import { CoursesRepository } from '../courses.repository';
 
 @Entity({ repository: () => CoursesRepository, tableName: 'courses' })
 export class Course {
@@ -38,5 +38,5 @@ export class Course {
     mappedBy: 'course',
     cascade: [Cascade.ALL]
   })
-  coursePages: CoursePage
+  coursePages: CoursePage;
 }
