@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@auth0/auth0-vue": "^2.3.3",
+    "@soulmachines/smwebsdk": "^15.8.1",
     "axios": "^1.7.7",
     "bulma": "^1.0.2",
     "dotenv": "^16.4.5",
@@ -25,8 +26,8 @@
     "@vitejs/plugin-vue": "^5.1.4",
     "eslint": "^9.12.0",
     "eslint-plugin-vue": "^9.28.0",
-    "typescript": "^5.6.3",
     "sass": "^1.79.5",
+    "typescript": "^5.6.3",
     "typescript-eslint": "^8.8.1",
     "vite": "^5.4.8",
     "vue-tsc": "^2.1.6"
