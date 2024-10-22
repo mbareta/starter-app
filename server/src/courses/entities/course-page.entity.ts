@@ -17,6 +17,9 @@ export class CoursePage {
   id!: number;
 
   @Property()
+  sourceId!: number;
+
+  @Property()
   @Unique()
   uid!: string;
 
@@ -29,6 +32,6 @@ export class CoursePage {
   @Property({ type: 'jsonb' })
   elements!: object;
 
-  @ManyToOne()
+  @ManyToOne(() => Course)
   course!: Course;
 }

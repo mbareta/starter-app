@@ -9,6 +9,8 @@ export class CreateCoursePageDto {
 
   position!: number;
 
+  sourceId!: number;
+
   type!: string;
 
   elements: object;

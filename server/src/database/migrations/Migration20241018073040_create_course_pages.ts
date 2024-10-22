@@ -7,6 +7,7 @@ export class CreateCoursePages extends Migration {
     const knex = this.getKnex();
     const create = knex.schema.createTable(TABLE_NAME, (table) => {
       table.increments('id').primary();
+      table.integer('source_id').notNullable().unique();
       table.string('uid').notNullable().unique();
       table.integer('position').notNullable();
       table.string('type').notNullable();

@@ -13,6 +13,7 @@ export class CourseSeeder extends Seeder {
     });
     await em.create(CoursePage, {
       course,
+      sourceId: 1,
       position: 1,
       type: 'MODULE/PAGE',
       uid: 'abc',

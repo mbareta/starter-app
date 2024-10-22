@@ -31,6 +31,7 @@ export class CoursesService {
         `${BASE}/${course.sourceId}/${containerId}.container.json`
       );
       const dto = plainToClass(CreateCoursePageDto, data);
+      dto.sourceId = data.id;
       dto.course = course;
       this.coursePagesRepository.create(dto);
     });
@@ -53,10 +54,12 @@ export class CoursesService {
 
   async findPage(id: number, courseId: number) {
     const course = await this.coursesRepository.findOne({ id: courseId });
-    return this.coursePagesRepository.findOne({ id, course });
+    return this.coursePagesRepository.findOne({ sourceId: id, course });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
+    const course = await this.coursesRepository.findOne({ id });
+    await this.coursePagesRepository.nativeDelete({ course });
     return this.coursesRepository.nativeDelete({ id });
   }
 }

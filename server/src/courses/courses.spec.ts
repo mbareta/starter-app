@@ -49,6 +49,14 @@ const catalog = [
   }
 ];
 
+const container = {
+  id: 2,
+  uid: 'container-1',
+  type: 'SECTION',
+  position: 1,
+  elements: []
+};
+
 const writeJsonFile = (base, filename, data) => {
   if (!fs.existsSync(base)) fs.mkdirSync(base, { recursive: true });
   fs.writeFileSync(`${base}/${filename}`, JSON.stringify(data));
@@ -59,6 +67,7 @@ const writeCatalog = () => {
   catalog.forEach((course) => {
     writeJsonFile(`${BASE_PATH}/${course.id}`, 'index.json', course);
   });
+  writeJsonFile(`${BASE_PATH}/3`, '1.container.json', container);
 };
 
 describe('Courses', () => {
