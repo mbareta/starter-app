@@ -2,6 +2,7 @@ import { CoursePagesRepository } from './course-pages.repository';
 import { CoursesRepository } from './courses.repository';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { CreateCoursePageDto } from './dto/create-course-page.dto';
+import { FileService } from './file.service';
 import fs from 'node:fs';
 import { Injectable } from '@nestjs/common';
 import { plainToClass } from '@nestjs/class-transformer';
@@ -15,7 +16,8 @@ const getData = (path) => JSON.parse(fs.readFileSync(path, 'utf8'));
 export class CoursesService {
   constructor(
     private readonly coursesRepository: CoursesRepository,
-    private readonly coursePagesRepository: CoursePagesRepository
+    private readonly coursePagesRepository: CoursePagesRepository,
+    private readonly fileService: FileService
   ) {}
 
   async create({ sourceId }) {
@@ -41,7 +43,7 @@ export class CoursesService {
   }
 
   getCatalog() {
-    return getData(`${BASE}/index.json`) || [];
+    return this.fileService.getCatalog();
   }
 
   findAll() {
