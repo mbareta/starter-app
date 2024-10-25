@@ -37,12 +37,24 @@ export class CoursesService {
     );
   }
 
+  private getAssetPaths(pages) {
+    return pages
+      .flatMap((page) =>
+        page.elements.map((element) => element.data?.assets?.url)
+      )
+      .filter((page) => page)
+      .map((url) => url.split('repository/')[1]);
+  }
+
   async create({ sourceId }) {
     const data = await this.fileService.getData(`${sourceId}/index.json`);
     const courseDto = this.getCourseDto(data);
     const course = this.coursesRepository.create(courseDto);
     const pageDtos = await this.getPagesDto(data, course);
-    pageDtos.forEach((dto) => this.coursePagesRepository.create(dto));
+    const pages = pageDtos.map((dto) => this.coursePagesRepository.create(dto));
+    const assetPaths = this.getAssetPaths(pages);
+    // TODO - import assets to our S3 bucket
+    console.log(assetPaths);
     await this.coursesRepository.flush();
     await this.coursePagesRepository.flush();
     return course;
