@@ -9,8 +9,15 @@ app scope.
 
 ## Importing Courses
 
-Tailor export should be located in `PROJECT_ROOT/server/data`. The directory is
-gitignored so you need to make your own Tailor course.
+For importing courses, we need to set up S3 bucket where Tailor will publish its
+JSON files. Check out .env.example for variable names, but essentially, we need
+to create AWS S3 bucket, credentials (access key and secret) and specify region.
+
+### Import Tests
+
+We don't want to fetch data from S3 when testing so we have a setup where the
+mock JSON files are written to the disk and then read from the disk when running
+tests.
 
 ## Course Model
 
