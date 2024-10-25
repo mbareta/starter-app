@@ -37,7 +37,7 @@ export class CoursesService {
   }
 
   getCatalog() {
-    return this.fileService.getCatalog();
+    return this.fileService.getData('index.json');
   }
 
   findAll() {

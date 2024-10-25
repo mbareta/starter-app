@@ -30,8 +30,4 @@ export class FileService {
       .then((res) => res.Body.transformToString())
       .then((data) => JSON.parse(data));
   }
-
-  getCatalog() {
-    return this.getData('index.json');
-  }
 }
