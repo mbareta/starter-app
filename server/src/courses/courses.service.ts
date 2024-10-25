@@ -39,7 +39,7 @@ export class CoursesService {
     const courseDto = this.getCourseDto(data);
     const course = this.coursesRepository.create(courseDto);
     const pageDtos = await this.getPagesDto(data, course);
-    await pageDtos.forEach((dto) => this.coursePagesRepository.create(dto));
+    pageDtos.forEach((dto) => this.coursePagesRepository.create(dto));
     await this.coursesRepository.flush();
     await this.coursePagesRepository.flush();
     return course;
