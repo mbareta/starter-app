@@ -1,12 +1,6 @@
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { ConfigService } from '@nestjs/config';
-import fs from 'node:fs';
 import { Injectable } from '@nestjs/common';
-
-const isTest = process.env.NODE_ENV === 'test';
-
-const BASE = isTest ? 'test_data/repository' : 'repository';
-const getData = (path) => JSON.parse(fs.readFileSync(path, 'utf8'));
 
 // get catalog
 // get assets
@@ -26,15 +20,18 @@ export class FileService {
     });
   }
 
-  getCatalog() {
-    const bucket = this.configService.get('S3_TAILOR_BUCKET');
+  getData(path) {
     const command = new GetObjectCommand({
-      Bucket: bucket,
-      Key: `${BASE}/index.json`
+      Bucket: this.configService.get('S3_TAILOR_BUCKET'),
+      Key: `repository/${path}`
     });
     return this.client
       .send(command)
       .then((res) => res.Body.transformToString())
       .then((data) => JSON.parse(data));
+  }
+
+  getCatalog() {
+    return this.getData('index.json');
   }
 }

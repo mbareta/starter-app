@@ -3,14 +3,8 @@ import { CoursesRepository } from './courses.repository';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { CreateCoursePageDto } from './dto/create-course-page.dto';
 import { FileService } from './file.service';
-import fs from 'node:fs';
 import { Injectable } from '@nestjs/common';
 import { plainToClass } from '@nestjs/class-transformer';
-
-const isTest = process.env.NODE_ENV === 'test';
-
-const BASE = isTest ? 'test_data/repository' : 'data/repository';
-const getData = (path) => JSON.parse(fs.readFileSync(path, 'utf8'));
 
 @Injectable()
 export class CoursesService {
@@ -21,16 +15,16 @@ export class CoursesService {
   ) {}
 
   async create({ sourceId }) {
-    const data = getData(`${BASE}/${sourceId}/index.json`);
+    const data = await this.fileService.getData(`${sourceId}/index.json`);
     const containerIds = data.structure.flatMap((it) => {
       return it.contentContainers.map(({ id }) => id);
     });
     const dto = plainToClass(CreateCourseDto, data);
     dto.sourceId = data.id;
     const course = this.coursesRepository.create(dto);
-    containerIds.forEach((containerId) => {
-      const data = getData(
-        `${BASE}/${course.sourceId}/${containerId}.container.json`
+    containerIds.forEach(async (containerId) => {
+      const data = await this.fileService.getData(
+        `${course.sourceId}/${containerId}.container.json`
       );
       const dto = plainToClass(CreateCoursePageDto, data);
       dto.sourceId = data.id;

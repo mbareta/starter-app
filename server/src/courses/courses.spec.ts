@@ -4,6 +4,7 @@ import { AuthGuardMock } from '../auth/auth.guard.mock';
 import { Course } from './entities/course.entity';
 import { CoursePage } from './entities/course-page.entity';
 import { EntityManager } from '@mikro-orm/postgresql';
+import { FileService } from './file.service';
 import fs from 'node:fs';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
@@ -70,6 +71,12 @@ const writeCatalog = () => {
   writeJsonFile(`${BASE_PATH}/3`, '1.container.json', container);
 };
 
+class FileServiceMock extends FileService {
+  getData(path) {
+    return JSON.parse(fs.readFileSync(`${BASE_PATH}/${path}`, 'utf8'));
+  }
+}
+
 describe('Courses', () => {
   let app: INestApplication;
   let em: EntityManager;
@@ -81,6 +88,8 @@ describe('Courses', () => {
     const moduleRef = await Test.createTestingModule({ imports: [AppModule] })
       .overrideProvider(AuthGuard)
       .useClass(AuthGuardMock)
+      .overrideProvider(FileService)
+      .useClass(FileServiceMock)
       .compile();
 
     app = moduleRef.createNestApplication();
