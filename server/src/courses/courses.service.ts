@@ -21,17 +21,20 @@ export class CoursesService {
   }
 
   private getPagesDto(data, course): Promise<CreateCoursePageDto[]> {
-    const containerIds = data.structure
-      .flatMap((it) => it.contentContainers.map(({ id }) => id));
-    return Promise.all(containerIds.map(async (containerId) => {
-      const pageData = await this.fileService.getData(
-        `${course.sourceId}/${containerId}.container.json`
-      );
-      const dto = plainToClass(CreateCoursePageDto, pageData);
-      dto.sourceId = pageData.id;
-      dto.course = course;
-      return dto;
-    }));
+    const containerIds = data.structure.flatMap((it) => {
+      return it.contentContainers.map(({ id }) => id);
+    });
+    return Promise.all(
+      containerIds.map(async (containerId) => {
+        const pageData = await this.fileService.getData(
+          `${course.sourceId}/${containerId}.container.json`
+        );
+        const dto = plainToClass(CreateCoursePageDto, pageData);
+        dto.sourceId = pageData.id;
+        dto.course = course;
+        return dto;
+      })
+    );
   }
 
   async create({ sourceId }) {
