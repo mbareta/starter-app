@@ -14,23 +14,32 @@ export class CoursesService {
     private readonly fileService: FileService
   ) {}
 
-  async create({ sourceId }) {
-    const data = await this.fileService.getData(`${sourceId}/index.json`);
-    const containerIds = data.structure.flatMap((it) => {
-      return it.contentContainers.map(({ id }) => id);
-    });
+  private getCourseDto(data): CreateCourseDto {
     const dto = plainToClass(CreateCourseDto, data);
     dto.sourceId = data.id;
-    const course = this.coursesRepository.create(dto);
-    containerIds.forEach(async (containerId) => {
-      const data = await this.fileService.getData(
+    return dto;
+  }
+
+  private getPagesDto(data, course): Promise<CreateCoursePageDto[]> {
+    const containerIds = data.structure
+      .flatMap((it) => it.contentContainers.map(({ id }) => id));
+    return Promise.all(containerIds.map(async (containerId) => {
+      const pageData = await this.fileService.getData(
         `${course.sourceId}/${containerId}.container.json`
       );
-      const dto = plainToClass(CreateCoursePageDto, data);
-      dto.sourceId = data.id;
+      const dto = plainToClass(CreateCoursePageDto, pageData);
+      dto.sourceId = pageData.id;
       dto.course = course;
-      this.coursePagesRepository.create(dto);
-    });
+      return dto;
+    }));
+  }
+
+  async create({ sourceId }) {
+    const data = await this.fileService.getData(`${sourceId}/index.json`);
+    const courseDto = this.getCourseDto(data);
+    const course = this.coursesRepository.create(courseDto);
+    const pageDtos = await this.getPagesDto(data, course);
+    await pageDtos.forEach((dto) => this.coursePagesRepository.create(dto));
     await this.coursesRepository.flush();
     await this.coursePagesRepository.flush();
     return course;

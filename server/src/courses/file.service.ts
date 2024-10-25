@@ -2,10 +2,6 @@ import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
 
-// get catalog
-// get assets
-// store assets
-
 @Injectable()
 export class FileService {
   client: S3Client;
