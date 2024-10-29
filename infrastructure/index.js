@@ -39,6 +39,8 @@ const vpc = new awsx.ec2.Vpc(
   }
 );
 
+const bucket = new aws.s3.Bucket(`${PROJECT_NAME}-uploads`);
+
 const primaryDbParams = new aws.rds.ParameterGroup('primary-db-params', {
   family: 'postgres15',
   parameters: [{
@@ -75,7 +77,8 @@ const getEnvironment = () => [
   { name: 'DATABASE_NAME', value: db.instance.dbName },
   { name: 'DATABASE_USER', value: db.instance.username },
   { name: 'DATABASE_HOST', value: db.instance.address },
-  { name: 'DATABASE_PORT', value: db.instance.port.apply(val => String(val)) }
+  { name: 'DATABASE_PORT', value: db.instance.port.apply(val => String(val)) },
+  { name: 'S3_BUCKET', value: bucket.bucket }
 ];
 
 const getSecrets = () => {

@@ -26,7 +26,7 @@ export class CoursesService {
     });
     return Promise.all(
       containerIds.map(async (containerId) => {
-        const pageData = await this.fileService.getData(
+        const pageData = await this.fileService.getJsonData(
           `${course.sourceId}/${containerId}.container.json`
         );
         const dto = plainToClass(CreateCoursePageDto, pageData);
@@ -47,21 +47,24 @@ export class CoursesService {
   }
 
   async create({ sourceId }) {
-    const data = await this.fileService.getData(`${sourceId}/index.json`);
+    const data = await this.fileService.getJsonData(`${sourceId}/index.json`);
     const courseDto = this.getCourseDto(data);
     const course = this.coursesRepository.create(courseDto);
     const pageDtos = await this.getPagesDto(data, course);
     const pages = pageDtos.map((dto) => this.coursePagesRepository.create(dto));
     const assetPaths = this.getAssetPaths(pages);
-    // TODO - import assets to our S3 bucket
-    console.log(assetPaths);
+    await this.fileService.transferAssets(assetPaths);
     await this.coursesRepository.flush();
     await this.coursePagesRepository.flush();
     return course;
   }
 
   getCatalog() {
-    return this.fileService.getData('index.json');
+    return this.fileService.getJsonData('index.json');
+  }
+
+  getAssetUrl(path) {
+    return this.fileService.getAssetUrl(path);
   }
 
   findAll() {

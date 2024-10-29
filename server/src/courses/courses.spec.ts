@@ -72,8 +72,16 @@ const writeCatalog = () => {
 };
 
 class FileServiceMock extends FileService {
-  getData(path) {
+  getJsonData(path) {
     return JSON.parse(fs.readFileSync(`${BASE_PATH}/${path}`, 'utf8'));
+  }
+
+  getAssetUrl(path) {
+    return Promise.resolve('');
+  }
+
+  transferAssets(paths) {
+    return Promise.resolve('');
   }
 }
 
@@ -190,6 +198,28 @@ describe('Courses', () => {
       const page = await em.findOne(CoursePage, { course });
       return request(server)
         .get(`${BASE_URL}/${course.id}/page/${page.id}`)
+        .set('Authorization', userToken)
+        .expect(200);
+    });
+  });
+
+  describe(`GET ${BASE_URL}/asset-url?path=<path>`, () => {
+    it('returns 401 when user is not authenticated', () => {
+      return request(server)
+        .get(`${BASE_URL}/asset-url?path=example`)
+        .expect(401);
+    });
+
+    it('returns requested page to admin', async () => {
+      return request(server)
+        .get(`${BASE_URL}/asset-url?path=example`)
+        .set('Authorization', adminToken)
+        .expect(200);
+    });
+
+    it('returns requested container to user', async () => {
+      return request(server)
+        .get(`${BASE_URL}/asset-url?path=example`)
         .set('Authorization', userToken)
         .expect(200);
     });
