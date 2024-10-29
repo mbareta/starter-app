@@ -76,11 +76,11 @@ class FileServiceMock extends FileService {
     return JSON.parse(fs.readFileSync(`${BASE_PATH}/${path}`, 'utf8'));
   }
 
-  getAssetUrl(path) {
+  getAssetUrl() {
     return Promise.resolve('');
   }
 
-  transferAssets(paths) {
+  transferAssets() {
     return Promise.resolve('');
   }
 }

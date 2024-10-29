@@ -12,7 +12,7 @@ export default {
   },
   computed: {
     url() {
-      const { url = '' } = this.element.data?.assets;
+      const { url = '' } = this.element.data?.assets || {};
       return url.split('assets/')[1];
     }
   },

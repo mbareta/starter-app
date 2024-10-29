@@ -1,6 +1,10 @@
-import { GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import {
+  GetObjectCommand,
+  PutObjectCommand,
+  S3Client
+} from '@aws-sdk/client-s3';
 import { ConfigService } from '@nestjs/config';
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -30,8 +34,7 @@ export class FileService {
   }
 
   private getAsset(path: string): Promise<Uint8Array> {
-    return this.getRawData(path)
-      .then((res) => res.Body.transformToByteArray());
+    return this.getRawData(path).then((res) => res.Body.transformToByteArray());
   }
 
   private putData(path: string, data: Uint8Array): Promise<any> {
@@ -58,9 +61,11 @@ export class FileService {
   }
 
   transferAssets(paths: string[]): Promise<any> {
-    return Promise.all(paths.map(async path => {
-      const data: Uint8Array = await this.getAsset(path);
-      return this.putData(path, data);
-    }));
+    return Promise.all(
+      paths.map(async (path) => {
+        const data: Uint8Array = await this.getAsset(path);
+        return this.putData(path, data);
+      })
+    );
   }
 }
