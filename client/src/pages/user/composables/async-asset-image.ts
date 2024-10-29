@@ -1,4 +1,4 @@
-import { onMounted, ref, toValue, watchEffect } from 'vue';
+import { ref, watchEffect } from 'vue';
 import request from 'user/helpers/request';
 
 export function useAsyncImage(url) {
