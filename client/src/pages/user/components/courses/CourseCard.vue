@@ -1,15 +1,16 @@
-<script>
-export default {
-  props: {
-    course: { type: Object, required: true }
-  },
-  computed: {
-    src() {
-      return this.course?.meta?.posterImage ||
-        'https://bulma.io/assets/images/placeholders/1280x960.png';
-    }
-  }
-};
+<script setup>
+import { computed, defineProps } from 'vue';
+import { useAsyncImage } from 'user/composables/async-asset-image';
+
+const props = defineProps({
+  course: { type: Object, required: true }
+});
+
+const url = computed(() => {
+  return props.course.meta.posterImage?.key?.split('assets/')[1];
+});
+
+const { src } = useAsyncImage(url);
 </script>
 
 <template>
