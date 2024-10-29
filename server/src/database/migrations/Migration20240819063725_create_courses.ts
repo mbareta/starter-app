@@ -11,6 +11,7 @@ export class CreateCourses extends Migration {
       table.string('uid').notNullable().unique();
       table.string('name').notNullable();
       table.string('description');
+      table.jsonb('meta').notNullable();
       table.jsonb('structure').notNullable();
     });
     this.addSql(create.toQuery());

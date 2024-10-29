@@ -16,4 +16,7 @@ export class CreateCourseDto {
 
   @Expose()
   structure: object;
+
+  @Expose()
+  meta: object;
 }

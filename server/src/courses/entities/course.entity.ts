@@ -33,6 +33,9 @@ export class Course {
   @Property({ type: 'jsonb' })
   structure: object;
 
+  @Property({ type: 'jsonb' })
+  meta: object;
+
   @OneToMany({
     entity: () => CoursePage,
     mappedBy: 'course',

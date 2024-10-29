@@ -48,11 +48,13 @@ export class CoursesService {
 
   async create({ sourceId }) {
     const data = await this.fileService.getJsonData(`${sourceId}/index.json`);
+    const imageUrl = data.meta.posterImage?.key?.split('repository/')[1];
     const courseDto = this.getCourseDto(data);
     const course = this.coursesRepository.create(courseDto);
     const pageDtos = await this.getPagesDto(data, course);
     const pages = pageDtos.map((dto) => this.coursePagesRepository.create(dto));
     const assetPaths = this.getAssetPaths(pages);
+    if (imageUrl) assetPaths.push(imageUrl);
     await this.fileService.transferAssets(assetPaths);
     await this.coursesRepository.flush();
     await this.coursePagesRepository.flush();
