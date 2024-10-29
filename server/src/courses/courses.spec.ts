@@ -23,6 +23,7 @@ const catalog = [
     uid: 'test',
     name: 'Test course',
     description: 'Test description',
+    meta: [],
     structure: []
   },
   {
@@ -30,6 +31,7 @@ const catalog = [
     uid: 'test again',
     name: 'Test course again',
     description: 'Test description again',
+    meta: [],
     structure: [
       {
         id: 1,

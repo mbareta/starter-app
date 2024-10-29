@@ -9,6 +9,7 @@ export class CourseSeeder extends Seeder {
       sourceId: 1,
       uid: 'uniq',
       name: 'Test Course',
+      meta: [],
       structure: []
     });
     await em.create(CoursePage, {
