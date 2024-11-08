@@ -2,46 +2,71 @@ import { CoursePagesRepository } from './course-pages.repository';
 import { CoursesRepository } from './courses.repository';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { CreateCoursePageDto } from './dto/create-course-page.dto';
-import fs from 'node:fs';
+import { FileService } from './file.service';
 import { Injectable } from '@nestjs/common';
 import { plainToClass } from '@nestjs/class-transformer';
-
-const isTest = process.env.NODE_ENV === 'test';
-
-const BASE = isTest ? 'test_data/repository' : 'data/repository';
-const getData = (path) => JSON.parse(fs.readFileSync(path, 'utf8'));
 
 @Injectable()
 export class CoursesService {
   constructor(
     private readonly coursesRepository: CoursesRepository,
-    private readonly coursePagesRepository: CoursePagesRepository
+    private readonly coursePagesRepository: CoursePagesRepository,
+    private readonly fileService: FileService
   ) {}
 
-  async create({ sourceId }) {
-    const data = getData(`${BASE}/${sourceId}/index.json`);
+  private getCourseDto(data): CreateCourseDto {
+    const dto = plainToClass(CreateCourseDto, data);
+    dto.sourceId = data.id;
+    return dto;
+  }
+
+  private getPagesDto(data, course): Promise<CreateCoursePageDto[]> {
     const containerIds = data.structure.flatMap((it) => {
       return it.contentContainers.map(({ id }) => id);
     });
-    const dto = plainToClass(CreateCourseDto, data);
-    dto.sourceId = data.id;
-    const course = this.coursesRepository.create(dto);
-    containerIds.forEach((containerId) => {
-      const data = getData(
-        `${BASE}/${course.sourceId}/${containerId}.container.json`
-      );
-      const dto = plainToClass(CreateCoursePageDto, data);
-      dto.sourceId = data.id;
-      dto.course = course;
-      this.coursePagesRepository.create(dto);
-    });
+    return Promise.all(
+      containerIds.map(async (containerId) => {
+        const pageData = await this.fileService.getJsonData(
+          `${course.sourceId}/${containerId}.container.json`
+        );
+        const dto = plainToClass(CreateCoursePageDto, pageData);
+        dto.sourceId = pageData.id;
+        dto.course = course;
+        return dto;
+      })
+    );
+  }
+
+  private getAssetPaths(pages) {
+    return pages
+      .flatMap((page) =>
+        page.elements.map((element) => element.data?.assets?.url)
+      )
+      .filter((page) => page)
+      .map((url) => url.split('repository/')[1]);
+  }
+
+  async create({ sourceId }) {
+    const data = await this.fileService.getJsonData(`${sourceId}/index.json`);
+    const imageUrl = data.meta.posterImage?.key?.split('repository/')[1];
+    const courseDto = this.getCourseDto(data);
+    const course = this.coursesRepository.create(courseDto);
+    const pageDtos = await this.getPagesDto(data, course);
+    const pages = pageDtos.map((dto) => this.coursePagesRepository.create(dto));
+    const assetPaths = this.getAssetPaths(pages);
+    if (imageUrl) assetPaths.push(imageUrl);
+    await this.fileService.transferAssets(assetPaths);
     await this.coursesRepository.flush();
     await this.coursePagesRepository.flush();
     return course;
   }
 
   getCatalog() {
-    return getData(`${BASE}/index.json`) || [];
+    return this.fileService.getJsonData('index.json');
+  }
+
+  getAssetUrl(path) {
+    return this.fileService.getAssetUrl(path);
   }
 
   findAll() {

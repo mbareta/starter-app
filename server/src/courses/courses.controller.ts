@@ -6,7 +6,8 @@ import {
   HttpCode,
   NotFoundException,
   Param,
-  Post
+  Post,
+  Query
 } from '@nestjs/common';
 import { Role, Roles } from '../auth/roles.decorator';
 import { CoursesService } from './courses.service';
@@ -31,6 +32,11 @@ export class CoursesController {
   @Get('catalog')
   catalog() {
     return this.coursesService.getCatalog();
+  }
+
+  @Get('asset-url')
+  getAssetUrl(@Query() query) {
+    return this.coursesService.getAssetUrl(query.path);
   }
 
   @Get(':courseId/page/:id')

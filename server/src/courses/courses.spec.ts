@@ -4,6 +4,7 @@ import { AuthGuardMock } from '../auth/auth.guard.mock';
 import { Course } from './entities/course.entity';
 import { CoursePage } from './entities/course-page.entity';
 import { EntityManager } from '@mikro-orm/postgresql';
+import { FileService } from './file.service';
 import fs from 'node:fs';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
@@ -22,6 +23,7 @@ const catalog = [
     uid: 'test',
     name: 'Test course',
     description: 'Test description',
+    meta: [],
     structure: []
   },
   {
@@ -29,6 +31,7 @@ const catalog = [
     uid: 'test again',
     name: 'Test course again',
     description: 'Test description again',
+    meta: [],
     structure: [
       {
         id: 1,
@@ -70,6 +73,20 @@ const writeCatalog = () => {
   writeJsonFile(`${BASE_PATH}/3`, '1.container.json', container);
 };
 
+class FileServiceMock extends FileService {
+  getJsonData(path) {
+    return JSON.parse(fs.readFileSync(`${BASE_PATH}/${path}`, 'utf8'));
+  }
+
+  getAssetUrl() {
+    return Promise.resolve('');
+  }
+
+  transferAssets() {
+    return Promise.resolve('');
+  }
+}
+
 describe('Courses', () => {
   let app: INestApplication;
   let em: EntityManager;
@@ -81,6 +98,8 @@ describe('Courses', () => {
     const moduleRef = await Test.createTestingModule({ imports: [AppModule] })
       .overrideProvider(AuthGuard)
       .useClass(AuthGuardMock)
+      .overrideProvider(FileService)
+      .useClass(FileServiceMock)
       .compile();
 
     app = moduleRef.createNestApplication();
@@ -181,6 +200,28 @@ describe('Courses', () => {
       const page = await em.findOne(CoursePage, { course });
       return request(server)
         .get(`${BASE_URL}/${course.id}/page/${page.id}`)
+        .set('Authorization', userToken)
+        .expect(200);
+    });
+  });
+
+  describe(`GET ${BASE_URL}/asset-url?path=<path>`, () => {
+    it('returns 401 when user is not authenticated', () => {
+      return request(server)
+        .get(`${BASE_URL}/asset-url?path=example`)
+        .expect(401);
+    });
+
+    it('returns requested page to admin', async () => {
+      return request(server)
+        .get(`${BASE_URL}/asset-url?path=example`)
+        .set('Authorization', adminToken)
+        .expect(200);
+    });
+
+    it('returns requested container to user', async () => {
+      return request(server)
+        .get(`${BASE_URL}/asset-url?path=example`)
         .set('Authorization', userToken)
         .expect(200);
     });
