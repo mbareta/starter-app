@@ -15,7 +15,7 @@ export class CourseAssistantService {
   async respond(content: any): Promise<string> {
     const response = await this.client.chat.completions.create({
       messages: [{ role: 'user', content }],
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-3.5-turbo'
     });
     return response.choices[0].message.content;
   }

@@ -34,9 +34,9 @@ export default {
     </div>
     <textarea
       v-if="isActivated"
-      @input="sendQuery"
       class="input"
-      placeholder="Ask me anything..." />
+      placeholder="Ask me anything..."
+      @input="sendQuery" />
   </div>
 </template>
 

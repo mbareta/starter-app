@@ -6,6 +6,6 @@ import { Module } from '@nestjs/common';
 @Module({
   imports: [ConfigModule],
   controllers: [CourseAssistantController],
-  providers: [CourseAssistantService],
+  providers: [CourseAssistantService]
 })
 export class CourseAssistantModule {}

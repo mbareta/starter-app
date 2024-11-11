@@ -3,12 +3,12 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/auth.guard';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { CourseAssistantModule } from './course-assistant/course-assistant.module';
 import { CoursesModule } from './courses/courses.module';
 import { DatabaseModule } from './database/database.module';
 import { HealthController } from './health.controller';
 import { ResponseTimeMiddleware } from '@nest-middlewares/response-time';
 import { UsersModule } from './users/users.module';
-import { CourseAssistantModule } from './course-assistant/course-assistant.module';
 
 @Module({
   imports: [
