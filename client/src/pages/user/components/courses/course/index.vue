@@ -1,11 +1,12 @@
 <script>
 import { mapActions, mapState } from 'pinia';
+import CourseAssistant from 'user/components/course-assistant/index.vue';
 import CourseModule from './CourseModule.vue';
 import LoadingSpinner from 'user/components/common/LoadingSpinner.vue';
 import { useCoursesStore } from 'user/stores/courses.store';
 
 export default {
-  components: { CourseModule, LoadingSpinner },
+  components: { CourseAssistant, CourseModule, LoadingSpinner },
   props: { courseId: { type: Number, required: true } },
   computed: {
     ...mapState(useCoursesStore, ['courses', 'isLoading']),
@@ -41,6 +42,7 @@ export default {
         :course="course"
         :module="module" />
     </section>
+    <course-assistant />
   </div>
 </template>
 

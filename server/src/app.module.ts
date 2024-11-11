@@ -8,6 +8,7 @@ import { DatabaseModule } from './database/database.module';
 import { HealthController } from './health.controller';
 import { ResponseTimeMiddleware } from '@nest-middlewares/response-time';
 import { UsersModule } from './users/users.module';
+import { CourseAssistantModule } from './course-assistant/course-assistant.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     CoursesModule,
     DatabaseModule,
-    UsersModule
+    UsersModule,
+    CourseAssistantModule
   ],
   providers: [AuthGuard, { provide: APP_GUARD, useExisting: AuthGuard }],
   controllers: [HealthController]
