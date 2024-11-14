@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Response } from '@nestjs/common';
 import { CourseAssistantService } from './course-assistant.service';
 
 @Controller('course-assistant')
@@ -8,7 +8,7 @@ export class CourseAssistantController {
   ) {}
 
   @Post()
-  create(@Body() body: Body) {
-    return this.courseAssistantService.respond(body.text);
+  create(@Response() res: Response, @Body() body: Body) {
+    return this.courseAssistantService.respond(body.text, res);
   }
 }

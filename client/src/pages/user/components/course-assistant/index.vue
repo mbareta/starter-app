@@ -1,21 +1,39 @@
 <script>
 import request from 'user/helpers/request';
 
+const Role = { ASSISTANT: 'ASSISTANT', USER: 'USER' };
+
 export default {
   data() {
     return {
       isActivated: false,
-      messages: []
+      messages: [],
+      streamingMessage: ''
     };
   },
   methods: {
     sendQuery({ inputType, target }) {
       if (inputType !== 'insertLineBreak') return;
       const text = target.value;
-      this.messages.push({ text });
+      this.messages.push({ text, role: Role.USER });
       target.value = null;
-      return request.post('course-assistant', { text })
-        .then(({ data }) => this.messages.push({ text: data }));
+      return request.post(
+        'course-assistant',
+        { text },
+        { responseType: 'stream', adapter: 'fetch' }
+      ).then(async response => {
+        const reader = await response.data.getReader();
+        const decoder = new TextDecoder();
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          this.streamingMessage += decoder.decode(value);
+        }
+        this.messages.push({
+          text: this.streamingMessage, role: Role.ASSISTANT
+        });
+        this.streamingMessage = '';
+      });
     }
   }
 };
@@ -28,8 +46,15 @@ export default {
     </button>
     <div v-if="isActivated" class="chat-display">
       Welcome!
-      <div v-for="message in messages" :key="message.text" class="message">
+      <div
+        v-for="message in messages"
+        :key="message.text"
+        :class="`type-${message.role.toLowerCase()}`"
+        class="message">
         {{ message.text }}
+      </div>
+      <div v-if="this.streamingMessage" class="message role-assistant">
+        {{ this.streamingMessage }}
       </div>
     </div>
     <textarea
@@ -73,6 +98,10 @@ $padding: 1rem;
     margin: 0.25rem;
     padding: 0.5rem;
     border: 1px solid var(--bulma-info);
+
+    &.type-user {
+      border: 1px solid var(--bulma-warning);
+    }
   }
 
   button {

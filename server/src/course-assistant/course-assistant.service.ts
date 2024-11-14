@@ -12,11 +12,16 @@ export class CourseAssistantService {
     });
   }
 
-  async respond(content: any): Promise<string> {
-    const response = await this.client.chat.completions.create({
+  async respond(content: any, res): Promise<any> {
+    const stream = await this.client.chat.completions.create({
+      model: 'gpt-4',
       messages: [{ role: 'user', content }],
-      model: 'gpt-3.5-turbo'
+      stream: true
     });
-    return response.choices[0].message.content;
+    res.header('Content-Type', 'text/event-stream');
+    for await (const chunk of stream) {
+      res.write(chunk.choices[0]?.delta?.content || '');
+    }
+    res.end();
   }
 }
