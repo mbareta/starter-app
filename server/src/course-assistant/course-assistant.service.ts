@@ -14,13 +14,13 @@ export class CourseAssistantService {
 
   async respond(content: any, res): Promise<any> {
     const thread = await this.client.beta.threads.create();
-    const message = await this.client.beta.threads.messages.create(
-      thread.id, { role: 'user', content }
-    );
-    const stream = await this.client.beta.threads.runs.stream(
-      thread.id,
-      { assistant_id: this.configService.get('OPENAI_ASSISTANT_ID') }
-    );
+    await this.client.beta.threads.messages.create(thread.id, {
+      role: 'user',
+      content
+    });
+    const stream = await this.client.beta.threads.runs.stream(thread.id, {
+      assistant_id: this.configService.get('OPENAI_ASSISTANT_ID')
+    });
     res.header('Content-Type', 'text/event-stream');
     for await (const chunk of stream) {
       if (chunk.event === 'thread.message.delta') {
