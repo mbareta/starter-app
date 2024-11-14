@@ -13,15 +13,21 @@ export class CourseAssistantService {
   }
 
   async respond(content: any, res): Promise<any> {
-    const stream = await this.client.chat.completions.create({
-      model: 'gpt-4',
-      messages: [{ role: 'user', content }],
-      stream: true
-    });
+    const thread = await this.client.beta.threads.create();
+    const message = await this.client.beta.threads.messages.create(
+      thread.id, { role: 'user', content }
+    );
+    const stream = await this.client.beta.threads.runs.stream(
+      thread.id,
+      { assistant_id: this.configService.get('OPENAI_ASSISTANT_ID') }
+    );
     res.header('Content-Type', 'text/event-stream');
     for await (const chunk of stream) {
-      res.write(chunk.choices[0]?.delta?.content || '');
+      if (chunk.event === 'thread.message.delta') {
+        res.write((chunk.data.delta.content[0] as any).text.value);
+      } else if (chunk.event === 'thread.run.completed') {
+        res.end();
+      }
     }
-    res.end();
   }
 }

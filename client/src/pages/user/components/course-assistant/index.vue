@@ -17,6 +17,7 @@ export default {
       const text = target.value;
       this.messages.push({ text, role: Role.USER });
       target.value = null;
+      this.streamingMessage = '...';
       return request.post(
         'course-assistant',
         { text },
@@ -24,6 +25,7 @@ export default {
       ).then(async response => {
         const reader = await response.data.getReader();
         const decoder = new TextDecoder();
+        this.streamingMessage = '';
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
@@ -66,8 +68,8 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-$height: 20rem;
-$width: 20rem;
+$height: 40rem;
+$width: 25rem;
 $padding: 1rem;
 
 .assistant-container {
