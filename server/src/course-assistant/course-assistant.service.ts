@@ -7,9 +7,9 @@ export class CourseAssistantService {
   client: OpenAI;
 
   constructor(protected configService: ConfigService) {
-    this.client = new OpenAI({
-      apiKey: this.configService.get('OPENAI_API_KEY')
-    });
+    const apiKey = this.configService.get('OPENAI_API_KEY');
+    if (!apiKey) return;
+    this.client = new OpenAI({ apiKey });
   }
 
   async respond(content: any, res): Promise<any> {
