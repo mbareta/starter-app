@@ -12,6 +12,11 @@ export default {
     };
   },
   methods: {
+    scrollToBottom() {
+      this.$nextTick(() => {
+        this.$refs.chatDisplay.scrollTop = this.$refs.chatDisplay.scrollHeight;
+      });
+    },
     sendQuery({ inputType, target }) {
       if (inputType !== 'insertLineBreak') return;
       const text = target.value;
@@ -30,6 +35,7 @@ export default {
           const { done, value } = await reader.read();
           if (done) break;
           this.streamingMessage += decoder.decode(value);
+          this.scrollToBottom();
         }
         this.messages.push({
           text: this.streamingMessage, role: Role.ASSISTANT
@@ -46,8 +52,8 @@ export default {
     <button v-if="!isActivated" @click="isActivated = true">
       🤖
     </button>
-    <div v-if="isActivated" class="chat-display">
-      Welcome!
+    <div v-if="isActivated" ref="chatDisplay" class="chat-display">
+      <p>🎉 Welcome to your personal course assistant! 🎉</p>
       <div
         v-for="message in messages"
         :key="message.text"
@@ -55,7 +61,9 @@ export default {
         class="message">
         {{ message.text }}
       </div>
-      <div v-if="this.streamingMessage" class="message role-assistant">
+      <div
+        v-if="this.streamingMessage"
+        class="message role-assistant is-streaming">
         {{ this.streamingMessage }}
       </div>
     </div>
@@ -69,7 +77,7 @@ export default {
 
 <style lang="scss" scoped>
 $height: 40rem;
-$width: 25rem;
+$width: 30rem;
 $padding: 1rem;
 
 .assistant-container {
@@ -80,6 +88,9 @@ $padding: 1rem;
   height: 5rem;
   border: 2px solid var(--bulma-primary);
   border-radius: 100%;
+  color: var(--bulma-info-dark-invert);
+  background: var(--bulma-info-dark);
+  overflow: hidden;
   transition: all 0.7s;
 
   &.is-activated {
@@ -94,6 +105,12 @@ $padding: 1rem;
     width: $width - 2 * $padding;
     height: $height - 2 * $padding - 2.5rem; // take account for input height
     overflow-y: scroll;
+
+    p {
+      padding-bottom: 0.75rem;
+      text-align: center;
+      border-bottom: 2px solid var(--bulma-primary);
+    }
   }
 
   .message {
@@ -103,6 +120,10 @@ $padding: 1rem;
 
     &.type-user {
       border: 1px solid var(--bulma-warning);
+    }
+
+    &.is-streaming {
+      border-style: dashed;
     }
   }
 
