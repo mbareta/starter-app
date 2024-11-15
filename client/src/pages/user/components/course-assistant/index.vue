@@ -1,17 +1,27 @@
 <script>
+import LoadingEllipsis from 'user/components/common/LoadingEllipsis.vue';
 import request from 'user/helpers/request';
 
 const Role = { ASSISTANT: 'ASSISTANT', USER: 'USER' };
 
 export default {
+  components: { LoadingEllipsis },
   data() {
     return {
       isActivated: false,
+      isLoading: false,
       messages: [],
       streamingMessage: ''
     };
   },
   methods: {
+    pushStreamingMessage() {
+      this.messages.push({
+        text: this.streamingMessage, role: Role.ASSISTANT
+      });
+      this.streamingMessage = '';
+      this.scrollToBottom();
+    },
     scrollToBottom() {
       this.$nextTick(() => {
         this.$refs.chatDisplay.scrollTop = this.$refs.chatDisplay.scrollHeight;
@@ -22,7 +32,7 @@ export default {
       const text = target.value;
       this.messages.push({ text, role: Role.USER });
       target.value = null;
-      this.streamingMessage = '...';
+      this.isLoading = true;
       return request.post(
         'course-assistant',
         { text },
@@ -30,18 +40,14 @@ export default {
       ).then(async response => {
         const reader = await response.data.getReader();
         const decoder = new TextDecoder();
-        this.streamingMessage = '';
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
           this.streamingMessage += decoder.decode(value);
           this.scrollToBottom();
         }
-        this.messages.push({
-          text: this.streamingMessage, role: Role.ASSISTANT
-        });
-        this.streamingMessage = '';
-      });
+        this.pushStreamingMessage();
+      }).finally(() => (this.isLoading = false));
     }
   }
 };
@@ -61,11 +67,10 @@ export default {
         class="message">
         {{ message.text }}
       </div>
-      <div
-        v-if="this.streamingMessage"
-        class="message role-assistant is-streaming">
-        {{ this.streamingMessage }}
+      <div v-if="streamingMessage" class="message type-assistant">
+        {{ streamingMessage }}
       </div>
+      <loading-ellipsis v-if="isLoading && !streamingMessage" />
     </div>
     <textarea
       v-if="isActivated"
@@ -114,16 +119,20 @@ $padding: 1rem;
   }
 
   .message {
-    margin: 0.25rem;
+    margin: 0.5rem 0.25rem;
     padding: 0.5rem;
-    border: 1px solid var(--bulma-info);
 
-    &.type-user {
-      border: 1px solid var(--bulma-warning);
+    &.type-assistant {
+      margin-right: 3rem;
+      color: var(--bulma-info-invert);
+      background: var(--bulma-info);
     }
 
-    &.is-streaming {
-      border-style: dashed;
+    &.type-user {
+      margin-left: 3rem;
+      color: var(--bulma-warning-invert);
+      background: var(--bulma-warning);
+      text-align: right;
     }
   }
 
