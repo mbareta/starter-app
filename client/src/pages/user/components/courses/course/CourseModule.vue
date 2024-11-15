@@ -43,7 +43,7 @@ export default {
 <template>
   <div :class="className" class="module-container">
     <div class="module-heading is-spaced-between">
-      {{ module.meta?.name }} ({{ module.type }})
+      {{ module.meta?.name }}
       <button
         v-if="!isEmpty && !isPage"
         class="button is-primary is-inverted"
