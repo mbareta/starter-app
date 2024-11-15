@@ -3,6 +3,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/auth.guard';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { CourseAssistantModule } from './course-assistant/course-assistant.module';
 import { CoursesModule } from './courses/courses.module';
 import { DatabaseModule } from './database/database.module';
 import { HealthController } from './health.controller';
@@ -15,7 +16,8 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     CoursesModule,
     DatabaseModule,
-    UsersModule
+    UsersModule,
+    CourseAssistantModule
   ],
   providers: [AuthGuard, { provide: APP_GUARD, useExisting: AuthGuard }],
   controllers: [HealthController]
