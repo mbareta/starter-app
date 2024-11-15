@@ -73,12 +73,24 @@ export class CoursesService {
     return this.coursesRepository.findAll();
   }
 
-  findOne(id: number) {
-    return this.coursesRepository.findOne({ id });
+  async getAsText(id: number) {
+    const course = await this.findOne(id);
+    const pages = await this.coursePagesRepository.find({ course });
+    let text = '';
+    pages.forEach((page) => {
+      return page.elements.forEach((element: any) => {
+        if (element.type === 'CE_HTML_DEFAULT') {
+          text += element.data?.content || '';
+        } else if (element.type === 'CE_IMAGE') {
+          text += element.data?.alt || '';
+        }
+      });
+    });
+    return text;
   }
 
   async findPage(id: number, courseId: number) {
-    const course = await this.coursesRepository.findOne({ id: courseId });
+    const course = await this.findOne(courseId);
     return this.coursePagesRepository.findOne({ sourceId: id, course });
   }
 
@@ -86,5 +98,9 @@ export class CoursesService {
     const course = await this.coursesRepository.findOne({ id });
     await this.coursePagesRepository.nativeDelete({ course });
     return this.coursesRepository.nativeDelete({ id });
+  }
+
+  private findOne(id: number) {
+    return this.coursesRepository.findOne({ id });
   }
 }
