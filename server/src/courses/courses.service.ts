@@ -97,14 +97,25 @@ export class CoursesService {
   }
 
   private getCourseAsText(course, pages): string {
-    let text = '';
-    pages.forEach((page) => {
-      return page.elements.forEach((element: any) => {
-        if (element.type === 'CE_HTML_DEFAULT') {
-          text += element.data?.content || '';
-        } else if (element.type === 'CE_IMAGE') {
-          text += element.data?.alt || '';
-        }
+    let text = `
+      <h1>${course.name}</h1>
+      <p>${course.description}<p>
+    `;
+    course.structure.forEach((it) => {
+      const containerIds = it.contentContainers.map((cc) => cc.id);
+      const containers = pages.filter((page) => {
+        return containerIds.includes(page.sourceId);
+      });
+      const tag = it.parentId ? 'h3' : 'h2';
+      text += `<${tag}>${it.meta.name}</${tag}>`;
+      containers.forEach((page) => {
+        return page.elements.forEach((element: any) => {
+          if (element.type === 'CE_HTML_DEFAULT') {
+            text += element.data?.content || '';
+          } else if (element.type === 'CE_IMAGE') {
+            text += element.data?.alt || '';
+          }
+        });
       });
     });
     return text;
