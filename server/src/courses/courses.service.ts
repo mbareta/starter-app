@@ -18,7 +18,7 @@ export class CoursesService {
     private readonly fileService: FileService
   ) {}
 
-  async create({ sourceId }) {
+  async create({ sourceId }): Promise<any> {
     const data = await this.fileService.getJsonData(`${sourceId}/index.json`);
     const imageUrl = data.meta.posterImage?.key?.split('repository/')[1];
     const courseDto = this.getCourseDto(data);
@@ -38,35 +38,35 @@ export class CoursesService {
     return course;
   }
 
-  getCatalog() {
+  getCatalog(): Promise<object> {
     return this.fileService.getJsonData('index.json');
   }
 
-  getAssetUrl(path) {
+  getAssetUrl(path): Promise<string> {
     return this.fileService.getAssetUrl(path);
   }
 
-  findAll() {
+  findAll(): Promise<any> {
     return this.coursesRepository.findAll();
   }
 
-  async findPage(id: number, courseId: number) {
+  async findPage(id: number, courseId: number): Promise<any> {
     const course = await this.findOne(courseId);
     return this.coursePagesRepository.findOne({ sourceId: id, course });
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<number> {
     const course = await this.coursesRepository.findOne({ id });
     await this.coursePagesRepository.nativeDelete({ course });
     await this.courseAssistantService.deleteFile(course);
     return this.coursesRepository.nativeDelete({ id });
   }
 
-  private findOne(id: number) {
+  private findOne(id: number): Promise<any> {
     return this.coursesRepository.findOne({ id });
   }
 
-  private getAssetPaths(pages) {
+  private getAssetPaths(pages): string[] {
     return pages
       .flatMap((page) =>
         page.elements.map((element) => element.data?.assets?.url)
@@ -109,7 +109,7 @@ export class CoursesService {
         return containerIds.includes(page.sourceId);
       });
       const tag = it.parentId ? 'h3' : 'h2';
-      text += `<${tag}>${it.meta.name}</${tag}>`;
+      text += `<${tag}>${it.meta?.name}</${tag}>`;
       containers.forEach((page) => {
         return page.elements.forEach((element: any) => {
           if (element.type === 'CE_HTML_DEFAULT') {
