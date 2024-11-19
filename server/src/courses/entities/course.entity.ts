@@ -36,6 +36,9 @@ export class Course {
   @Property({ type: 'jsonb' })
   meta: object;
 
+  @Property()
+  vectorStoreFileId: string;
+
   @OneToMany({
     entity: () => CoursePage,
     mappedBy: 'course',

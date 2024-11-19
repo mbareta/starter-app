@@ -27,13 +27,14 @@ export class CoursesService {
     const pages = pageDtos.map((dto) => this.coursePagesRepository.create(dto));
     const assetPaths = this.getAssetPaths(pages);
     if (imageUrl) assetPaths.push(imageUrl);
-    await this.fileService.transferAssets(assetPaths);
-    await this.coursesRepository.flush();
-    await this.coursePagesRepository.flush();
-    await this.courseAssistantService.uploadFile(
+    const file = await this.courseAssistantService.uploadFile(
       this.getCourseAsText(course, pages),
       `imported_${course.name}.html`
     );
+    course.vectorStoreFileId = file.id;
+    await this.fileService.transferAssets(assetPaths);
+    await this.coursesRepository.flush();
+    await this.coursePagesRepository.flush();
     return course;
   }
 
@@ -57,6 +58,7 @@ export class CoursesService {
   async remove(id: number) {
     const course = await this.coursesRepository.findOne({ id });
     await this.coursePagesRepository.nativeDelete({ course });
+    await this.courseAssistantService.deleteFile(course);
     return this.coursesRepository.nativeDelete({ id });
   }
 
