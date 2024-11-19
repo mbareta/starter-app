@@ -1,6 +1,6 @@
+import OpenAI, { toFile } from 'openai';
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
-import OpenAI from 'openai';
 
 @Injectable()
 export class CourseAssistantService {
@@ -29,5 +29,20 @@ export class CourseAssistantService {
         res.end();
       }
     }
+  }
+
+  async uploadFile(text: string, filename: string): Promise<any> {
+    return this.client.beta.vectorStores.files.upload(
+      this.configService.get('OPENAI_VECTOR_STORE_ID'),
+      await toFile(Buffer.from(text), filename)
+    );
+  }
+
+  async deleteFile(course): Promise<any> {
+    if (!course.vectorStoreFileId) return;
+    return this.client.beta.vectorStores.files.del(
+      this.configService.get('OPENAI_VECTOR_STORE_ID'),
+      course.vectorStoreFileId
+    );
   }
 }

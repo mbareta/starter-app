@@ -2,6 +2,8 @@ import { AppModule } from '../app.module';
 import { AuthGuard } from '../auth/auth.guard';
 import { AuthGuardMock } from '../auth/auth.guard.mock';
 import { Course } from './entities/course.entity';
+import { CourseAssistantService } from '../course-assistant/course-assistant.service';
+import { CourseAssistantServiceMock } from '../course-assistant/course-assistant.service.mock';
 import { CoursePage } from './entities/course-page.entity';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { FileService } from './file.service';
@@ -100,6 +102,8 @@ describe('Courses', () => {
       .useClass(AuthGuardMock)
       .overrideProvider(FileService)
       .useClass(FileServiceMock)
+      .overrideProvider(CourseAssistantService)
+      .useClass(CourseAssistantServiceMock)
       .compile();
 
     app = moduleRef.createNestApplication();

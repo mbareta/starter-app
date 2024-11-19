@@ -10,7 +10,8 @@ export class CourseSeeder extends Seeder {
       uid: 'uniq',
       name: 'Test Course',
       meta: [],
-      structure: []
+      structure: [],
+      vectorStoreFileId: ''
     });
     await em.create(CoursePage, {
       course,

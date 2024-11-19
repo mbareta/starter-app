@@ -30,7 +30,7 @@ export class CoursePage {
   type!: string;
 
   @Property({ type: 'jsonb' })
-  elements!: object;
+  elements!: object[];
 
   @ManyToOne(() => Course)
   course!: Course;
