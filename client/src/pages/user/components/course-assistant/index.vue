@@ -37,6 +37,7 @@ export default {
       if (inputType !== 'insertLineBreak') return;
       const text = target.value;
       this.messages.push({ text, role: Role.USER });
+      this.scrollToBottom();
       target.value = null;
       this.isLoading = true;
       return request.post(
@@ -109,6 +110,8 @@ $padding: 1rem;
   color: var(--bulma-info-dark-invert);
   background: var(--bulma-info-dark);
   overflow: hidden;
+  // show on top of modal
+  z-index: 100;
   transition: all 0.7s;
 
   &.is-activated {

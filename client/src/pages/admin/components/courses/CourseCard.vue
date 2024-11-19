@@ -38,7 +38,7 @@ export default {
       <div class="content has-text-centered">
         <button
           :class="{ 'is-loading': importingCourseId === course.id }"
-          :disabled="isDisabled"
+          :disabled="isDisabled || importingCourseId === course.id"
           class="button is-primary"
           @click="importCourse(course.id)">
           Import Course

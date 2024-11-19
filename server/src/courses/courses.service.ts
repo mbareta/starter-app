@@ -1,3 +1,5 @@
+import { ConfigService } from '@nestjs/config';
+import { CourseAssistantService } from '../course-assistant/course-assistant.service';
 import { CoursePagesRepository } from './course-pages.repository';
 import { CoursesRepository } from './courses.repository';
 import { CreateCourseDto } from './dto/create-course.dto';
@@ -9,10 +11,67 @@ import { plainToClass } from '@nestjs/class-transformer';
 @Injectable()
 export class CoursesService {
   constructor(
+    private configService: ConfigService,
+    private courseAssistantService: CourseAssistantService,
     private readonly coursesRepository: CoursesRepository,
     private readonly coursePagesRepository: CoursePagesRepository,
     private readonly fileService: FileService
   ) {}
+
+  async create({ sourceId }) {
+    const data = await this.fileService.getJsonData(`${sourceId}/index.json`);
+    const imageUrl = data.meta.posterImage?.key?.split('repository/')[1];
+    const courseDto = this.getCourseDto(data);
+    const course = this.coursesRepository.create(courseDto);
+    const pageDtos = await this.getPagesDto(data, course);
+    const pages = pageDtos.map((dto) => this.coursePagesRepository.create(dto));
+    const assetPaths = this.getAssetPaths(pages);
+    if (imageUrl) assetPaths.push(imageUrl);
+    await this.fileService.transferAssets(assetPaths);
+    await this.coursesRepository.flush();
+    await this.coursePagesRepository.flush();
+    await this.courseAssistantService.uploadFile(
+      this.getCourseAsText(course, pages),
+      `imported_${course.name}.html`
+    );
+    return course;
+  }
+
+  getCatalog() {
+    return this.fileService.getJsonData('index.json');
+  }
+
+  getAssetUrl(path) {
+    return this.fileService.getAssetUrl(path);
+  }
+
+  findAll() {
+    return this.coursesRepository.findAll();
+  }
+
+  async findPage(id: number, courseId: number) {
+    const course = await this.findOne(courseId);
+    return this.coursePagesRepository.findOne({ sourceId: id, course });
+  }
+
+  async remove(id: number) {
+    const course = await this.coursesRepository.findOne({ id });
+    await this.coursePagesRepository.nativeDelete({ course });
+    return this.coursesRepository.nativeDelete({ id });
+  }
+
+  private findOne(id: number) {
+    return this.coursesRepository.findOne({ id });
+  }
+
+  private getAssetPaths(pages) {
+    return pages
+      .flatMap((page) =>
+        page.elements.map((element) => element.data?.assets?.url)
+      )
+      .filter((page) => page)
+      .map((url) => url.split('repository/')[1]);
+  }
 
   private getCourseDto(data): CreateCourseDto {
     const dto = plainToClass(CreateCourseDto, data);
@@ -37,45 +96,7 @@ export class CoursesService {
     );
   }
 
-  private getAssetPaths(pages) {
-    return pages
-      .flatMap((page) =>
-        page.elements.map((element) => element.data?.assets?.url)
-      )
-      .filter((page) => page)
-      .map((url) => url.split('repository/')[1]);
-  }
-
-  async create({ sourceId }) {
-    const data = await this.fileService.getJsonData(`${sourceId}/index.json`);
-    const imageUrl = data.meta.posterImage?.key?.split('repository/')[1];
-    const courseDto = this.getCourseDto(data);
-    const course = this.coursesRepository.create(courseDto);
-    const pageDtos = await this.getPagesDto(data, course);
-    const pages = pageDtos.map((dto) => this.coursePagesRepository.create(dto));
-    const assetPaths = this.getAssetPaths(pages);
-    if (imageUrl) assetPaths.push(imageUrl);
-    await this.fileService.transferAssets(assetPaths);
-    await this.coursesRepository.flush();
-    await this.coursePagesRepository.flush();
-    return course;
-  }
-
-  getCatalog() {
-    return this.fileService.getJsonData('index.json');
-  }
-
-  getAssetUrl(path) {
-    return this.fileService.getAssetUrl(path);
-  }
-
-  findAll() {
-    return this.coursesRepository.findAll();
-  }
-
-  async getAsText(id: number) {
-    const course = await this.findOne(id);
-    const pages = await this.coursePagesRepository.find({ course });
+  private getCourseAsText(course, pages): string {
     let text = '';
     pages.forEach((page) => {
       return page.elements.forEach((element: any) => {
@@ -87,20 +108,5 @@ export class CoursesService {
       });
     });
     return text;
-  }
-
-  async findPage(id: number, courseId: number) {
-    const course = await this.findOne(courseId);
-    return this.coursePagesRepository.findOne({ sourceId: id, course });
-  }
-
-  async remove(id: number) {
-    const course = await this.coursesRepository.findOne({ id });
-    await this.coursePagesRepository.nativeDelete({ course });
-    return this.coursesRepository.nativeDelete({ id });
-  }
-
-  private findOne(id: number) {
-    return this.coursesRepository.findOne({ id });
   }
 }
