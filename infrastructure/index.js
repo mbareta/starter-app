@@ -31,7 +31,7 @@ if (isProd) {
 const vpc = new awsx.ec2.Vpc(
   `${PROJECT_NAME}-vpc`,
   {
-    numberOfAvailabilityZones: 2,
+    numberOfAvailabilityZones: 1,
     enableDnsHostnames: true,
     natGateways: { strategy: 'None' },
     subnetStrategy: 'Auto',
