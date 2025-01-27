@@ -14,14 +14,14 @@
     "@auth0/auth0-vue": "^2.3.3",
     "axios": "^1.7.9",
     "bulma": "^1.0.3",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.4.7",
     "pinia": "^2.3.0",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.50.0",
-    "@types/node": "^22.10.7",
+    "@types/node": "^22.10.10",
     "@vitejs/plugin-vue": "^5.2.1",
     "eslint": "^9.18.0",
     "eslint-plugin-vue": "^9.32.0",
