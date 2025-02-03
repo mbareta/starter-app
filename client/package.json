@@ -11,7 +11,7 @@
     "test": "NODE_ENV=test npx playwright test"
   },
   "dependencies": {
-    "@auth0/auth0-vue": "^2.3.3",
+    "@auth0/auth0-vue": "^2.4.0",
     "axios": "^1.7.9",
     "bulma": "^1.0.3",
     "dotenv": "^16.4.7",
