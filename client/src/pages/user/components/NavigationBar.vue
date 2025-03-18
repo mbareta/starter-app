@@ -1,5 +1,5 @@
 <script>
-import UserAvatar from 'user/components/common/UserAvatar.vue';
+import UserAvatar from 'user/components/UserAvatar.vue';
 
 export default {
   components: { UserAvatar },

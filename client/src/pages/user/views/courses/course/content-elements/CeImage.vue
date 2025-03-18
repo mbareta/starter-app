@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineProps } from 'vue';
+import { computed } from 'vue';
 import { useAsyncImage } from 'user/composables/async-asset-image';
 
 const props = defineProps({

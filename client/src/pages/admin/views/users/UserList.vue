@@ -1,5 +1,5 @@
 <script setup>
-import PopOver from 'admin/components/common/PopOver.vue';
+import PopOver from 'admin/components/PopOver.vue';
 import { useUsersStore } from 'admin/stores/users.store';
 
 const store = useUsersStore();

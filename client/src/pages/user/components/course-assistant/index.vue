@@ -1,5 +1,5 @@
 <script>
-import LoadingEllipsis from 'user/components/common/LoadingEllipsis.vue';
+import LoadingEllipsis from 'user/components/LoadingEllipsis.vue';
 import request from 'user/helpers/request';
 
 const Role = { ASSISTANT: 'ASSISTANT', USER: 'USER' };
