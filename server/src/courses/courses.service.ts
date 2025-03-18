@@ -1,3 +1,5 @@
+import { Course } from './entities/course.entity';
+import { CoursePage } from './entities/course-page.entity';
 import { CoursePagesRepository } from './course-pages.repository';
 import { CoursesRepository } from './courses.repository';
 import { CreateCourseDto } from './dto/create-course.dto';
@@ -37,7 +39,7 @@ export class CoursesService {
     );
   }
 
-  private getAssetPaths(pages) {
+  private getAssetPaths(pages): string[] {
     return pages
       .flatMap((page) =>
         page.elements.map((element) => element.data?.assets?.url)
@@ -46,7 +48,7 @@ export class CoursesService {
       .map((url) => url.split('repository/')[1]);
   }
 
-  async create({ sourceId }) {
+  async create({ sourceId }): Promise<Course> {
     const data = await this.fileService.getJsonData(`${sourceId}/index.json`);
     const imageUrl = data.meta.posterImage?.key?.split('repository/')[1];
     const courseDto = this.getCourseDto(data);
@@ -61,28 +63,28 @@ export class CoursesService {
     return course;
   }
 
-  getCatalog() {
+  getCatalog(): Promise<object> {
     return this.fileService.getJsonData('index.json');
   }
 
-  getAssetUrl(path) {
+  getAssetUrl(path): Promise<string> {
     return this.fileService.getAssetUrl(path);
   }
 
-  findAll() {
+  findAll(): Promise<Course[]> {
     return this.coursesRepository.findAll();
   }
 
-  findOne(id: number) {
+  findOne(id: number): Promise<Course> {
     return this.coursesRepository.findOne({ id });
   }
 
-  async findPage(id: number, courseId: number) {
+  async findPage(id: number, courseId: number): Promise<CoursePage> {
     const course = await this.coursesRepository.findOne({ id: courseId });
     return this.coursePagesRepository.findOne({ sourceId: id, course });
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<number> {
     const course = await this.coursesRepository.findOne({ id });
     await this.coursePagesRepository.nativeDelete({ course });
     return this.coursesRepository.nativeDelete({ id });
