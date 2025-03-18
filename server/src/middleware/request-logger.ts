@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import onFinished from 'on-finished';
 
-export default function (req: Request, res: Response, next: NextFunction) {
+export default function (req: Request, res: Response, next: NextFunction): void {
   next();
   onFinished(res, function (error, res) {
     if (error) console.error(error);
