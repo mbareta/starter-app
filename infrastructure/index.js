@@ -57,7 +57,8 @@ const db = new studion.Database(`${PROJECT_NAME}-db`, {
   vpcId: vpc.vpcId,
   isolatedSubnetIds: vpc.publicSubnetIds, // TODO isolated
   vpcCidrBlock: vpc.vpc.cidrBlock,
-  parameterGroupName: primaryDbParams.name
+  parameterGroupName: primaryDbParams.name,
+  engineVersion: '15.7'
 });
 
 
