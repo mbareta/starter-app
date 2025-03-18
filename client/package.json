@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@auth0/auth0-vue": "^2.4.0",
-    "axios": "^1.7.9",
+    "axios": "^1.8.2",
     "bulma": "^1.0.3",
     "dotenv": "^16.4.7",
     "pinia": "^3.0.1",
