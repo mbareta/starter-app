@@ -7,6 +7,7 @@ export const useCoursesStore = defineStore('courses', {
   state: () => ({
     catalog: [],
     courses: [],
+    importingCourseId: null,
     isLoadingCatalog: false,
     isLoadingCourses: false
   }),
@@ -24,7 +25,10 @@ export const useCoursesStore = defineStore('courses', {
       });
     },
     importCourse(sourceId) {
-      return request.post(BASE_URL, { sourceId }).then(this.loadCourses);
+      this.importingCourseId = sourceId;
+      return request.post(BASE_URL, { sourceId })
+        .then(this.loadCourses)
+        .finally(() => (this.importingCourseId = null));
     },
     loadCatalog() {
       this.isLoadingCatalog = true;
