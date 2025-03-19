@@ -1,6 +1,6 @@
 <script>
 import CoursePage from './CoursePage.vue';
-import ModalWrapper from 'user/components/common/ModalWrapper.vue';
+import ModalWrapper from 'user/components/ModalWrapper.vue';
 
 const types = {
   module: 'COURSE_SCHEMA/MODULE',

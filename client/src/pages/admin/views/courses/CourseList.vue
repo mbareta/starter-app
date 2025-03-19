@@ -1,6 +1,6 @@
 <script setup>
-import LoadingSpinner from 'admin/components/common/LoadingSpinner.vue';
-import PopOver from 'admin/components/common/PopOver.vue';
+import LoadingSpinner from 'admin/components/LoadingSpinner.vue';
+import PopOver from 'admin/components/PopOver.vue';
 import { useCoursesStore } from 'admin/stores/courses.store';
 
 const store = useCoursesStore();
