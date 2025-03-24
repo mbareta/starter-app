@@ -163,9 +163,18 @@ $padding: 1rem;
     line-height: 1;
     font-size: var(--bulma-size-2);
   }
+}
 
-  input {
-    width: $width - 2 * $padding;
+html[data-theme="light"] {
+  .assistant-container {
+    color: var(--bulma-info-invert);
+    background: var(--bulma-info-light);
+  }
+
+  .modal-close {
+    &::before, &::after {
+      background-color: var(--bulma-info-dark);
+    }
   }
 }
 </style>

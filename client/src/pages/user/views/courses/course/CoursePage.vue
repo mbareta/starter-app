@@ -12,14 +12,20 @@ export default {
   data() {
     return {
       data: {},
-      isLoading: true,
+      isLoading: false,
       selectedContainerIndex: 0
     };
+  },
+  computed: {
+    hasContent() {
+      return this.page.contentContainers.length > 0;
+    }
   },
   watch: {
     selectedContainerIndex: {
       immediate: true,
       handler(index) {
+        if (!this.hasContent) return;
         const { id: pageId } = this.page.contentContainers[index];
         return this.loadData({ courseId: this.course.id, pageId });
       }
@@ -66,6 +72,9 @@ export default {
     </div>
     <div class="content">
       <loading-spinner :is-loading="isLoading" />
+      <p v-if="!hasContent">
+        This page is currently empty.
+      </p>
       <div v-for="element in data.elements" :key="element.uid">
         <content-element :element="element" />
       </div>
