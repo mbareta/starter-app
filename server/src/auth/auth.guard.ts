@@ -34,12 +34,12 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     if (this.isPublic(context)) return true;
-    const requiredRoles = this.getRequiredRoles(context);
+    const requiredRoles: string[] = this.getRequiredRoles(context);
     const request: Request = context.switchToHttp().getRequest();
     const response: Response = context.switchToHttp().getResponse();
     try {
       await this.verifyJWT(request, response);
-      const user = await this.getUser(request);
+      const user: User = await this.getUser(request);
       if (!user) throw new UnauthorizedException();
       request['user'] = user;
       if (!requiredRoles) return true;
@@ -50,15 +50,15 @@ export class AuthGuard implements CanActivate {
   }
 
   protected async getUser(request: Request): Promise<User> {
-    const { sub } = request.auth.payload;
-    let user = await this.usersService.findBySub(sub);
+    const sub: string = request.auth.payload.sub;
+    let user: User = await this.usersService.findBySub(sub);
     if (!user) {
       const { data } = await this.managementClient.users.get({ id: sub });
       user = await this.usersService.findByEmail(data.email);
       // TODO define and handle use-case when user is not found
       // temporarily allow all new accounts, but rejection is also valid
       if (!user) {
-        const dto = plainToClass(CreateUserDto, {
+        const dto: CreateUserDto = plainToClass(CreateUserDto, {
           email: data.email,
           role: 'ADMIN',
           sub

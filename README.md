@@ -25,8 +25,6 @@ Make sure you have the following installed, configured and running:
 
 - `client` contains frontend files
 - `server` contains backend files
-- `fast-server` is just a simple fastify server showing how we can create multiple
-  backends in different technologies
 
 Each directory contains its own README which explains how to set up, run
 and contribute.
@@ -101,8 +99,7 @@ Docker Hub. In real world scenario, we might want to use AWS ECR orb to push
 directly to AWS and deploy from there.
 
 ## Future Plans
-- add infrastructure code (Pulumi)
+
 - add OpenAPI documentation
 - try setting up GraphQL
 - try using Fastify as NestJS backend
-- add simple chatbot

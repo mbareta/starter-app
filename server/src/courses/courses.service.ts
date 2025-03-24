@@ -1,5 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { CourseAssistantService } from '../course-assistant/course-assistant.service';
+import { Course } from './entities/course.entity';
+import { CoursePage } from './entities/course-page.entity';
 import { CoursePagesRepository } from './course-pages.repository';
 import { CoursesRepository } from './courses.repository';
 import { CreateCourseDto } from './dto/create-course.dto';
