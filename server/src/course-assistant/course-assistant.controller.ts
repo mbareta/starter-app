@@ -9,6 +9,11 @@ export class CourseAssistantController {
 
   @Post()
   create(@Response() res: Response, @Body() body: Body) {
-    return this.courseAssistantService.respond(body.text, res);
+    return this.courseAssistantService.respond(body, res);
+  }
+
+  @Post('/thread')
+  createThread() {
+    return this.courseAssistantService.createThread();
   }
 }
