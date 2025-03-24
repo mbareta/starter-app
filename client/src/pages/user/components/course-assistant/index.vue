@@ -1,5 +1,6 @@
 <script>
 import LoadingEllipsis from 'user/components/LoadingEllipsis.vue';
+import markdownit from 'markdown-it';
 import request from 'user/helpers/request';
 
 const Role = { ASSISTANT: 'ASSISTANT', USER: 'USER' };
@@ -13,6 +14,11 @@ export default {
       messages: [],
       streamingMessage: ''
     };
+  },
+  computed: {
+    md() {
+      return markdownit();
+    }
   },
   methods: {
     pushStreamingMessage() {
@@ -31,6 +37,7 @@ export default {
       if (inputType !== 'insertLineBreak') return;
       const text = target.value;
       this.messages.push({ text, role: Role.USER });
+      this.scrollToBottom();
       target.value = null;
       this.isLoading = true;
       return request.post(
@@ -55,21 +62,28 @@ export default {
 
 <template>
   <div class="assistant-container" :class="{ 'is-activated': isActivated }">
-    <button v-if="!isActivated" @click="isActivated = true">
+    <button v-if="!isActivated" class="icon" @click="isActivated = true">
       🤖
     </button>
     <div v-if="isActivated" ref="chatDisplay" class="chat-display">
-      <p>🎉 Welcome to your personal course assistant! 🎉</p>
+      <p>
+        🎉 Welcome to your personal course assistant! 🎉
+        <button
+          v-if="isActivated"
+          aria-label="close"
+          class="modal-close is-large"
+          @click="isActivated = false" />
+      </p>
       <div
         v-for="message in messages"
         :key="message.text"
         :class="`type-${message.role.toLowerCase()}`"
-        class="message">
-        {{ message.text }}
-      </div>
-      <div v-if="streamingMessage" class="message type-assistant">
-        {{ streamingMessage }}
-      </div>
+        class="message"
+        v-html="md.render(message.text)" />
+      <div
+        v-if="streamingMessage"
+        class="message type-assistant"
+        v-html="md.render(streamingMessage)" />
       <loading-ellipsis v-if="isLoading && !streamingMessage" />
     </div>
     <textarea
@@ -96,6 +110,8 @@ $padding: 1rem;
   color: var(--bulma-info-dark-invert);
   background: var(--bulma-info-dark);
   overflow: hidden;
+  // show on top of modal
+  z-index: 100;
   transition: all 0.7s;
 
   &.is-activated {
@@ -115,6 +131,10 @@ $padding: 1rem;
       padding-bottom: 0.75rem;
       text-align: center;
       border-bottom: 2px solid var(--bulma-primary);
+
+      button {
+        margin: -0.25rem 0 0 1.5rem;
+      }
     }
   }
 
@@ -136,7 +156,7 @@ $padding: 1rem;
     }
   }
 
-  button {
+  button.icon {
     width: 4.75rem;
     height: 4.75rem;
     padding: $padding;

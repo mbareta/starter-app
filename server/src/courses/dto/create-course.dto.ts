@@ -19,4 +19,7 @@ export class CreateCourseDto {
 
   @Expose()
   meta: object;
+
+  @Expose()
+  vectorStoreFileId: string;
 }
