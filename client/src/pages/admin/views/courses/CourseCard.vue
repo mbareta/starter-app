@@ -1,5 +1,5 @@
 <script>
-import { mapActions, mapGetters } from 'pinia';
+import { mapActions, mapGetters, mapState } from 'pinia';
 import { useCoursesStore } from 'admin/stores/courses.store';
 
 export default {
@@ -7,6 +7,7 @@ export default {
     course: { type: Object, required: true }
   },
   computed: {
+    ...mapState(useCoursesStore, ['importingCourseId']),
     ...mapGetters(useCoursesStore, ['isCourseImported']),
     isDisabled() {
       return this.isCourseImported(this.course.uid);
@@ -36,7 +37,8 @@ export default {
       </div>
       <div class="content has-text-centered">
         <button
-          :disabled="isDisabled"
+          :class="{ 'is-loading': importingCourseId === course.id }"
+          :disabled="isDisabled || importingCourseId === course.id"
           class="button is-primary"
           @click="importCourse(course.id)">
           Import Course
