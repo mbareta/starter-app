@@ -13,11 +13,19 @@ export class CourseAssistantService {
     this.client = new OpenAI({ apiKey });
   }
 
-  async respond(content: any, res): Promise<void> {
-    const thread: OpenAI.Beta.Thread = await this.client.beta.threads.create();
+  private getThread(threadId: string): Promise<OpenAI.Beta.Thread> {
+    return this.client.beta.threads.retrieve(threadId);
+  }
+
+  createThread(): Promise<OpenAI.Beta.Thread> {
+    return this.client.beta.threads.create();
+  }
+
+  async respond(body: any, res): Promise<void> {
+    const thread: OpenAI.Beta.Thread = await this.getThread(body.threadId);
     await this.client.beta.threads.messages.create(thread.id, {
       role: 'user',
-      content
+      content: body.text
     });
     const stream = await this.client.beta.threads.runs.stream(thread.id, {
       assistant_id: this.configService.get('OPENAI_ASSISTANT_ID')

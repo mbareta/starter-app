@@ -12,7 +12,8 @@ export default {
       isActivated: false,
       isLoading: false,
       messages: [],
-      streamingMessage: ''
+      streamingMessage: '',
+      threadId: null
     };
   },
   computed: {
@@ -33,8 +34,12 @@ export default {
         this.$refs.chatDisplay.scrollTop = this.$refs.chatDisplay.scrollHeight;
       });
     },
-    sendQuery({ inputType, target }) {
+    async sendQuery({ inputType, target }) {
       if (inputType !== 'insertLineBreak') return;
+      if (!this.threadId) {
+        const { data } = await request.post('course-assistant/thread');
+        this.threadId = data.id;
+      }
       const text = target.value;
       this.messages.push({ text, role: Role.USER });
       this.scrollToBottom();
@@ -42,7 +47,7 @@ export default {
       this.isLoading = true;
       return request.post(
         'course-assistant',
-        { text },
+        { text, threadId: this.threadId },
         { responseType: 'stream', adapter: 'fetch' }
       ).then(async response => {
         const reader = await response.data.getReader();
