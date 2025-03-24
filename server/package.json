@@ -15,8 +15,8 @@
     "pretest": "NODE_ENV=test DATABASE_NAME=nest_test npx mikro-orm schema:fresh --run --seed",
     "test": "NODE_ENV=test DATABASE_NAME=nest_test jest || true",
     "posttest": "NODE_ENV=test DATABASE_NAME=nest_test npx mikro-orm schema:drop -r",
-    "test:watch": "jest --watch",
-    "test:cov": "npm run pretest && jest --coverage && npm run posttest",
+    "test:watch": "npm run pretest && NODE_ENV=test DATABASE_NAME=nest_test jest --watch && npm run posttest",
+    "test:cov": "npm run pretest && NODE_ENV=test DATABASE_NAME=nest_test jest --coverage && npm run posttest",
     "test:debug": "npm run pretest && node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand"
   },
   "dependencies": {
