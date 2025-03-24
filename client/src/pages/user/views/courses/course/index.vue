@@ -2,7 +2,7 @@
 import { mapActions, mapState } from 'pinia';
 import CourseAssistant from 'user/components/course-assistant/index.vue';
 import CourseModule from './CourseModule.vue';
-import LoadingSpinner from 'user/components/common/LoadingSpinner.vue';
+import LoadingSpinner from 'user/components/LoadingSpinner.vue';
 import { useCoursesStore } from 'user/stores/courses.store';
 
 export default {

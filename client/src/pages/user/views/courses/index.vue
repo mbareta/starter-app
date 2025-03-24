@@ -1,6 +1,6 @@
 <script setup>
 import CourseCard from './CourseCard.vue';
-import LoadingSpinner from 'user/components/common/LoadingSpinner.vue';
+import LoadingSpinner from 'user/components/LoadingSpinner.vue';
 import { onMounted } from 'vue';
 import { useCoursesStore } from 'user/stores/courses.store';
 

@@ -1,7 +1,7 @@
 <script>
 import { mapActions } from 'pinia';
-import ModalWrapper from 'admin/components/common/ModalWrapper.vue';
-import TextInput from 'admin/components/common/input/TextInput.vue';
+import ModalWrapper from 'admin/components/ModalWrapper.vue';
+import TextInput from 'admin/components/input/TextInput.vue';
 import { useUsersStore } from 'admin/stores/users.store';
 
 export default {
