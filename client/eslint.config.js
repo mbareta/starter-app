@@ -1,3 +1,4 @@
+import globals from 'globals';
 import js from '@eslint/js';
 import pluginVue from 'eslint-plugin-vue';
 import tseslint from 'typescript-eslint';
@@ -10,6 +11,9 @@ export default [
     files: [
       '**/*.ts', '**/*.vue'
     ],
+    languageOptions: {
+      globals: { ...globals.browser }
+    },
     rules: {
       'max-len': ['error', { tabWidth: 2 }],
       'sort-imports': ['error', {
