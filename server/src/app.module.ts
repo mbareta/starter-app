@@ -7,7 +7,7 @@ import { CourseAssistantModule } from './course-assistant/course-assistant.modul
 import { CoursesModule } from './courses/courses.module';
 import { DatabaseModule } from './database/database.module';
 import { HealthController } from './health.controller';
-import { ResponseTimeMiddleware } from '@nest-middlewares/response-time';
+// import { ResponseTimeMiddleware } from '@nest-middlewares/response-time';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -24,6 +24,6 @@ import { UsersModule } from './users/users.module';
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(ResponseTimeMiddleware).forRoutes('*');
+    // consumer.apply(ResponseTimeMiddleware).forRoutes('*');
   }
 }
