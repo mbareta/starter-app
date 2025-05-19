@@ -1,7 +1,7 @@
 import { defineConfig } from '@playwright/test';
 import dotenv from 'dotenv';
-import path from 'path';
 import { fileURLToPath } from 'url';
+import path from 'path';
 
 // Get __dirname in ES module
 const __filename = fileURLToPath(import.meta.url);
