@@ -2,9 +2,9 @@
     "name": "starter-app",
     "main": "index.js",
     "dependencies": {
-        "@pulumi/aws": "^6.66.3",
-        "@pulumi/awsx": "^2.21.0",
-        "@pulumi/pulumi": "^3.146.0",
-        "@studion/infra-code-blocks": "^0.6.12"
+        "@pulumi/aws": "^6.80.0",
+        "@pulumi/awsx": "^2.21.1",
+        "@pulumi/pulumi": "^3.170.0",
+        "@studion/infra-code-blocks": "^0.7.0"
     }
 }
