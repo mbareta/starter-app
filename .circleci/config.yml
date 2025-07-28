@@ -52,10 +52,10 @@ jobs:
           command: npm run lint
   test-client:
     working_directory: ./client
-    executor: playwright
+    executor: node
     steps:
       - checkout:
-          path: ~
+          path: ..
       - node/install-packages:
           app-dir: ../server
           override-ci-command: npm i
