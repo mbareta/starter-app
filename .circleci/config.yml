@@ -60,6 +60,7 @@ jobs:
           app-dir: ./server
           override-ci-command: npm i
       - node/install-packages:
+          app-dir: ./client
           override-ci-command: npm i
       - run:
           name: Install Playwright
