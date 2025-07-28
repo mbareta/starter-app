@@ -57,7 +57,7 @@ jobs:
       - checkout:
           path: .
       - node/install-packages:
-          app-dir: ../server
+          app-dir: ./server
           override-ci-command: npm i
       - node/install-packages:
           override-ci-command: npm i
