@@ -23,10 +23,9 @@ executors:
       - image: cimg/base:current
   playwright:
     docker:
-      - image: mcr.microsoft.com/playwright:v1.47.2-noble
+      - image: mcr.microsoft.com/playwright:v1.50.0-noble
       - image: cimg/node:22.8.0
       - image: cimg/postgres:16.0
-    working_directory: ./client
 
 
 jobs:
@@ -54,6 +53,7 @@ jobs:
           command: npm run lint
   test-client:
     executor: playwright
+    working_directory: ./client
     steps:
       - checkout:
           path: ..
