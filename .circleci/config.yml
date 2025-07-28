@@ -190,8 +190,8 @@ workflows:
           <<: *studion-aws-credentials
           account_id: ${STUDION_AWS_ACCOUNT_ID}
           repo_name: starter-app/dev
-          path_to_dockerfile: ~/app/server
-          path_to_build_dir: ~/app/server
+          dockerfile_dir: ~/app/server
+          build_dir: ~/app/server
           requires:
             - test-server
   test-build-and-deploy:
