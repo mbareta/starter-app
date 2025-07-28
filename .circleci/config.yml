@@ -32,7 +32,8 @@ jobs:
     working_directory: ./client
     executor: node
     steps:
-      - checkout
+      - checkout:
+          path: ..
       - node/install-packages:
           override-ci-command: npm i
       - run:
@@ -42,7 +43,8 @@ jobs:
     working_directory: ./server
     executor: node
     steps:
-      - checkout
+      - checkout:
+          path: ..
       - node/install-packages:
           override-ci-command: npm i
       - run:
