@@ -51,11 +51,11 @@ jobs:
           name: Lint server
           command: npm run lint
   test-client:
-    working_directory: ~/app/client
+    working_directory: ./client
     executor: playwright
     steps:
       - checkout:
-          path: ~/app
+          path: ..
       - node/install-packages:
           app-dir: ../server
           override-ci-command: npm i
@@ -82,11 +82,11 @@ jobs:
       - store_artifacts:
           path: playwright-report/index.html
   test-server:
-    working_directory: ~/app/server
+    working_directory: ./server
     executor: test
     steps:
       - checkout:
-          path: ~/app
+          path: ..
       - node/install-packages:
           override-ci-command: npm i
       - run:
@@ -103,11 +103,11 @@ jobs:
       - store_artifacts:
           path: coverage
   build-client:
-    working_directory: ~/app/client
+    working_directory: ./client
     executor: node
     steps:
       - checkout:
-          path: ~/app
+          path: ..
       - node/install-packages:
           override-ci-command: npm ci
       - run:
@@ -125,7 +125,7 @@ jobs:
           paths:
             - dist
   deploy:
-    working_directory: ~/app/infrastructure
+    working_directory: ./infrastructure
     executor: node
     parameters:
       role_arn:
@@ -140,7 +140,7 @@ jobs:
         type: string
     steps:
       - checkout:
-          path: ~/app
+          path: ..
       - attach_workspace:
           at: ..
       - aws-cli/setup:
@@ -190,7 +190,7 @@ workflows:
           <<: *studion-aws-credentials
           account_id: ${STUDION_AWS_ACCOUNT_ID}
           repo_name: starter-app/dev
-          dockerfile_dir: ~/app/server
+          dockerfile_dir: ./server
           build_dir: ./server
           requires:
             - test-server
@@ -208,8 +208,8 @@ workflows:
           <<: *studion-aws-credentials
           account_id: ${STUDION_AWS_ACCOUNT_ID}
           repo_name: starter-app/dev
-          path_to_dockerfile: ~/app/server
-          path_to_build_dir: ~/app/server
+          dockerfile_dir: ./server
+          build_dir: ./server
           requires:
             - test-server
       - deploy:
