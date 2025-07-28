@@ -26,6 +26,8 @@ executors:
       - image: mcr.microsoft.com/playwright:v1.47.2-noble
       - image: cimg/node:22.8.0
       - image: cimg/postgres:16.0
+    working_directory: ./client
+
 
 jobs:
   lint-client:
@@ -51,16 +53,14 @@ jobs:
           name: Lint server
           command: npm run lint
   test-client:
-    working_directory: ./client
     executor: playwright
     steps:
       - checkout:
-          path: .
+          path: ..
       - node/install-packages:
-          app-dir: ./server
+          app-dir: ../server
           override-ci-command: npm i
       - node/install-packages:
-          app-dir: ./client
           override-ci-command: npm i
       - run:
           name: Install Playwright
