@@ -188,13 +188,10 @@ workflows:
       - test-client
       - rollout/build_and_push_server_to_aws_ecr:
           <<: *studion-aws-credentials
-          after_checkout:
-            - checkout:
-                path: ~/app
           account_id: ${STUDION_AWS_ACCOUNT_ID}
           repo_name: starter-app/dev
           dockerfile_dir: ~/app/server
-          build_dir: ~/app/server
+          build_dir: ./server
           requires:
             - test-server
   test-build-and-deploy:
