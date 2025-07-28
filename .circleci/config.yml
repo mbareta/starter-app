@@ -51,23 +51,22 @@ jobs:
           name: Lint server
           command: npm run lint
   test-client:
+    working_directory: ./client
     executor: playwright
     steps:
-      - checkout
+      - checkout:
+          path: ~/project
       - node/install-packages:
-          app-dir: ./server
+          app-dir: ../server
           override-ci-command: npm i
       - node/install-packages:
-          app-dir: ./client
           override-ci-command: npm i
       - run:
           name: Install Playwright
           command: npx playwright install
-          app-dir: ./server
       - run:
           name: Run tests
           command: npm test
-          app-dir: ./server
           environment:
             DATABASE_HOST: localhost
             DATABASE_PORT: 5432
@@ -81,7 +80,6 @@ jobs:
             AUTH0_CLIENT_ID: 8zssnzjdMtmjYkyfqmST4Krjh6VBijNI
             AUTH0_CLIENT_SECRET: ${TEST_AUTH0_CLIENT_SECRET}
       - store_artifacts:
-          app-dir: ./server
           path: playwright-report/index.html
   test-server:
     working_directory: ./server
