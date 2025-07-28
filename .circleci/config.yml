@@ -29,22 +29,20 @@ executors:
 
 jobs:
   lint-client:
-    working_directory: ~/app/client
+    working_directory: ./client
     executor: node
     steps:
-      - checkout:
-          path: ~/app
+      - checkout
       - node/install-packages:
           override-ci-command: npm i
       - run:
           name: Lint client
           command: npm run lint
   lint-server:
-    working_directory: ~/app/server
+    working_directory: ./server
     executor: node
     steps:
-      - checkout:
-          path: ~/app
+      - checkout
       - node/install-packages:
           override-ci-command: npm i
       - run:
