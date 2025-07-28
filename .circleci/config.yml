@@ -53,21 +53,21 @@ jobs:
           command: npm run lint
   test-client:
     executor: playwright
-    working_directory: ./client
     steps:
       - checkout:
-          path: ..
+          path: .
       - node/install-packages:
-          app-dir: ../server
+          app-dir: ./server
           override-ci-command: npm i
       - node/install-packages:
+          app-dir: ./client
           override-ci-command: npm i
       - run:
           name: Install Playwright
-          command: npx playwright install
+          command: cd client && npx playwright install
       - run:
           name: Run tests
-          command: npm test
+          command: cd client && npm test
           environment:
             DATABASE_HOST: localhost
             DATABASE_PORT: 5432
