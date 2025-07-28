@@ -54,6 +54,7 @@ jobs:
     working_directory: ./client
     executor: playwright
     steps:
+      - checkout
       - node/install-packages:
           app-dir: ../server
           override-ci-command: npm i
