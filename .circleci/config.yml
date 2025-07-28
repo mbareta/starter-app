@@ -4,6 +4,7 @@ orbs:
   aws-ecr: circleci/aws-ecr@9.3.4
   node: circleci/node@6.1.0
   pulumi: pulumi/pulumi@2.1.0
+  rollout: studion/rollout@0.1.1
 
 studion-aws-credentials: &studion-aws-credentials
   role_arn: arn:aws:iam::${STUDION_AWS_ACCOUNT_ID}:role/circle_ci_starter
@@ -101,38 +102,6 @@ jobs:
             DATABASE_USER: postgres
       - store_artifacts:
           path: coverage
-  build-server:
-    working_directory: ~/app/server
-    executor: aws-ecr/default
-    parameters:
-      role_arn:
-        type: string
-        description: AWS ARN of the OpenID role connected to OpenID provider.
-      region:
-        type: string
-        default: us-east-1
-        description: AWS region value.
-      account_id:
-        type: string
-        description: AWS account ID value.
-      ecr_repo:
-        type: string
-        description: AWS ECR repo name.
-    steps:
-      - checkout:
-          path: ~/app
-      - aws-ecr/build_and_push_image:
-          auth:
-            - aws-cli/setup:
-                role_arn: << parameters.role_arn >>
-                region: << parameters.region >>
-          account_id: << parameters.account_id >>
-          attach_workspace: true
-          checkout: false
-          region: << parameters.region >>
-          repo: << parameters.ecr_repo >>
-          repo_encryption_type: KMS
-          tag: latest,${CIRCLE_SHA1}
   build-client:
     working_directory: ~/app/client
     executor: node
@@ -217,6 +186,14 @@ workflows:
       - lint-client
       - test-server
       - test-client
+      - rollout/build_and_push_server_to_aws_ecr:
+          <<: *studion-aws-credentials
+          account_id: ${STUDION_AWS_ACCOUNT_ID}
+          repo_name: starter-app/dev
+          path_to_dockerfile: ~/app/server
+          path_to_build_dir: ~/app/server
+          requires:
+            - test-server
   test-build-and-deploy:
     when:
       and:
@@ -227,10 +204,12 @@ workflows:
       - build-client:
           requires:
             - test-client
-      - build-server:
+      - rollout/build_and_push_server_to_aws_ecr:
           <<: *studion-aws-credentials
           account_id: ${STUDION_AWS_ACCOUNT_ID}
-          ecr_repo: starter-app/dev
+          repo_name: starter-app/dev
+          path_to_dockerfile: ~/app/server
+          path_to_build_dir: ~/app/server
           requires:
             - test-server
       - deploy:
@@ -239,5 +218,5 @@ workflows:
           ecr_repo: starter-app/dev
           stack: dev
           requires:
-            - build-server
+            - rollout/build_and_push_server_to_aws_ecr
             - build-client
