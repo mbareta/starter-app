@@ -65,7 +65,8 @@ const container = {
 
 const writeJsonFile = (base, filename, data) => {
   const basePath = path.normalize(base);
-  const filePath = path.join(basePath, filename);
+  const sanitizedFilename = path.normalize(filename);
+  const filePath = path.join(basePath, sanitizedFilename);
   if (!fs.existsSync(basePath)) fs.mkdirSync(basePath, { recursive: true });
   fs.writeFileSync(filePath, JSON.stringify(data));
 };
