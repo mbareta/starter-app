@@ -64,19 +64,19 @@ const container = {
 };
 
 const writeJsonFile = (base, filename, data) => {
-  const basePath = path.normalize(base);
-  const sanitizedFilename = path.normalize(filename);
-  const filePath = path.join(basePath, sanitizedFilename);
+  const basePath = path.normalize(path.join(BASE_PATH, base));
+  if (!basePath.startsWith(BASE_PATH)) throw new Error('Invalid path');
   if (!fs.existsSync(basePath)) fs.mkdirSync(basePath, { recursive: true });
+  const filePath = path.join(basePath, path.normalize(filename));
   fs.writeFileSync(filePath, JSON.stringify(data));
 };
 
 const writeCatalog = () => {
-  writeJsonFile(BASE_PATH, 'index.json', catalog);
+  writeJsonFile('', 'index.json', catalog);
   catalog.forEach((course) => {
-    writeJsonFile(`${BASE_PATH}/${course.id}`, 'index.json', course);
+    writeJsonFile(`${course.id}`, 'index.json', course);
   });
-  writeJsonFile(`${BASE_PATH}/3`, '1.container.json', container);
+  writeJsonFile('3', '1.container.json', container);
 };
 
 class FileServiceMock extends FileService {
