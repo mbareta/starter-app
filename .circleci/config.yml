@@ -4,6 +4,7 @@ orbs:
   aws-ecr: circleci/aws-ecr@9.3.4
   node: circleci/node@6.1.0
   pulumi: pulumi/pulumi@2.1.0
+  rollout: studion/rollout@0.1.1
 
 studion-aws-credentials: &studion-aws-credentials
   role_arn: arn:aws:iam::${STUDION_AWS_ACCOUNT_ID}:role/circle_ci_starter
@@ -22,50 +23,51 @@ executors:
       - image: cimg/base:current
   playwright:
     docker:
-      - image: mcr.microsoft.com/playwright:v1.47.2-noble
+      - image: mcr.microsoft.com/playwright:v1.50.0-noble
       - image: cimg/node:22.8.0
       - image: cimg/postgres:16.0
 
+
 jobs:
   lint-client:
-    working_directory: ~/app/client
+    working_directory: ./client
     executor: node
     steps:
       - checkout:
-          path: ~/app
+          path: ..
       - node/install-packages:
           override-ci-command: npm i
       - run:
           name: Lint client
           command: npm run lint
   lint-server:
-    working_directory: ~/app/server
+    working_directory: ./server
     executor: node
     steps:
       - checkout:
-          path: ~/app
+          path: ..
       - node/install-packages:
           override-ci-command: npm i
       - run:
           name: Lint server
           command: npm run lint
   test-client:
-    working_directory: ~/app/client
     executor: playwright
     steps:
       - checkout:
-          path: ~/app
+          path: .
       - node/install-packages:
-          app-dir: ../server
+          app-dir: ./server
           override-ci-command: npm i
       - node/install-packages:
+          app-dir: ./client
           override-ci-command: npm i
       - run:
           name: Install Playwright
-          command: npx playwright install
+          command: cd client && npx playwright install
       - run:
           name: Run tests
-          command: npm test
+          command: cd client && npm test
           environment:
             DATABASE_HOST: localhost
             DATABASE_PORT: 5432
@@ -81,11 +83,11 @@ jobs:
       - store_artifacts:
           path: playwright-report/index.html
   test-server:
-    working_directory: ~/app/server
+    working_directory: ./server
     executor: test
     steps:
       - checkout:
-          path: ~/app
+          path: ..
       - node/install-packages:
           override-ci-command: npm i
       - run:
@@ -101,44 +103,12 @@ jobs:
             DATABASE_USER: postgres
       - store_artifacts:
           path: coverage
-  build-server:
-    working_directory: ~/app/server
-    executor: aws-ecr/default
-    parameters:
-      role_arn:
-        type: string
-        description: AWS ARN of the OpenID role connected to OpenID provider.
-      region:
-        type: string
-        default: us-east-1
-        description: AWS region value.
-      account_id:
-        type: string
-        description: AWS account ID value.
-      ecr_repo:
-        type: string
-        description: AWS ECR repo name.
-    steps:
-      - checkout:
-          path: ~/app
-      - aws-ecr/build_and_push_image:
-          auth:
-            - aws-cli/setup:
-                role_arn: << parameters.role_arn >>
-                region: << parameters.region >>
-          account_id: << parameters.account_id >>
-          attach_workspace: true
-          checkout: false
-          region: << parameters.region >>
-          repo: << parameters.ecr_repo >>
-          repo_encryption_type: KMS
-          tag: latest,${CIRCLE_SHA1}
   build-client:
-    working_directory: ~/app/client
+    working_directory: ./client
     executor: node
     steps:
       - checkout:
-          path: ~/app
+          path: ..
       - node/install-packages:
           override-ci-command: npm ci
       - run:
@@ -156,7 +126,7 @@ jobs:
           paths:
             - dist
   deploy:
-    working_directory: ~/app/infrastructure
+    working_directory: ./infrastructure
     executor: node
     parameters:
       role_arn:
@@ -171,7 +141,7 @@ jobs:
         type: string
     steps:
       - checkout:
-          path: ~/app
+          path: ..
       - attach_workspace:
           at: ..
       - aws-cli/setup:
@@ -227,10 +197,12 @@ workflows:
       - build-client:
           requires:
             - test-client
-      - build-server:
+      - rollout/build_and_push_server_to_aws_ecr:
           <<: *studion-aws-credentials
           account_id: ${STUDION_AWS_ACCOUNT_ID}
-          ecr_repo: starter-app/dev
+          repo_name: starter-app/dev
+          dockerfile_dir: ./server
+          build_dir: ./server
           requires:
             - test-server
       - deploy:
@@ -239,5 +211,5 @@ workflows:
           ecr_repo: starter-app/dev
           stack: dev
           requires:
-            - build-server
+            - rollout/build_and_push_server_to_aws_ecr
             - build-client

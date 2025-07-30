@@ -9,6 +9,7 @@ import { EntityManager } from '@mikro-orm/postgresql';
 import { FileService } from './file.service';
 import fs from 'node:fs';
 import { INestApplication } from '@nestjs/common';
+import path from 'path';
 import request from 'supertest';
 import { Test } from '@nestjs/testing';
 
@@ -63,8 +64,10 @@ const container = {
 };
 
 const writeJsonFile = (base, filename, data) => {
+  // nosemgrep
   if (!fs.existsSync(base)) fs.mkdirSync(base, { recursive: true });
-  fs.writeFileSync(`${base}/${filename}`, JSON.stringify(data));
+  // nosemgrep
+  fs.writeFileSync(path.join(basePath, filename), JSON.stringify(data));
 };
 
 const writeCatalog = () => {
@@ -77,6 +80,7 @@ const writeCatalog = () => {
 
 class FileServiceMock extends FileService {
   getJsonData(path) {
+    // nosemgrep
     return JSON.parse(fs.readFileSync(`${BASE_PATH}/${path}`, 'utf8'));
   }
 

@@ -1,0 +1,5 @@
+# Gitleaks configuration file
+title = "Gitleaks Configuration"
+
+[allowlist]
+paths = [".env.example"]
