@@ -187,14 +187,6 @@ workflows:
       - lint-client
       - test-server
       - test-client
-      - rollout/build_and_push_server_to_aws_ecr:
-          <<: *studion-aws-credentials
-          account_id: ${STUDION_AWS_ACCOUNT_ID}
-          repo_name: starter-app/dev
-          dockerfile_dir: ./server
-          build_dir: ./server
-          requires:
-            - test-server
   test-build-and-deploy:
     when:
       and:

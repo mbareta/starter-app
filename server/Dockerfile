@@ -11,7 +11,7 @@ FROM base AS install
   COPY package*.json .
   RUN npm ci
 
-FROM base as configure
+FROM base AS configure
   WORKDIR /usr/src/app
   ENV NODE_ENV production
   COPY --chown=node:node . .
