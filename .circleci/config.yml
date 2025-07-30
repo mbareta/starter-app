@@ -33,7 +33,8 @@ jobs:
     working_directory: ./client
     executor: node
     steps:
-      - checkout
+      - checkout:
+          path: ..
       - node/install-packages:
           override-ci-command: npm i
       - run:
@@ -43,7 +44,8 @@ jobs:
     working_directory: ./server
     executor: node
     steps:
-      - checkout
+      - checkout:
+          path: ..
       - node/install-packages:
           override-ci-command: npm i
       - run:
@@ -52,7 +54,8 @@ jobs:
   test-client:
     executor: playwright
     steps:
-      - checkout
+      - checkout:
+          path: .
       - node/install-packages:
           app-dir: ./server
           override-ci-command: npm i
@@ -83,7 +86,8 @@ jobs:
     working_directory: ./server
     executor: test
     steps:
-      - checkout
+      - checkout:
+          path: ..
       - node/install-packages:
           override-ci-command: npm i
       - run:
@@ -103,7 +107,8 @@ jobs:
     working_directory: ./client
     executor: node
     steps:
-      - checkout
+      - checkout:
+          path: ..
       - node/install-packages:
           override-ci-command: npm ci
       - run:
@@ -135,7 +140,8 @@ jobs:
       stack:
         type: string
     steps:
-      - checkout
+      - checkout:
+          path: ..
       - attach_workspace:
           at: ..
       - aws-cli/setup:
