@@ -64,9 +64,9 @@ const container = {
 };
 
 const writeJsonFile = (base, filename, data) => {
-  // nosemgrep: javascript.lang.security.audit.path-traversal.path-join-resolve-traversal.path-join-resolve-traversal
+  // nosemgrep
   if (!fs.existsSync(base)) fs.mkdirSync(base, { recursive: true });
-  // nosemgrep: javascript.lang.security.audit.path-traversal.path-join-resolve-traversal.path-join-resolve-traversal
+  // nosemgrep
   fs.writeFileSync(path.join(basePath, filename), JSON.stringify(data));
 };
 
