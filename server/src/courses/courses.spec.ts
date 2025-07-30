@@ -80,6 +80,7 @@ const writeCatalog = () => {
 
 class FileServiceMock extends FileService {
   getJsonData(path) {
+    // nosemgrep
     return JSON.parse(fs.readFileSync(`${BASE_PATH}/${path}`, 'utf8'));
   }
 
