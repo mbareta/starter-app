@@ -199,7 +199,7 @@ workflows:
       - rollout/build_and_push_server_to_aws_ecr:
           <<: *studion-aws-credentials
           account_id: ${STUDION_AWS_ACCOUNT_ID}
-          repo_name: starter-app/dev
+          repo_name: starter_app_dev
           dockerfile_dir: ./server
           build_dir: ./server
           requires:
@@ -207,7 +207,7 @@ workflows:
       - deploy:
           <<: *studion-aws-credentials
           account_id: ${STUDION_AWS_ACCOUNT_ID}
-          ecr_repo: starter-app/dev
+          ecr_repo: starter_app_dev
           stack: dev
           requires:
             - rollout/build_and_push_server_to_aws_ecr
