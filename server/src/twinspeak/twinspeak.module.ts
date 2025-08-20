@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { TwinspeakService } from './twinspeak.service';
 import { TwinspeakController } from './twinspeak.controller';
+import { TwinspeakService } from './twinspeak.service';
 
 @Module({
   controllers: [TwinspeakController],
-  providers: [TwinspeakService],
+  providers: [TwinspeakService]
 })
 export class TwinspeakModule {}

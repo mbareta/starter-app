@@ -1,10 +1,14 @@
-import { HumanMessage, SystemMessage, AIMessage } from "@langchain/core/messages";
-import { ChatOpenAI } from "@langchain/openai";
-import { ChatPromptTemplate } from "@langchain/core/prompts";
-import { Injectable } from '@nestjs/common';
-import { RunnableSequence } from "@langchain/core/runnables";
-import { StringOutputParser } from "@langchain/core/output_parsers";
+import {
+  AIMessage,
+  HumanMessage,
+  SystemMessage
+} from '@langchain/core/messages';
+import { ChatOpenAI } from '@langchain/openai';
+import { ChatPromptTemplate } from '@langchain/core/prompts';
 import { ConfigService } from '@nestjs/config';
+import { Injectable } from '@nestjs/common';
+import { RunnableSequence } from '@langchain/core/runnables';
+import { StringOutputParser } from '@langchain/core/output_parsers';
 
 @Injectable()
 export class TwinspeakService {
@@ -23,8 +27,10 @@ export class TwinspeakService {
 
   async create() {
     const messages = [
-      new SystemMessage("You are a helpful assistant that explains complex topics simply."),
-      new HumanMessage("Explain quantum computing in simple terms.")
+      new SystemMessage(
+        'You are a helpful assistant that explains complex topics simply.'
+      ),
+      new HumanMessage('Explain quantum computing in simple terms.')
     ];
     const res = await this.chatModel.invoke(messages);
     return res.content;
