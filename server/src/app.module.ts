@@ -8,16 +8,18 @@ import { CoursesModule } from './courses/courses.module';
 import { DatabaseModule } from './database/database.module';
 import { HealthController } from './health.controller';
 // import { ResponseTimeMiddleware } from '@nest-middlewares/response-time';
+import { TwinspeakModule } from './twinspeak/twinspeak.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     AuthModule,
+    CourseAssistantModule,
     CoursesModule,
     DatabaseModule,
-    UsersModule,
-    CourseAssistantModule
+    TwinspeakModule,
+    UsersModule
   ],
   providers: [AuthGuard, { provide: APP_GUARD, useExisting: AuthGuard }],
   controllers: [HealthController]

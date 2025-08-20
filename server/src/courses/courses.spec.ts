@@ -67,7 +67,7 @@ const writeJsonFile = (base, filename, data) => {
   // nosemgrep
   if (!fs.existsSync(base)) fs.mkdirSync(base, { recursive: true });
   // nosemgrep
-  fs.writeFileSync(path.join(basePath, filename), JSON.stringify(data));
+  fs.writeFileSync(path.join(base, filename), JSON.stringify(data));
 };
 
 const writeCatalog = () => {

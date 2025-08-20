@@ -1,0 +1,47 @@
+import { AppModule } from '../app.module';
+import { AuthGuard } from '../auth/auth.guard';
+import { AuthGuardMock } from '../auth/auth.guard.mock';
+import { INestApplication } from '@nestjs/common';
+import request from 'supertest';
+import { Test } from '@nestjs/testing';
+
+jest.setTimeout(30000);
+
+const routes = { basic: '/twinspeak' };
+const credentials = {
+  admin: { email: 'admin@test.com' }
+};
+
+describe('Auth', () => {
+  let app: INestApplication;
+  let server;
+
+  beforeAll(async () => {
+    const moduleRef = await Test.createTestingModule({ imports: [AppModule] })
+      .overrideProvider(AuthGuard)
+      .useClass(AuthGuardMock)
+      .compile();
+
+    app = moduleRef.createNestApplication();
+    await app.init();
+    server = app.getHttpServer();
+  });
+
+  describe(`POST ${routes.basic}`, () => {
+    it('returns 401 when user is not authorized', () => {
+      return request(server).post(routes.basic).expect(401);
+    });
+
+    it('returns success', async () => {
+      return request(server)
+        .post(routes.basic)
+        .set('Authorization', credentials.admin.email)
+        .expect(200)
+        .then((res) => {
+          console.log(res.text);
+        });
+    });
+  });
+
+  afterAll(() => app.close());
+});
