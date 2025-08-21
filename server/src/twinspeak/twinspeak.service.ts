@@ -1,38 +1,33 @@
 import {
-  AIMessage,
   HumanMessage,
   SystemMessage
 } from '@langchain/core/messages';
 import { ChatOpenAI } from '@langchain/openai';
-import { ChatPromptTemplate } from '@langchain/core/prompts';
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
-import { RunnableSequence } from '@langchain/core/runnables';
-import { StringOutputParser } from '@langchain/core/output_parsers';
 
 @Injectable()
 export class TwinspeakService {
-  chatModel: ChatOpenAI;
+  constructor(protected configService: ConfigService) {}
 
-  constructor(protected configService: ConfigService) {
-    const apiKey: string = this.configService.get('OPENAI_API_KEY');
-    if (!apiKey) return;
-    this.chatModel = new ChatOpenAI({
-      openAIApiKey: apiKey,
+  async create(res) {
+    const chatModel: ChatOpenAI = new ChatOpenAI({
+      openAIApiKey: this.configService.get('OPENAI_API_KEY'),
       modelName: 'gpt-4o-mini',
       temperature: 0.7,
       maxTokens: 1000
     });
-  }
-
-  async create() {
     const messages = [
       new SystemMessage(
         'You are a helpful assistant that explains complex topics simply.'
       ),
-      new HumanMessage('Explain quantum computing in simple terms.')
+      new HumanMessage('Test.')
     ];
-    const res = await this.chatModel.invoke(messages);
-    return res.content;
+    const stream = await chatModel.stream(messages);
+    res.header('Content-Type', 'text/event-stream');
+    for await (const chunk of stream) {
+      res.write(chunk.content);
+    }
+    res.end();
   }
 }

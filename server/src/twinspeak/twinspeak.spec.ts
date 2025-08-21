@@ -12,7 +12,7 @@ const credentials = {
   admin: { email: 'admin@test.com' }
 };
 
-describe('Auth', () => {
+describe('Twinspeak', () => {
   let app: INestApplication;
   let server;
 
@@ -37,10 +37,11 @@ describe('Auth', () => {
         .post(routes.basic)
         .set('Authorization', credentials.admin.email)
         .expect(200)
+        .attach('file', require('path').resolve(__dirname, '../../data/test_video.mp4'))
         .then((res) => {
           console.log(res.text);
         });
-    });
+    }, 45000);
   });
 
   afterAll(() => app.close());

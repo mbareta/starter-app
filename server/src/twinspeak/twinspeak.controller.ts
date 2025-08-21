@@ -1,15 +1,24 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, Response } from '@nestjs/common';
 import { Role, Roles } from '../auth/roles.decorator';
+import { UseInterceptors, UploadedFile } from '@nestjs/common';
+import { AssemblyAiService } from './assemblyai.service';
+import { memoryStorage } from 'multer';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { TwinspeakService } from './twinspeak.service';
 
 @Controller('twinspeak')
 export class TwinspeakController {
-  constructor(private readonly twinspeakService: TwinspeakService) {}
+  constructor(private readonly twinspeakService: TwinspeakService, private readonly assemblyAiService: AssemblyAiService) {}
 
   @Roles(Role.Admin)
   @Post()
   @HttpCode(200)
-  findAll(@Body() body: Body) {
-    return this.twinspeakService.create();
+  @UseInterceptors(FileInterceptor('file', { storage: memoryStorage() }))
+  async uploadVideo(
+    @UploadedFile() file: Express.Multer.File,
+    @Response() res: Response
+  ) {
+    const url = await this.assemblyAiService.uploadAudio(file.buffer);
+    return this.assemblyAiService.transcribeAudioURL(url);
   }
 }
