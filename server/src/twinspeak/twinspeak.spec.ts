@@ -2,6 +2,7 @@ import { AppModule } from '../app.module';
 import { AuthGuard } from '../auth/auth.guard';
 import { AuthGuardMock } from '../auth/auth.guard.mock';
 import { INestApplication } from '@nestjs/common';
+import path from 'path';
 import request from 'supertest';
 import { Test } from '@nestjs/testing';
 
@@ -37,7 +38,7 @@ describe('Twinspeak', () => {
         .post(routes.basic)
         .set('Authorization', credentials.admin.email)
         .expect(200)
-        .attach('file', require('path').resolve(__dirname, '../../data/test_video.mp4'))
+        .attach('file', path.resolve(__dirname, '../../data/test_video.mp4'))
         .then((res) => {
           console.log(res.text);
         });

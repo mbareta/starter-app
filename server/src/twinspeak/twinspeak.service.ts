@@ -1,7 +1,4 @@
-import {
-  HumanMessage,
-  SystemMessage
-} from '@langchain/core/messages';
+import { HumanMessage, SystemMessage } from '@langchain/core/messages';
 import { ChatOpenAI } from '@langchain/openai';
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';

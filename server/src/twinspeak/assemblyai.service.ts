@@ -20,11 +20,14 @@ export class AssemblyAiService {
   }
 
   async transcribeAudioURL(audioUrl: string): Promise<any> {
-    const loader = new AudioTranscriptLoader({
-      audio: audioUrl
-    }, {
-      apiKey: this.configService.get('ASSEMBLY_AI_KEY')
-    });
+    const loader = new AudioTranscriptLoader(
+      {
+        audio: audioUrl
+      },
+      {
+        apiKey: this.configService.get('ASSEMBLY_AI_KEY')
+      }
+    );
     const res = await loader.load();
     return res[0].pageContent;
   }

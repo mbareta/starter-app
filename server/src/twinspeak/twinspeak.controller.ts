@@ -1,14 +1,17 @@
 import { Body, Controller, HttpCode, Post, Response } from '@nestjs/common';
 import { Role, Roles } from '../auth/roles.decorator';
-import { UseInterceptors, UploadedFile } from '@nestjs/common';
+import { UploadedFile, UseInterceptors } from '@nestjs/common';
 import { AssemblyAiService } from './assemblyai.service';
-import { memoryStorage } from 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
 import { TwinspeakService } from './twinspeak.service';
 
 @Controller('twinspeak')
 export class TwinspeakController {
-  constructor(private readonly twinspeakService: TwinspeakService, private readonly assemblyAiService: AssemblyAiService) {}
+  constructor(
+    private readonly twinspeakService: TwinspeakService,
+    private readonly assemblyAiService: AssemblyAiService
+  ) {}
 
   @Roles(Role.Admin)
   @Post()
