@@ -42,7 +42,7 @@ describe('Twinspeak', () => {
         .then((res) => {
           console.log(res.text);
         });
-    }, 45000);
+    }, 60000);
   });
 
   afterAll(() => app.close());
