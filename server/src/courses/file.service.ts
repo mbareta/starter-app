@@ -57,7 +57,7 @@ export class FileService {
       Bucket: this.bucket,
       Key: `repository/assets/${path}`
     });
-    return getSignedUrl(this.client, command);
+    return getSignedUrl(this.client as any, command);
   }
 
   transferAssets(paths: string[]): Promise<any> {
