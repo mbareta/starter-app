@@ -40,6 +40,9 @@ export default {
         <router-link :to="{ name: 'courses' }" class="navbar-item">
           Courses
         </router-link>
+        <router-link :to="{ name: 'audio-streaming' }" class="navbar-item">
+          Audio Streaming
+        </router-link>
       </div>
       <div class="navbar-end">
         <div class="navbar-item has-dropdown is-hoverable">

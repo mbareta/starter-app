@@ -2,10 +2,12 @@ import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/auth.guard';
 import { AuthModule } from './auth/auth.module';
+import { AudioStreamingModule } from './audio-streaming/audio-streaming.module';
 import { ConfigModule } from '@nestjs/config';
 import { CourseAssistantModule } from './course-assistant/course-assistant.module';
 import { CoursesModule } from './courses/courses.module';
 import { DatabaseModule } from './database/database.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { HealthController } from './health.controller';
 // import { ResponseTimeMiddleware } from '@nest-middlewares/response-time';
 import { UsersModule } from './users/users.module';
@@ -13,7 +15,9 @@ import { UsersModule } from './users/users.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    EventEmitterModule.forRoot(),
     AuthModule,
+    AudioStreamingModule,
     CoursesModule,
     DatabaseModule,
     UsersModule,
