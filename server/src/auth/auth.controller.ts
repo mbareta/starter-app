@@ -1,10 +1,14 @@
-import { Controller, Get, Request } from '@nestjs/common';
-import { User } from '../users/entities/user.entity';
+import { Controller, Get, Query } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { Public } from './public.decorator';
 
 @Controller('auth')
 export class AuthController {
-  @Get('profile')
-  getProfile(@Request() req): User {
-    return req.user;
+  constructor(private readonly authService: AuthService) {}
+
+  @Get('login')
+  @Public()
+  login(@Query('code') code: string): Promise<object> {
+    return this.authService.login(code);
   }
 }

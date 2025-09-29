@@ -1,14 +1,13 @@
 <script>
 import UserAvatar from 'user/components/UserAvatar.vue';
+import { useAuthStore } from 'user/stores/auth.store';
 
 export default {
   components: { UserAvatar },
   methods: {
     logout() {
-      this.$auth0.logout({
-        logoutParams: { returnTo: window.location.origin }
-      });
-      localStorage.clear();
+      const authStore = useAuthStore();
+      authStore.logout();
       window.location.replace('/');
     },
     toggleTheme() {
@@ -43,7 +42,7 @@ export default {
       </div>
       <div class="navbar-end">
         <div class="navbar-item has-dropdown is-hoverable">
-          <user-avatar :user="$auth0.user" />
+          <user-avatar :user="{}" />
           <div class="navbar-dropdown is-right">
             <div class="navbar-item">
               <button class="button is-primary" @click="toggleTheme">

@@ -1,4 +1,4 @@
-import app from 'user/main';
+import { useAuthStore } from 'user/stores/auth.store';
 import axios from 'axios';
 
 // Instance of axios to be used for all API requests.
@@ -8,16 +8,14 @@ const client = axios.create({
 });
 
 client.interceptors.request.use(async config => {
-  const token =
-    await app.config.globalProperties.$auth0.getAccessTokenSilently();
-  if (token) config.headers.Authorization = `Bearer ${token}`;
+  const token = useAuthStore().tokens.access_token;
+  if (token) config.headers.Authorization = token;
   return config;
 });
 
 client.interceptors.response.use(res => res, err => {
   if (err?.response?.status !== 401) throw err;
-  app.config.globalProperties.$auth0.logout();
-  localStorage.clear();
+  useAuthStore().logout();
   window.location.replace('/');
 });
 

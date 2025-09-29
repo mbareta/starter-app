@@ -1,8 +1,21 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import CoursesView from './views/courses/index.vue';
 import CourseView from './views/courses/course/index.vue';
-import { createAuthGuard } from '@auth0/auth0-vue';
 import HomeView from './views/HomeView.vue';
+import { useAuthStore } from './stores/auth.store';
+
+const createAuthGuard = () => {
+  return async (to, _from, next) => {
+    const code: string = to.query.code as string;
+    if (code) await useAuthStore().login(code);
+    if (useAuthStore().isLoggedIn) return next();
+    const adobeAuthorizeUrl = 'https://learningmanager.adobe.com/oauth/o/authorize';
+    const adobeClientId = import.meta.env.VITE_ADOBE_CLIENT_ID;
+    const adobeRedirectUri = import.meta.env.VITE_ADOBE_REDIRECT_URI;
+    const authorizeUrl = `${adobeAuthorizeUrl}?client_id=${adobeClientId}&redirect_uri=${adobeRedirectUri}&scope=learner:write&response_type=CODE`;
+    window.location.replace(authorizeUrl);
+  }
+};
 
 const routes = [{
   path: '',

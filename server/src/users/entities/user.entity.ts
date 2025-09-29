@@ -1,6 +1,7 @@
 import {
   Entity,
   EntityRepositoryType,
+  Index,
   PrimaryKey,
   Property,
   Unique
@@ -14,13 +15,20 @@ export class User {
   @PrimaryKey()
   id!: number;
 
-  @Property({ nullable: true })
-  @Unique()
-  sub: string;
+  @Property()
+  userId!: string;
 
   @Property()
+  accountId!: string;
+
+  @Property()
+  @Unique()
   email!: string;
 
   @Property({ default: 'USER' })
   role!: string;
+
+  // Composite unique constraint on userId and accountId
+  @Unique({ properties: ['userId', 'accountId'] })
+  userIdAccountIdUnique!: any;
 }
