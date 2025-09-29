@@ -1,7 +1,6 @@
 import {
   Entity,
   EntityRepositoryType,
-  Index,
   PrimaryKey,
   Property,
   Unique

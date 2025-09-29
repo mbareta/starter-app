@@ -10,7 +10,10 @@ export class AuthService {
     params.append('grant_type', 'authorization_code');
     params.append('code', code);
     params.append('client_id', this.configService.get('ADOBE_CLIENT_ID'));
-    params.append('client_secret', this.configService.get('ADOBE_CLIENT_SECRET'));
+    params.append(
+      'client_secret',
+      this.configService.get('ADOBE_CLIENT_SECRET')
+    );
     params.append('redirect_uri', this.configService.get('ADOBE_REDIRECT_URI'));
 
     const res = await fetch('https://learningmanager.adobe.com/oauth/token', {
@@ -20,7 +23,7 @@ export class AuthService {
       },
       body: params
     });
-    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}. ${await res.text()}`);
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}.`);
     return res.json();
   }
 }

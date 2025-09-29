@@ -1,6 +1,6 @@
 <script>
-import UserAvatar from 'user/components/UserAvatar.vue';
 import { useAuthStore } from 'user/stores/auth.store';
+import UserAvatar from 'user/components/UserAvatar.vue';
 
 export default {
   components: { UserAvatar },

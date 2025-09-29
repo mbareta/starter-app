@@ -1,5 +1,5 @@
-import { useAuthStore } from 'user/stores/auth.store';
 import axios from 'axios';
+import { useAuthStore } from 'user/stores/auth.store';
 
 // Instance of axios to be used for all API requests.
 const client = axios.create({

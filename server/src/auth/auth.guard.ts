@@ -4,12 +4,12 @@ import {
   Injectable,
   UnauthorizedException
 } from '@nestjs/common';
-import { Request, Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { IS_PUBLIC_KEY } from './public.decorator';
 import { plainToClass } from '@nestjs/class-transformer';
 import { Reflector } from '@nestjs/core';
+import { Request } from 'express';
 import { ROLES_KEY } from './roles.decorator';
 import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
@@ -26,7 +26,6 @@ export class AuthGuard implements CanActivate {
     if (this.isPublic(context)) return true;
     const requiredRoles: string[] = this.getRequiredRoles(context);
     const request: Request = context.switchToHttp().getRequest();
-    const response: Response = context.switchToHttp().getResponse();
     try {
       const tokenData = await this.verifyToken(request.headers.authorization);
       const user: User = await this.getUser(tokenData);
@@ -41,7 +40,10 @@ export class AuthGuard implements CanActivate {
 
   protected async getUser(tokenData: any): Promise<User> {
     const { access_token, account_id, user_id } = tokenData;
-    let user: User = await this.usersService.findByAccountAndUser(account_id, user_id);
+    let user: User = await this.usersService.findByAccountAndUser(
+      account_id,
+      user_id
+    );
     if (!user) {
       const { data } = await this.getAccount(access_token);
       // TODO define and handle use-case when user is not found
@@ -72,18 +74,23 @@ export class AuthGuard implements CanActivate {
   }
 
   async verifyToken(accessToken: string) {
-    const response = await fetch(`https://learningmanager.adobe.com/oauth/token/check?access_token=${accessToken}`);
+    const response = await fetch(
+      `https://learningmanager.adobe.com/oauth/token/check?access_token=${accessToken}`
+    );
     if (response.ok) return response.json();
     throw new Error(`Authentication failed: ${response.status}`);
   }
 
   async getAccount(accessToken: string) {
-    const response = await fetch('https://learningmanager.adobe.com/primeapi/v2/user', {
-      headers: {
-        'Accept': 'application/vnd.api+json',
-        'Authorization': `oauth ${accessToken}`
+    const response = await fetch(
+      'https://learningmanager.adobe.com/primeapi/v2/user',
+      {
+        headers: {
+          Accept: 'application/vnd.api+json',
+          Authorization: `oauth ${accessToken}`
+        }
       }
-    });
+    );
     if (response.ok) return response.json();
     throw new Error(`Authentication failed: ${response.status}`);
   }
