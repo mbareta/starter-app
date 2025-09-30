@@ -1,13 +1,17 @@
 <script>
+import { mapActions, mapState } from 'pinia';
 import { useAuthStore } from 'user/stores/auth.store';
 import UserAvatar from 'user/components/UserAvatar.vue';
 
 export default {
   components: { UserAvatar },
+  computed: {
+    ...mapState(useAuthStore, ['profile']),
+  },
   methods: {
+    ...mapActions(useAuthStore, ['logout']),
     logout() {
-      const authStore = useAuthStore();
-      authStore.logout();
+      this.logout();
       window.location.replace('/');
     },
     toggleTheme() {
@@ -42,7 +46,7 @@ export default {
       </div>
       <div class="navbar-end">
         <div class="navbar-item has-dropdown is-hoverable">
-          <user-avatar :user="{}" />
+          <user-avatar :user="profile" />
           <div class="navbar-dropdown is-right">
             <div class="navbar-item">
               <button class="button is-primary" @click="toggleTheme">

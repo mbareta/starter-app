@@ -31,6 +31,24 @@ export default defineConfig({
   reporter: 'html',
   use: {
     baseURL: 'http://localhost:5173',
+    launchOptions: {
+      headless: false,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-accelerated-2d-canvas',
+        '--no-first-run',
+        '--no-zygote',
+        '--disable-gpu',
+        // Google-specific flags
+        '--disable-blink-features=AutomationControlled',
+        '--disable-features=VizDisplayCompositor',
+        '--disable-web-security',
+        '--disable-features=TranslateUI',
+        '--disable-ipc-flooding-protection'
+      ]
+    },
     screenshot: {
       mode: 'only-on-failure',
       fullPage: true
