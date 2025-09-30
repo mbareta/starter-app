@@ -59,7 +59,7 @@ export class AuthGuard implements CanActivate {
     return user;
   }
 
-  protected async verifyToken(accessToken: string):Promise<any> {
+  protected async verifyToken(accessToken: string): Promise<any> {
     const response = await fetch(
       `https://learningmanager.adobe.com/oauth/token/check?access_token=${accessToken}`
     );
@@ -81,7 +81,7 @@ export class AuthGuard implements CanActivate {
     ]);
   }
 
-  private async getAccount(accessToken: string):Promise<any> {
+  private async getAccount(accessToken: string): Promise<any> {
     const response = await fetch(
       'https://learningmanager.adobe.com/primeapi/v2/user',
       {

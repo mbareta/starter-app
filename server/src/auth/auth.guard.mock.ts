@@ -1,5 +1,5 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
+import { Injectable } from '@nestjs/common';
 import { User } from '../users/entities/user.entity';
 
 @Injectable()
