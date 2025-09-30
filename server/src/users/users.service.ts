@@ -26,8 +26,8 @@ export class UsersService {
     return this.usersRepository.findOne({ email });
   }
 
-  findBySub(sub: string): Promise<User> {
-    return this.usersRepository.findOne({ sub });
+  findByAccountAndUser(accountId: string, userId: string): Promise<User> {
+    return this.usersRepository.findOne({ accountId, userId });
   }
 
   update(id: number, updateUserDto: UpdateUserDto): Promise<number> {

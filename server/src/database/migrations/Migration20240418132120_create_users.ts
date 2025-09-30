@@ -7,7 +7,8 @@ export class CreateUsers extends Migration {
     const knex = this.getKnex();
     const create = knex.schema.createTable(TABLE_NAME, (table) => {
       table.increments('id').primary();
-      table.string('sub').unique();
+      table.string('user_id').unique();
+      table.string('account_id').unique();
       table.string('email').notNullable().unique();
       table.string('role').notNullable().unique().defaultTo('USER');
     });

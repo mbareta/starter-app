@@ -6,5 +6,7 @@ export class CreateUserDto {
 
   role: string = 'USER';
 
-  sub: string;
+  accountId!: string;
+
+  userId!: string;
 }

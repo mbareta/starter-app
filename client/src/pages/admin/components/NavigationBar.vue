@@ -1,11 +1,10 @@
 <script>
+import { useAuthStore } from '../stores/auth.store';
+
 export default {
   methods: {
     logout() {
-      this.$auth0.logout({
-        logoutParams: { returnTo: window.location.origin }
-      });
-      localStorage.clear();
+      useAuthStore().logout();
       window.location.replace('/');
     },
     toggleTheme() {
