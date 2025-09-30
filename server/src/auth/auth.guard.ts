@@ -59,6 +59,14 @@ export class AuthGuard implements CanActivate {
     return user;
   }
 
+  protected async verifyToken(accessToken: string):Promise<any> {
+    const response = await fetch(
+      `https://learningmanager.adobe.com/oauth/token/check?access_token=${accessToken}`
+    );
+    if (response.ok) return response.json();
+    throw new Error(`Authentication failed: ${response.status}`);
+  }
+
   private getRequiredRoles(context: ExecutionContext): string[] {
     return this.reflector.getAllAndOverride<string[]>(ROLES_KEY, [
       context.getHandler(),
@@ -73,15 +81,7 @@ export class AuthGuard implements CanActivate {
     ]);
   }
 
-  async verifyToken(accessToken: string) {
-    const response = await fetch(
-      `https://learningmanager.adobe.com/oauth/token/check?access_token=${accessToken}`
-    );
-    if (response.ok) return response.json();
-    throw new Error(`Authentication failed: ${response.status}`);
-  }
-
-  async getAccount(accessToken: string) {
+  private async getAccount(accessToken: string):Promise<any> {
     const response = await fetch(
       'https://learningmanager.adobe.com/primeapi/v2/user',
       {
