@@ -12,7 +12,7 @@ export async function login(params: Params): Promise<void> {
   await page.goto('/');
   await page.waitForLoadState('networkidle');
   await page.getByRole('textbox', { name: 'Sign in with email ID' })
-    .fill(email, { timeout: 1000 }); // Simulate user typing (no delay option in fill)
+    .fill(email, { timeout: 1000 }); // Simulate user typing
   await page.waitForLoadState('networkidle');
   await page.getByRole('button', { name: 'Submit' }).click();
   await page.waitForLoadState('networkidle');
