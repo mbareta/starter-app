@@ -52,7 +52,7 @@ const primaryDbParams = new aws.rds.ParameterGroup('primary-db-params', {
 
 const db = new studion.Database(`${PROJECT_NAME}-db`, {
   instanceClass: dbInstanceClass,
-  dbName: 'starter',
+  dbName: 'starter-adobe',
   username: 'starter',
   vpcId: vpc.vpcId,
   isolatedSubnetIds: vpc.publicSubnetIds, // TODO isolated
