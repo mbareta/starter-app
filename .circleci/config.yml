@@ -118,8 +118,8 @@ jobs:
             VITE_AUTH0_AUDIENCE: https://api.starter.gostudion.com
             VITE_AUTH0_DOMAIN: dev-6akn28u2adtkauhz.us.auth0.com
             VITE_AUTH0_CLIENT_ID: G0JUp8hOgPRpsDo4mcUSYUFrGhPQPk37
-            VITE_ADOBE_CLIENT_ID=e64ec1c6-c032-4abc-9527-bdf355f1c5dc
-            VITE_ADOBE_REDIRECT_URI=https://starter.gostudion.com
+            VITE_ADOBE_CLIENT_ID: e64ec1c6-c032-4abc-9527-bdf355f1c5dc
+            VITE_ADOBE_REDIRECT_URI: https://starter.gostudion.com
       - store_artifacts:
           path: dist
       - persist_to_workspace:
