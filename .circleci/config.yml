@@ -195,9 +195,10 @@ workflows:
     jobs:
       - test-server
       # - test-client
-      - build-client:
-          requires:
+      # - build-client:
+          # requires:
             # - test-client
+      - build-client
       - rollout/build_and_push_server_to_aws_ecr:
           <<: *studion-aws-credentials
           account_id: ${STUDION_AWS_ACCOUNT_ID}
