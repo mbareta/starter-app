@@ -5,6 +5,7 @@ test.use({ storageState: 'playwright/.auth/admin.json' });
 test('Check navbar item elements', async ({page}) => {
   await test.step('Verify the logo display', async () => {
     await page.goto('/');
+    await page.waitForLoadState('networkidle');
     await expect(page.locator("//img[@src='/logo.png']")).toBeVisible();
     await expect(page.locator("//a[contains(text(),'Home')]")).toBeVisible();
     await expect(page.locator("//a[contains(text(),'Courses')]")).toBeVisible();

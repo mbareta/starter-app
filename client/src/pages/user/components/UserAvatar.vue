@@ -15,7 +15,7 @@ export default {
   <div class="is-spaced-between">
     <img :src="imageUrl" alt="user's profile picture">
     <div>
-      {{ user.value?.email }}
+      {{ user.email }}
     </div>
   </div>
 </template>

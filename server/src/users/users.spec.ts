@@ -12,7 +12,12 @@ const credentials = {
   admin: { email: 'admin@test.com' },
   user: { email: 'user@test.com' }
 };
-const fakeUser = { email: 'new_user@fake.com', role: 'USER' };
+const fakeUser = {
+  email: 'new_user@fake.com',
+  role: 'USER',
+  userId: '3',
+  accountId: '1'
+};
 
 describe('Users', () => {
   let app: INestApplication;

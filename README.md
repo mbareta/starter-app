@@ -73,9 +73,9 @@ so our browser can run tests. To be able to run client and server in the browser
 we need to set correct environment variables.
 
 That means we need to set the same variables in CircleCI as we have locally,
-both in client and server apps. Those include server's Auth0 config (client ID,
-secret, domain and audience), client's Auth0 config (client ID, domain and
-audience), .env.e2e which contains user login credentials for the app and lastly
+both in client and server apps. Those include server's Adobe auth config (client
+ID and secret), client's Adobe auth config (client ID, secret and domain),
+.env.e2e which contains user login credentials for the app, and lastly
 Docker credentials so our Docker image can be uploaded to Docker Hub.
 
 ## Caveats
@@ -88,15 +88,6 @@ preregistration pattern where admin needs to create an account for the user.
 But because different projects have different requirements, this part was left
 open to easily change user registration flow and very little code needs to be
 changed to implement a different registration process.
-
-### CI/CD
-
-Since we're setting up the generic "hello world" application, some things will
-need changing before the first production deploy.
-
-For example: the CircleCI is configured to build the Docker image and push it to
-Docker Hub. In real world scenario, we might want to use AWS ECR orb to push
-directly to AWS and deploy from there.
 
 ## Future Plans
 
