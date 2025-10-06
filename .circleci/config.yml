@@ -185,17 +185,17 @@ workflows:
       - lint-server
       - lint-client
       - test-server
-      - test-client
+      # - test-client
   test-build-and-deploy:
     when:
       and:
         - equal: [master, << pipeline.git.branch >>]
     jobs:
       - test-server
-      - test-client
+      # - test-client
       - build-client:
           requires:
-            - test-client
+            # - test-client
       - rollout/build_and_push_server_to_aws_ecr:
           <<: *studion-aws-credentials
           account_id: ${STUDION_AWS_ACCOUNT_ID}

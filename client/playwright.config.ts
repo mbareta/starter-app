@@ -33,6 +33,7 @@ export default defineConfig({
     baseURL: 'http://localhost:5173',
     userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:142.0) Gecko/20100101 Firefox/142.0',
     viewport: { width: 1800, height: 1040 },
+    headless: true,
     launchOptions: {
       args: [
         '--no-sandbox',
