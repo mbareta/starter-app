@@ -4,13 +4,14 @@ import CourseView from './views/courses/course/index.vue';
 import HomeView from './views/HomeView.vue';
 import { useAuthStore } from './stores/auth.store';
 
+const ALM_URL = 'https://learningmanagereu.adobe.com';
+
 const createAuthGuard = () => {
   return async (to, _from, next) => {
     const code: string = to.query.code as string;
     if (code) await useAuthStore().login(code);
     if (useAuthStore().isLoggedIn) return next();
-    const adobeAuthorizeUrl =
-      'https://learningmanagereu.adobe.com/oauth/o/authorize';
+    const adobeAuthorizeUrl = `${ALM_URL}/oauth/o/authorize`;
     const adobeClientId = import.meta.env.VITE_ADOBE_CLIENT_ID;
     const adobeRedirectUri = import.meta.env.VITE_ADOBE_REDIRECT_URI;
     // eslint-disable-next-line max-len

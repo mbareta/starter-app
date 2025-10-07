@@ -14,6 +14,8 @@ import { ROLES_KEY } from './roles.decorator';
 import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 
+const ALM_URL = 'https://learningmanagereu.adobe.com';
+
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
@@ -61,7 +63,7 @@ export class AuthGuard implements CanActivate {
 
   protected async verifyToken(accessToken: string): Promise<any> {
     const response = await fetch(
-      `https://learningmanager.adobe.com/oauth/token/check?access_token=${accessToken}`
+      `${ALM_URL}/oauth/token/check?access_token=${accessToken}`
     );
     if (response.ok) return response.json();
     throw new Error(`Authentication failed: ${response.status}`);
@@ -83,7 +85,7 @@ export class AuthGuard implements CanActivate {
 
   private async getAccount(accessToken: string): Promise<any> {
     const response = await fetch(
-      'https://learningmanager.adobe.com/primeapi/v2/user',
+      `${ALM_URL}/primeapi/v2/user`,
       {
         headers: {
           Accept: 'application/vnd.api+json',
