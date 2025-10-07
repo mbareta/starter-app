@@ -1,6 +1,8 @@
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
 
+const ALM_URL = 'https://learningmanagereu.adobe.com';
+
 @Injectable()
 export class AuthService {
   constructor(protected configService: ConfigService) {}
@@ -16,13 +18,15 @@ export class AuthService {
     );
     params.append('redirect_uri', this.configService.get('ADOBE_REDIRECT_URI'));
 
-    const res = await fetch('https://learningmanager.adobe.com/oauth/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: params
-    });
+    const res = await fetch(
+      `${ALM_URL}/oauth/token`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: params
+      });
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}.`);
     return res.json();
   }
