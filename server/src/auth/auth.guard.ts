@@ -84,15 +84,12 @@ export class AuthGuard implements CanActivate {
   }
 
   private async getAccount(accessToken: string): Promise<any> {
-    const response = await fetch(
-      `${ALM_URL}/primeapi/v2/user`,
-      {
-        headers: {
-          Accept: 'application/vnd.api+json',
-          Authorization: `oauth ${accessToken}`
-        }
+    const response = await fetch(`${ALM_URL}/primeapi/v2/user`, {
+      headers: {
+        Accept: 'application/vnd.api+json',
+        Authorization: `oauth ${accessToken}`
       }
-    );
+    });
     if (response.ok) return response.json();
     throw new Error(`Authentication failed: ${response.status}`);
   }

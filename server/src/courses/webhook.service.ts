@@ -7,7 +7,6 @@ export class WebhookService {
   constructor(private readonly configService: ConfigService) {}
 
   getToken(req: Request) {
-    console.log(req.headers);
     if (!this.validateCredentials(req)) {
       throw new UnauthorizedException('Invalid credentials');
     }
@@ -18,7 +17,6 @@ export class WebhookService {
       },
       this.configService.get('CONSUMER_CLIENT_SECRET')
     );
-    console.log(token);
     return {
       access_token: token,
       token_type: 'Bearer',
@@ -28,16 +26,24 @@ export class WebhookService {
   }
 
   validateToken(token: string) {
-    const decoded = jwt.verify(token, this.configService.get('CONSUMER_CLIENT_SECRET')) as { clientId: string };
+    const decoded = jwt.verify(
+      token,
+      this.configService.get('CONSUMER_CLIENT_SECRET')
+    ) as { clientId: string };
     return decoded.clientId === this.configService.get('CONSUMER_CLIENT_ID');
   }
 
   private validateCredentials(req: Request) {
     const authHeader = req.headers['authorization']; // 'Basic YWJjOmRlZg=='
-    const credentials = Buffer.from(authHeader.split(' ')[1], 'base64').toString();
+    const credentials = Buffer.from(
+      authHeader.split(' ')[1],
+      'base64'
+    ).toString();
     const [clientId, clientSecret] = credentials.split(':');
-    const isValidClientId = clientId === this.configService.get('CONSUMER_CLIENT_ID');
-    const isValidClientSecret = clientSecret === this.configService.get('CONSUMER_CLIENT_SECRET');
+    const isValidClientId =
+      clientId === this.configService.get('CONSUMER_CLIENT_ID');
+    const isValidClientSecret =
+      clientSecret === this.configService.get('CONSUMER_CLIENT_SECRET');
     return isValidClientId && isValidClientSecret;
   }
 }

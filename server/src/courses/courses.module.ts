@@ -11,6 +11,11 @@ import { WebhookService } from './webhook.service';
 @Module({
   imports: [MikroOrmModule.forFeature({ entities: [Course, CoursePage] })],
   controllers: [CoursesController],
-  providers: [CourseAssistantService, CoursesService, FileService, WebhookService]
+  providers: [
+    CourseAssistantService,
+    CoursesService,
+    FileService,
+    WebhookService
+  ]
 })
 export class CoursesModule {}
