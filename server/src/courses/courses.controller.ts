@@ -7,14 +7,21 @@ import {
   NotFoundException,
   Param,
   Post,
-  Query
+  Query,
+  Request,
+  UnauthorizedException
 } from '@nestjs/common';
 import { Role, Roles } from '../auth/roles.decorator';
 import { CoursesService } from './courses.service';
+import { Public } from '../auth/public.decorator';
+import { WebhookService } from './webhook.service';
 
 @Controller('courses')
 export class CoursesController {
-  constructor(private readonly coursesService: CoursesService) {}
+  constructor(
+    private readonly coursesService: CoursesService,
+    private readonly webhookService: WebhookService
+  ) {}
 
   @Roles(Role.Admin)
   @Post()
@@ -50,5 +57,22 @@ export class CoursesController {
   async remove(@Param('id') id: string) {
     const deletedCount = await this.coursesService.remove(+id);
     if (!deletedCount) throw new NotFoundException();
+  }
+
+  @Public()
+  @Post('webhook')
+  webhook(@Request() req: Request, @Body() body: Body) {
+    const token = this.webhookService.validateToken(
+      req.headers['authorization'].split(' ')[1]
+    );
+    if (!token) throw new UnauthorizedException();
+    console.log(body);
+    return 'ok';
+  }
+
+  @Public()
+  @Post('token')
+  async token(@Request() req: Request) {
+    return this.webhookService.getToken(req);
   }
 }
