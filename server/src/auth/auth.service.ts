@@ -18,15 +18,13 @@ export class AuthService {
     );
     params.append('redirect_uri', this.configService.get('ADOBE_REDIRECT_URI'));
 
-    const res = await fetch(
-      `${ALM_URL}/oauth/token`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: params
-      });
+    const res = await fetch(`${ALM_URL}/oauth/token`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: params
+    });
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}.`);
     return res.json();
   }
